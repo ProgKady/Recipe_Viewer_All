@@ -1,0 +1,62 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Nov 27, 2025, 8:19:18 AM
+    Author     : ahmed.elkady
+*/
+
+/* ملف styles.css - شغال 100% على Java 8 */
+.modern-list {
+    -fx-background-color: white;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 12, 0, 0, 4);
+    -fx-padding: 8;
+}
+
+.modern-list .list-cell {
+    -fx-padding: 10 15;
+    -fx-font-size: 13px;
+}
+
+.modern-list .list-cell:hover {
+    -fx-background-color: #f0f8ff;
+}
+
+.modern-list .list-cell:selected {
+    -fx-background-color: #219ebc;
+    -fx-text-fill: white;
+}
+
+/* أزرار كبيرة وشيكة في الأسفل */
+.big-btn {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 48px;
+    -fx-background-radius: 30px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.plan-btn    { -fx-background-color: #219ebc; }
+.table-btn   { -fx-background-color: #fefae0; -fx-text-fill: #333333; }
+.clear-btn   { -fx-background-color: #e63946; }
+.export-btn  { -fx-background-color: #588157; }
+
+/* أزرار التبويب التاني */
+.action-btn {
+    -fx-font-weight: bold;
+    -fx-padding: 10 22;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.primary-btn   { -fx-background-color: #219ebc; }
+.danger-btn    { -fx-background-color: #e63946; }
+.secondary-btn { -fx-background-color: #6c757d; }

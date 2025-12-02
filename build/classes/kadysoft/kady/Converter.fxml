@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="405.0" prefWidth="616.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.ConverterController">
+   <children>
+      <ImageView fx:id="dragpane" fitHeight="399.0" fitWidth="603.0" layoutX="6.0" layoutY="6.0" onDragDropped="#dragdroppedd" onDragOver="#dragoverr" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@file-upload-drop-area-small.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </ImageView>
+      <Label layoutX="17.0" layoutY="369.0" style="-fx-text-fill: #1e81b0; -fx-font-weight: bold; -fx-font-size: 14;" text="Aiar - Powered By Kadysoft Ltd." />
+      <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="451.0" layoutY="320.0" onAction="#cancelaction" prefHeight="49.0" prefWidth="122.0" style="-fx-font-weight: bold; -fx-background-color: #76b5c5; -fx-text-fill: #1e81b0; -fx-font-size: 15;" text="Cancel">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Pane fx:id="browsepane" layoutX="227.0" layoutY="220.0" onMouseClicked="#browseaction" prefHeight="20.0" prefWidth="162.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Pane layoutX="145.0" layoutY="26.0" prefHeight="49.0" prefWidth="200.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="8.0" layoutY="10.0" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: black;" text="Kadysoft or recipe file" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

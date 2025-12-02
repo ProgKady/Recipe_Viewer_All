@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="338.0" prefWidth="680.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.EmptyRecipeController">
+   <children>
+      <Label layoutX="258.0" layoutY="26.0" style="-fx-font-weight: bold; -fx-font-size: 17;" text="Create Empty Recipe" />
+      <JFXButton fx:id="browse" buttonType="RAISED" layoutX="38.0" layoutY="127.0" onAction="#browseaction" prefHeight="36.0" prefWidth="86.0" style="-fx-font-weight: bold; -fx-background-color: #873e23; -fx-background-radius: 3em;" text="Browse" />
+      <JFXTextField fx:id="output" editable="false" labelFloat="true" layoutX="193.0" layoutY="127.0" prefHeight="36.0" prefWidth="421.0" promptText="Output ..." style="-fx-font-weight: bold; -fx-background-radius: 3em;" />
+      <JFXButton fx:id="create" buttonType="RAISED" layoutX="298.0" layoutY="260.0" onAction="#createaction" prefHeight="36.0" prefWidth="86.0" style="-fx-font-weight: bold; -fx-background-color: darkgreen; -fx-background-radius: 3em;" text="Create" />
+      <JFXTextField fx:id="name" alignment="CENTER" labelFloat="true" layoutX="193.0" layoutY="187.0" prefHeight="36.0" prefWidth="421.0" promptText="Name ..." style="-fx-font-weight: bold; -fx-background-radius: 3em;" />
+   </children>
+</AnchorPane>

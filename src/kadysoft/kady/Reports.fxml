@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="658.0" prefWidth="1335.0" stylesheets="@cupertino-light.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.ReportsController">
+   <center>
+      <TableView fx:id="datatable" prefHeight="200.0" prefWidth="200.0" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-alignment: center;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="1335.0" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton fx:id="delete" buttonType="RAISED" onAction="#deleteaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #196f3d; -fx-text-fill: white;" text="Export">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="timebtn" buttonType="RAISED" onAction="#timeaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Time">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="costbtn" buttonType="RAISED" onAction="#costaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Cost">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="processesbtn" buttonType="RAISED" onAction="#processesaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Processes">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="typesbtn" buttonType="RAISED" onAction="#typesaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Types">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="newstone" buttonType="RAISED" layoutX="506.0" layoutY="23.0" onAction="#newstoneaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="New Stone">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="filterbtn2" buttonType="RAISED" onAction="#filterbtn2action" prefHeight="36.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: red; -fx-text-fill: white;" text="Clear">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>

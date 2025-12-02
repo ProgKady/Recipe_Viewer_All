@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="523.0" prefWidth="799.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.ReportAnIssueController">
+   <children>
+      <ComboBox fx:id="selectuser" layoutX="168.0" layoutY="52.0" prefHeight="43.0" prefWidth="464.0" promptText="Select User" style="-fx-background-radius: 3em; -fx-font-size: 18; -fx-font-weight: bold;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ComboBox>
+      <JFXTextField fx:id="name" alignment="CENTER" labelFloat="true" layoutX="168.0" layoutY="139.0" prefHeight="29.0" prefWidth="464.0" promptText="Write Your Name ..." style="-fx-background-radius: 3em;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextArea fx:id="problem" labelFloat="true" layoutX="168.0" layoutY="284.0" prefHeight="132.0" prefWidth="464.0" promptText="Write Your Problem ...">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextArea>
+      <JFXButton fx:id="send" buttonType="RAISED" layoutX="348.0" layoutY="460.0" onAction="#sendaction" prefHeight="39.0" prefWidth="105.0" style="-fx-background-radius: 3em;" text="Send">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXButton>
+      <JFXTextField fx:id="code" alignment="CENTER" labelFloat="true" layoutX="168.0" layoutY="219.0" prefHeight="29.0" prefWidth="464.0" promptText="Write Your Code ..." style="-fx-background-radius: 3em;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+   </children>
+</AnchorPane>

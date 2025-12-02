@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="837.0" prefWidth="1182.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.SaverController_1">
+   <children>
+      <JFXButton fx:id="save" buttonType="RAISED" layoutX="520.0" layoutY="779.0" onAction="#saveaction" prefHeight="31.0" prefWidth="144.0" style="-fx-background-radius: 3em; -fx-background-color: #0d419d;" text="Save ...">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXButton>
+      <JFXTextArea fx:id="code" labelFloat="true" layoutX="8.0" layoutY="21.0" onMouseClicked="#areaclick" prefHeight="591.0" prefWidth="1166.0" promptText="Paste your code here">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextArea>
+      <JFXTextField fx:id="date" alignment="CENTER" labelFloat="true" layoutX="50.0" layoutY="629.0" prefHeight="37.0" prefWidth="389.0" promptText="Date Of Today ..." style="-fx-background-radius: 3em;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+      <ComboBox fx:id="stage" layoutX="50.0" layoutY="733.0" prefHeight="37.0" prefWidth="389.0" promptText="Stage ..." style="-fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ComboBox>
+      <JFXTextField fx:id="washname" alignment="CENTER" labelFloat="true" layoutX="731.0" layoutY="629.0" prefHeight="37.0" prefWidth="389.0" promptText="Wash Name" style="-fx-background-radius: 3em;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+      <ComboBox fx:id="model" layoutX="731.0" layoutY="733.0" onShowing="#modelaction" prefHeight="37.0" prefWidth="389.0" promptText="Model ..." style="-fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ComboBox>
+      <Label layoutX="446.0" layoutY="687.0" style="-fx-font-weight: bold;" text="Signature will be by default: Mr Moharam" underline="true" />
+      <JFXCheckBox fx:id="signme" checkedColor="#0d419d" layoutX="539.0" layoutY="637.0" onAction="#shift1action" selected="true" text="Sign Me" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\Ahmed.ElKady\Documents\NetBeansProjects\RecipeMaker\dist\RecipeMaker.jar</jar>
+  <outfile>C:\Users\Ahmed.ElKady\Documents\NetBeansProjects\RecipeMaker\dist\RecipeMaker.exe</outfile>
+  <errTitle>Java Not Found - Kadysoft Ltd</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>Call Me At : +201555266002</supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>true</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Ahmed.ElKady\Documents\NetBeansProjects\RecipeMakerDev\recipemakericon.ico</icon>
+  <jre>
+    <path>C:\Program Files\Java\jdk-1.8</path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion></minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>jreOnly</jdkPreference>
+    <runtimeBits>32</runtimeBits>
+  </jre>
+  <versionInfo>
+    <fileVersion>2.2.1.0</fileVersion>
+    <txtFileVersion>2.2.1.ks</txtFileVersion>
+    <fileDescription>Recipe Maker for creating and modifying recipes easily.</fileDescription>
+    <copyright>All Rights Reserved @ Kadysoft Ltd. 2017 - 2024</copyright>
+    <productVersion>2.2.1.0</productVersion>
+    <txtProductVersion>2.2.1.ks</txtProductVersion>
+    <productName>RecipeMaker</productName>
+    <companyName>Kadysoft Ltd</companyName>
+    <internalName>RecipeMaker</internalName>
+    <originalFilename>RecipeMaker.exe</originalFilename>
+    <trademarks>Kadysoft Ltd.</trademarks>
+    <language>ENGLISH_US</language>
+  </versionInfo>
+  <messages>
+    <startupErr>An error occurred while starting the application.</startupErr>
+    <bundledJreErr>This application was configured to use a bundled Java Runtime Environment but the runtime is missing or corrupted.</bundledJreErr>
+    <jreVersionErr>This application requires a Java Runtime Environment</jreVersionErr>
+    <launcherErr>The registry refers to a nonexistent Java Runtime Environment installation or the runtime is corrupted.</launcherErr>
+    <instanceAlreadyExistsMsg>An application instance is already running.</instanceAlreadyExistsMsg>
+  </messages>
+</launch4jConfig>

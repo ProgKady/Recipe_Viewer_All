@@ -1,0 +1,108 @@
+
+.refresh
+{
+
+-fx-graphic : url("refresh.png");
+
+}
+
+.pilot
+{
+
+-fx-graphic : url("pilot.png");
+
+}
+
+
+.preview
+{
+
+-fx-graphic : url("preview.png");
+
+}
+
+.image
+{
+
+-fx-graphic : url("image.png");
+
+}
+
+
+.report
+{
+
+-fx-graphic : url("report.png");
+
+}
+.types
+{
+
+-fx-graphic : url("types.png");
+
+}
+
+
+.process
+{
+
+-fx-graphic : url("process.png");
+
+}
+.calll
+{
+
+-fx-graphic : url("cal.png");
+
+}
+.admin
+{
+
+-fx-graphic : url("admin.png");
+
+}
+
+.plann
+{
+
+-fx-graphic : url("plann.png");
+
+}
+.printo
+{
+
+-fx-graphic : url("printo.png");
+
+}
+.audit
+{
+
+-fx-graphic : url("audit.png");
+
+}
+
+
+
+
+.performance
+{
+
+-fx-graphic : url("performance.png");
+
+}
+.data_query
+{
+
+-fx-graphic : url("data_query.png");
+
+}
+
+.new_entry
+{
+
+-fx-graphic : url("new_entry.png");
+
+}
+
+
+

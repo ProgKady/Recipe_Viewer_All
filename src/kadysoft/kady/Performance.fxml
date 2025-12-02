@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="534.0" prefWidth="534.0" stylesheets="@cupertino-light.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="kadysoft.kady.PerformanceController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="TOP" layoutX="61.0" layoutY="267.0" onMouseClicked="#newentryaction" style="-fx-font-weight: bold;" styleClass="new_entry" stylesheets="@CSS.css" text="New Entry">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="TOP" layoutX="392.0" layoutY="267.0" onMouseClicked="#dataqueryaction" style="-fx-font-weight: bold;" styleClass="data_query" stylesheets="@CSS.css" text="Data Query">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="TOP" layoutX="168.0" layoutY="53.0" style="-fx-font-weight: bold; -fx-font-size: 18;" text="Choose what you need!" />
+   </children>
+</AnchorPane>

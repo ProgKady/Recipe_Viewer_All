@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" prefHeight="802.0" prefWidth="1445.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.RecipeMakerController">
+   <children>
+      <BorderPane layoutY="-3.0" prefHeight="802.0" prefWidth="1445.0">
+         <top>
+            <MenuBar prefHeight="32.0" prefWidth="1313.0" style="-fx-font-size: 15; -fx-font-weight: bold; -fx-background-radius: 0;" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu fx:id="filemenu" mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem fx:id="createnewrecipe" mnemonicParsing="false" onAction="#createnewrecipeaction" text="Create a new recipe" visible="false" />
+                        <MenuItem fx:id="openoldrecipe" mnemonicParsing="false" onAction="#openoldrecipeaction" text="Edit old Recipe (Simple)" visible="false" />
+                        <Menu mnemonicParsing="false" text="Edit Old Recipe (Editor)" visible="false">
+                          <items>
+                              <MenuItem fx:id="editedit" mnemonicParsing="false" onAction="#editeditaction" text="Edit Old Recipe (Editor)" />
+                            <MenuItem fx:id="saverecipe" disable="true" mnemonicParsing="false" onAction="#saverecipeaction" text="Save Recipe" />
+                          </items>
+                        </Menu>
+                        <MenuItem fx:id="editadv" mnemonicParsing="false" onAction="#editadvaction" text="Edit old Recipe (Developer Mode)" visible="false" />
+                        <Menu mnemonicParsing="false" text="Convert Excel To System Recipes" visible="false">
+                          <items>
+                              <MenuItem fx:id="exceltohtml" mnemonicParsing="false" onAction="#exceltohtmlaction" text="Convert Excel To System Recipes" />
+                            <MenuItem fx:id="savetohtml" disable="true" mnemonicParsing="false" onAction="#savetohtmlaction" text="Save To System Recipes ..." />
+                          </items>
+                        </Menu>
+                        <MenuItem fx:id="exporttoexcel" mnemonicParsing="false" onAction="#exporttoexcelaction" text="Export a recipe to Excel" visible="false" />
+                        <MenuItem fx:id="viewrecipes" mnemonicParsing="false" onAction="#viewrecipesaction" text="View Recipes" />
+                        <MenuItem fx:id="editorprint" mnemonicParsing="false" onAction="#editorprintaction" text="Print a recipe in editor" visible="false" />
+                        <MenuItem fx:id="openrecipesfolder" mnemonicParsing="false" onAction="#openrecipesfolderaction" text="Open Recipes Folder" visible="false" />
+                        <MenuItem fx:id="copyarecipe" mnemonicParsing="false" onAction="#copyarecipeaction" text="Copy a Recipe" visible="false" />
+                        <MenuItem fx:id="audit" mnemonicParsing="false" onAction="#auditaction" text="Show Audit" />
+                        <MenuItem fx:id="logout" mnemonicParsing="false" onAction="#logoutaction" text="Log Out" />
+                    <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#exitaction" text="Exit" />
+                  </items>
+                </Menu>
+                <Menu fx:id="editmenu" mnemonicParsing="false" text="Edit" visible="false">
+                  <items>
+                        <MenuItem fx:id="selectall" mnemonicParsing="false" onAction="#selectallaction" text="Select All" />
+                        <MenuItem fx:id="undo" mnemonicParsing="false" onAction="#undoaction" text="Undo" />
+                        <MenuItem fx:id="redo" mnemonicParsing="false" onAction="#redoaction" text="Redo" />
+                        <MenuItem fx:id="cut" mnemonicParsing="false" onAction="#cutaction" text="Cut" />
+                        <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copyaction" text="Copy" />
+                        <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#pasteaction" text="Paste" />
+                    <MenuItem fx:id="clearall" mnemonicParsing="false" onAction="#clearallaction" text="Clear All" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem fx:id="about" mnemonicParsing="false" onAction="#aboutaction" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <bottom>
+            <Pane prefHeight="641.0" prefWidth="1138.0" style="-fx-background-color: white;" visible="false" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXTextArea fx:id="textarea" disable="true" editable="false" labelFloat="true" layoutX="1018.0" layoutY="16.0" onKeyReleased="#areaaction" onMouseClicked="#areaclick" opacity="0.44" prefHeight="291.0" prefWidth="282.0" promptText="Recipe Code ..." style="-fx-background-color: white;">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </JFXTextArea>
+                  <ComboBox fx:id="actionname" disable="true" layoutX="549.0" layoutY="41.0" onKeyReleased="#actionrel" onShowing="#actionsaction" prefHeight="31.0" prefWidth="151.0" promptText="Action Name" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <ComboBox fx:id="chemical" disable="true" editable="true" layoutX="490.0" layoutY="107.0" onKeyReleased="#chemicalrel" onShowing="#desaction" prefHeight="31.0" prefWidth="147.0" promptText="Chemical Des" style="-fx-background-color: white; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <ComboBox fx:id="chemicalsign" disable="true" layoutX="660.0" layoutY="107.0" onHiding="#chemicalhide" onKeyReleased="#chemicalsignrel" onShowing="#chenameaction" prefHeight="31.0" prefWidth="163.0" promptText="Chemical Name" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <ComboBox fx:id="units" disable="true" layoutX="358.0" layoutY="107.0" onKeyReleased="#unitsrel" prefHeight="31.0" prefWidth="104.0" promptText="Units" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <JFXCheckBox fx:id="control" disable="true" layoutX="810.0" layoutY="46.0" onKeyReleased="#controlrel" prefHeight="21.0" prefWidth="100.0" style="-fx-background-color: white; -fx-background-radius: 3em;" text="Control">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXCheckBox>
+                  <JFXTextField fx:id="time" alignment="CENTER" disable="true" labelFloat="true" layoutX="724.0" layoutY="40.0" onKeyReleased="#timerel" prefHeight="32.0" prefWidth="60.0" promptText="Time ..." style="-fx-background-color: white; -fx-background-radius: 3em;" text="10">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <JFXTextField fx:id="temprature" alignment="CENTER" disable="true" labelFloat="true" layoutX="931.0" layoutY="39.0" onKeyReleased="#tempraturerel" prefHeight="32.0" prefWidth="70.0" promptText="Temprature ..." style="-fx-background-color: white; -fx-background-radius: 3em;" text="40">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <JFXTextField fx:id="amount" alignment="CENTER" disable="true" labelFloat="true" layoutX="263.0" layoutY="106.0" onKeyReleased="#amountrel" prefHeight="32.0" prefWidth="65.0" promptText="Amount ..." style="-fx-background-color: white; -fx-background-radius: 3em;" text="50">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <JFXTextField fx:id="liters" alignment="CENTER" disable="true" labelFloat="true" layoutX="21.0" layoutY="106.0" onKeyReleased="#litersrel" prefHeight="32.0" prefWidth="68.0" promptText="Liter's" style="-fx-background-color: white; -fx-background-radius: 3em;" text="700">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <HBox fx:id="createpane" alignment="CENTER_LEFT" layoutX="1.0" layoutY="247.0" prefHeight="68.0" prefWidth="996.0" spacing="10.0" visible="false">
+                     <children>
+                        <JFXTextField fx:id="date" alignment="CENTER" labelFloat="true" onKeyReleased="#dateres" prefHeight="27.0" prefWidth="140.0" promptText="Date ..." style="-fx-background-color: white; -fx-background-radius: 3em;">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXTextField fx:id="washname" alignment="CENTER" labelFloat="true" layoutX="10.0" layoutY="47.0" onKeyReleased="#washres" prefHeight="27.0" prefWidth="140.0" promptText="Wash Name ..." style="-fx-background-color: white; -fx-background-radius: 3em;">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXTextField fx:id="kg" alignment="CENTER" labelFloat="true" layoutX="160.0" layoutY="47.0" onKeyReleased="#kgres" prefHeight="27.0" prefWidth="140.0" promptText="KG ..." style="-fx-background-color: white; -fx-background-radius: 3em;" text="80">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXTextField fx:id="pcs" alignment="CENTER" labelFloat="true" layoutX="310.0" layoutY="47.0" onKeyReleased="#pcsres" prefHeight="27.0" prefWidth="140.0" promptText="PCS ..." style="-fx-background-color: white; -fx-background-radius: 3em;" text="120">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXTextField fx:id="customer" alignment="CENTER" labelFloat="true" layoutX="460.0" layoutY="47.0" onKeyReleased="#customerres" prefHeight="27.0" prefWidth="140.0" promptText="Customer ..." style="-fx-background-color: white; -fx-background-radius: 3em;">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXTextField fx:id="stylename" alignment="CENTER" labelFloat="true" layoutX="610.0" layoutY="47.0" onKeyReleased="#styleres" prefHeight="27.0" prefWidth="140.0" promptText="Style Name ..." style="-fx-background-color: white; -fx-background-radius: 3em;">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXTextField>
+                        <JFXButton fx:id="createbtn" buttonType="RAISED" onAction="#createbtn" prefHeight="40.0" prefWidth="96.0" style="-fx-background-color: gold; -fx-background-radius: 3em;" text="Create">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox fx:id="buttonspane" alignment="CENTER" layoutX="1.0" layoutY="158.0" prefHeight="73.0" prefWidth="997.0" spacing="20.0" visible="false">
+                     <children>
+                        <JFXButton fx:id="addstep" buttonType="RAISED" onAction="#addstepaction" prefHeight="36.0" prefWidth="77.0" style="-fx-background-color: #24a0ed; -fx-background-radius: 3em;" text="Add">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                        <JFXButton fx:id="editrecipe" buttonType="RAISED" disable="true" onAction="#editrecipeaction" prefHeight="36.0" prefWidth="113.0" style="-fx-background-color: #52bbff; -fx-background-radius: 3em;" text="Edit Recipe">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                        <JFXButton fx:id="saveme" buttonType="RAISED" layoutX="485.0" layoutY="29.0" onAction="#savemeaction" prefHeight="36.0" prefWidth="96.0" style="-fx-background-color: #75d6ff; -fx-background-radius: 3em;" text="Save Me">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                        <JFXButton fx:id="preview" buttonType="RAISED" disable="true" layoutX="580.0" layoutY="29.0" onAction="#previewaction" prefHeight="36.0" prefWidth="95.0" style="-fx-background-color: #95f3ff; -fx-background-radius: 3em;" text="Preview">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                        <JFXButton fx:id="emptyrow" buttonType="RAISED" onAction="#emptyrowaction" style="-fx-background-color: #b5ffff; -fx-background-radius: 3em;" text="Add Empty Row">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                        <JFXTextField fx:id="notes" labelFloat="true" prefHeight="35.0" prefWidth="142.0" promptText="Add Note Word ...">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXButton fx:id="notesrow" buttonType="RAISED" onAction="#notesrowaction" style="-fx-background-color: #d4ffff; -fx-background-radius: 3em;" text="Inside Notes">
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="noty" buttonType="RAISED" onAction="#notyaction" style="-fx-background-color: white; -fx-background-radius: 3em;" text="Row Notes">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <WebView fx:id="view" layoutX="1.0" layoutY="317.0" onKeyReleased="#viewre" prefHeight="325.0" prefWidth="1300.0" visible="false" />
+                  <JFXTextField fx:id="chemicallot" alignment="CENTER" disable="true" labelFloat="true" layoutX="851.0" layoutY="107.0" onKeyReleased="#chemicallotrel" prefHeight="31.0" prefWidth="150.0" promptText="Chemical LOT" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <ComboBox fx:id="model" disable="true" layoutX="155.0" layoutY="41.0" onAction="#modelaction" onKeyReleased="#actionrel" onShowing="#modelsaction" prefHeight="31.0" prefWidth="108.0" promptText="Model" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <ComboBox fx:id="stage" layoutX="21.0" layoutY="40.0" onAction="#stageaction" prefHeight="31.0" prefWidth="107.0" promptText="Stage" style="-fx-background-color: white; -fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </ComboBox>
+                  <JFXCheckBox fx:id="nochemicals" disable="true" layoutX="117.0" layoutY="113.0" style="-fx-background-color: white; -fx-background-radius: 3em;" text="No Chemicals">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXCheckBox>
+                  <JFXTextField fx:id="whiskercode" alignment="CENTER" labelFloat="true" layoutX="288.0" layoutY="41.0" onKeyReleased="#whiskeraction" prefHeight="25.0" prefWidth="107.0" promptText="Whisker" style="-fx-background-color: white; -fx-background-radius: 3em;">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <JFXTextField fx:id="handcode" alignment="CENTER" labelFloat="true" layoutX="420.0" layoutY="41.0" onKeyReleased="#handaction" prefHeight="25.0" prefWidth="107.0" promptText="Hand" style="-fx-background-color: white; -fx-background-radius: 3em;">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <effect>
+                        <DropShadow />
+                     </effect>
+                  </JFXTextField>
+                  <TextArea fx:id="water" disable="true" editable="false" layoutX="1032.0" layoutY="275.0" opacity="0.22" prefHeight="28.0" prefWidth="40.0">
+                     <font>
+                        <Font size="1.0" />
+                     </font>
+                  </TextArea>
+                  <TextArea fx:id="chemicals" disable="true" editable="false" layoutX="1245.0" layoutY="274.0" opacity="0.22" prefHeight="32.0" prefWidth="40.0">
+                     <font>
+                        <Font size="1.0" />
+                     </font>
+                  </TextArea>
+                  <Pane layoutX="1015.0" layoutY="-2.0" prefHeight="314.0" prefWidth="284.0">
+                     <children>
+                        <ImageView fitHeight="118.0" fitWidth="147.0" layoutX="83.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@tandc.png" />
+                           </image>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </ImageView>
+                        <ImageView fitHeight="87.0" fitWidth="83.0" layoutX="185.0" layoutY="177.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@kadysoft.png" />
+                           </image>
+                        </ImageView>
+                        <Label alignment="CENTER" layoutX="28.0" layoutY="214.0" prefHeight="21.0" prefWidth="144.0" style="-fx-background-color: #24a0ed; -fx-background-radius: 3em;" text="Powered By" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="97.0" layoutY="147.0" prefHeight="21.0" prefWidth="91.0" style="-fx-background-color: #24a0ed; -fx-background-radius: 3em;" text="T &amp; C" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <effect>
+                              <DropShadow />
+                           </effect>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

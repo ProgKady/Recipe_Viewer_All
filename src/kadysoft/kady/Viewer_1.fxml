@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="886.0" prefWidth="1313.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.ViewerController_1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <StackPane fx:id="mainRoot">
+         <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <TableView fx:id="table" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" />
+               </center>
+               <top>
+                  <VBox prefHeight="302.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <WebView fx:id="addo" prefHeight="243.0" prefWidth="1313.0" />
+                        <StackPane>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1313.0" spacing="15.0">
+                                 <children>
+                                    <JFXButton fx:id="getallbtn1" buttonType="RAISED" minHeight="21.0" onAction="#getall1action" style="-fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="refresh" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </JFXButton>
+                                    <JFXButton fx:id="getallbtn" buttonType="RAISED" minHeight="21.0" onAction="#getallaction" style="-fx-background-radius: 3em; -fx-background-color: transparent; -fx-border-color: black;" styleClass="refresh" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </JFXButton>
+                                    <JFXButton fx:id="seepilot" buttonType="RAISED" onAction="#seepilotaction" prefHeight="32.0" prefWidth="93.0" style="-fx-background-radius: 3em; -fx-background-color: transparent; -fx-font-weight: bold; -fx-border-color: black;" styleClass="pilot">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <Label fx:id="tablee" alignment="CENTER" onMouseClicked="#tableeaction" prefHeight="32.0" prefWidth="90.0" style="-fx-font-weight: bold; -fx-background-color: transparent; -fx-background-radius: 3em;" styleClass="preview" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Label fx:id="image" alignment="CENTER" onMouseClicked="#imageaction" prefHeight="20.0" prefWidth="96.0" style="-fx-font-weight: bold; -fx-background-color: transparent; -fx-background-radius: 3em;" styleClass="image" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <JFXButton fx:id="timer" buttonType="RAISED" onAction="#timeraction" prefHeight="32.0" prefWidth="100.0" style="-fx-font-weight: bold; -fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="report" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="coster" buttonType="RAISED" onAction="#costeraction" prefHeight="32.0" prefWidth="100.0" style="-fx-font-weight: bold; -fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="types" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="recipeprocesses" buttonType="RAISED" onAction="#recipeprocessesaction" prefHeight="32.0" prefWidth="100.0" style="-fx-font-weight: bold; -fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="process" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="calculatetime" buttonType="RAISED" onAction="#calculatetimeaction" prefHeight="32.0" prefWidth="100.0" style="-fx-font-weight: bold; -fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="calll" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <Label fx:id="openadmin" alignment="CENTER" onMouseClicked="#openadminaction" prefHeight="35.0" prefWidth="156.0" style="-fx-font-weight: bold; -fx-background-color: transparent; -fx-background-radius: 3em;" styleClass="admin" text="Open Admin" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <JFXButton fx:id="chemicalplan" buttonType="RAISED" onAction="#chemicalplanaction" prefHeight="29.0" prefWidth="93.0" style="-fx-background-radius: 3em; -fx-font-weight: bold; -fx-background-color: transparent;" styleClass="plann" textAlignment="CENTER">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <ImageView fx:id="searchrecipe" fitHeight="35.0" fitWidth="35.0" onMouseClicked="#searchrecipeaction" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@love.png" />
+                                       </image>
+                                    </ImageView>
+                                    <JFXButton fx:id="printic" buttonType="RAISED" onAction="#printicaction" style="-fx-background-radius: 3em; -fx-background-color: transparent; -fx-font-weight: bold;" styleClass="printo">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </JFXButton>
+                                    <JFXButton fx:id="editorprint" buttonType="RAISED" onAction="#editorprintaction" style="-fx-background-radius: 5em; -fx-background-color: transparent; -fx-border-color: black;" styleClass="printo">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </JFXButton>
+                                    <JFXButton fx:id="performance" buttonType="RAISED" onAction="#performanceaction" style="-fx-background-color: transparent; -fx-font-weight: bold;" styleClass="performance" stylesheets="@CSS.css" />
+                                    <CheckBox fx:id="audit" mnemonicParsing="false" prefHeight="32.0" prefWidth="115.0" style="-fx-font-weight: bold; -fx-background-color: transparent; -fx-background-radius: 3em;" styleClass="audit" underline="true" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+               </top>
+            </BorderPane>
+         </children>
+      </StackPane>
+      <Hyperlink fx:id="link" onAction="#linkaction" prefHeight="29.0" prefWidth="398.0" style="-fx-font-size: 13; -fx-font-weight: bold;" text="T &amp; C Garments" visible="false" />
+      <JFXRadioButton fx:id="date" prefHeight="21.0" prefWidth="82.0" selected="true" text="Date" visible="false">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXRadioButton>
+      <JFXTextField fx:id="content" alignment="CENTER" labelFloat="true" onKeyReleased="#contentaction" prefHeight="37.0" prefWidth="226.0" promptText="Write What You Want ..." style="-fx-background-radius: 3em;" visible="false">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+      <JFXRadioButton fx:id="stage" prefHeight="21.0" prefWidth="93.0" text="Stage" visible="false">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXRadioButton>
+      <JFXRadioButton fx:id="model" text="Model" visible="false">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXRadioButton>
+      <JFXRadioButton fx:id="name" prefHeight="21.0" prefWidth="118.0" text="Name" visible="false">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </JFXRadioButton>
+      <JFXButton fx:id="openrecipesfolder" buttonType="RAISED" onAction="#openrecipesfolderaction" prefHeight="37.0" prefWidth="169.0" style="-fx-background-radius: 3em;" text="Open Recipes Folder" visible="false">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXButton>
+      <Label alignment="CENTER" style="-fx-background-color: #0d419d; -fx-background-radius: 3em; -fx-font-weight: bold;" text="Created By Kadysoft Ltd, CEO : Ahmed Elkady" visible="false">
+         <effect>
+            <DropShadow>
+               <input>
+                  <Reflection />
+               </input>
+            </DropShadow>
+         </effect>
+      </Label>
+      <ImageView fx:id="adsimage" fitHeight="120.0" fitWidth="1218.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <Label fx:id="adslabel" prefHeight="30.0" prefWidth="290.0" style="-fx-font-weight: bold; -fx-font-size: 20; -fx-text-fill: white; -fx-background-color: #1e81b0; -fx-background-radius: 3em; -fx-font-family: algerian;" text="Kadysoft" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+      <WebView fx:id="marque" prefHeight="52.0" prefWidth="978.0" visible="false" />
+      <JFXTextArea fx:id="coode" prefHeight="52.0" prefWidth="30.0" visible="false" />
+      <JFXTextArea fx:id="aero" visible="false" />
+      <JFXButton fx:id="aiaraiar" buttonType="RAISED" onAction="#aiaraiaraction" prefHeight="32.0" prefWidth="93.0" style="-fx-background-radius: 3em; -fx-font-weight: bold; -fx-background-color: #27a #2471a3 e60;" text="Aiar" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="coasterbtn" buttonType="RAISED" onAction="#coasteraction" style="-fx-font-weight: bold; -fx-background-radius: 3em; -fx-background-color: #e74c3c;" text="Coaster" visible="false" />
+   </children>
+   <stylesheets>
+      <URL value="@cupertino-light.css" />
+      <URL value="@CSS.css" />
+   </stylesheets>
+</GridPane>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="324.0" prefWidth="757.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.SignController">
+   <children>
+      <Label layoutX="41.0" layoutY="146.0" text="Recipe">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="decrypt" buttonType="RAISED" layoutX="344.0" layoutY="251.0" onAction="#decryptaction" prefHeight="37.0" prefWidth="106.0" style="-fx-background-color: #0d419d; -fx-background-radius: 3em;" text="Sign">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </JFXButton>
+      <JFXTextField fx:id="recipe" alignment="CENTER" labelFloat="true" layoutX="129.0" layoutY="137.0" onMouseClicked="#recaction" prefHeight="37.0" prefWidth="564.0" promptText="Click Here To Browse For Recipe ..." style="-fx-background-radius: 3em;">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </JFXTextField>
+      <TextArea fx:id="area" disable="true" editable="false" layoutX="280.0" layoutY="155.0" prefHeight="9.0" prefWidth="6.0" visible="false" />
+      <ComboBox fx:id="signbox" layoutX="235.0" layoutY="57.0" onShowing="#signboxaction" prefHeight="37.0" prefWidth="325.0" promptText="Choose Sign ..." style="-fx-background-radius: 3em; -fx-font-size: 15; -fx-font-weight: bold;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ComboBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@cupertino-light.css,@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.Chemical_Planner_Controller">
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+
+                <!-- ====================== Single Recipe Planner ====================== -->
+                <Tab text="Single Recipe Planner">
+                    <AnchorPane>
+                        <VBox spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+
+                            <!-- Top Inputs -->
+                            <GridPane hgap="15.0" vgap="12.0" VBox.vgrow="NEVER">
+                                <columnConstraints>
+                                    <ColumnConstraints percentWidth="15.0" />
+                                    <ColumnConstraints percentWidth="35.0" />
+                                    <ColumnConstraints percentWidth="15.0" />
+                                    <ColumnConstraints percentWidth="35.0" />
+                                </columnConstraints>
+
+                                <Label text="Model:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                <ComboBox fx:id="model" onHidden="#readoutmodelaction" onShowing="#readmodelaction" prefHeight="32.0" prefWidth="444.0" promptText="Model" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                <Label text="Recipe:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <ComboBox fx:id="recipe" editable="true" onHidden="#readoutrecipeaction" onShowing="#readrecipeaction" prefHeight="32.0" prefWidth="417.0" promptText="Recipe" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Month:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                <JFXTextField fx:id="monthtf" promptText="Month" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                <Label text="Patch:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                <JFXTextField fx:id="patch" promptText="Patch" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                                <Label text="Quantity:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                <JFXTextField fx:id="quantityyy" onKeyReleased="#quantityyyrel" promptText="Quantity" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                                <Label text="PCS:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                <JFXTextField fx:id="pcsss" onKeyReleased="#pcsssrel" promptText="PCs" style="-fx-background-radius: 3em; -fx-font-weight: bold;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
+                            </GridPane>
+
+                            <!-- WebView + Lists -->
+                            <SplitPane dividerPositions="0.55" VBox.vgrow="ALWAYS">
+                                <VBox spacing="10.0">
+                           <StackPane prefHeight="150.0" prefWidth="200.0">
+                              <children>
+                                          <JFXTextArea fx:id="lili" prefHeight="11.0" prefWidth="643.0" visible="false" />
+                                         <Hyperlink fx:id="browselink" onAction="#browselinkaction" style="-fx-font-weight: bold;" text="Browse Link" />
+                              </children>
+                           </StackPane>
+                                    <WebView fx:id="webview" prefHeight="636.0" prefWidth="643.0" VBox.vgrow="ALWAYS" />
+                                </VBox>
+
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints percentWidth="50.0" />
+                                        <ColumnConstraints percentWidth="50.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints percentHeight="16.66" />
+                                        <RowConstraints percentHeight="16.66" />
+                                        <RowConstraints percentHeight="16.66" />
+                                        <RowConstraints percentHeight="16.66" />
+                                        <RowConstraints percentHeight="16.66" />
+                                        <RowConstraints percentHeight="16.66" />
+                                    </rowConstraints>
+
+                                    <!-- كل الـ ListViews بنفس الكلاس -->
+                                    <ListView fx:id="l1" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <ListView fx:id="l2" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                    <ListView fx:id="l3" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                    <ListView fx:id="l4" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                    <ListView fx:id="l5" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                    <ListView fx:id="l6" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                    <ListView fx:id="l7" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <ListView fx:id="l8" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ListView fx:id="l9" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ListView fx:id="l10" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <ListView fx:id="l11" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <ListView fx:id="l12" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                    <!-- الحل النهائي للـ Insets في Java 8 -->
+                                    <padding>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </padding>
+                                </GridPane>
+                            </SplitPane>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+
+                <!-- ====================== Multi Recipe Planner ====================== -->
+                <Tab text="Multi Recipe Planner">
+                    <VBox spacing="15.0">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                        <HBox alignment="CENTER_LEFT" spacing="12.0">
+                            <Label text="Excel File:" />
+                            <JFXTextField fx:id="excelfile" onMouseClicked="#excelfileaction" style="-fx-background-radius: 3em; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
+                            <JFXCheckBox fx:id="skiperr" style="-fx-font-weight: bold;" text="Skip Errors" />
+                        </HBox>
+
+                        <ListView fx:id="recipelistall" onDragDropped="#recipelistalldd" onDragOver="#recipelistalldo" styleClass="modern-list" VBox.vgrow="ALWAYS" />
+
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <Label fx:id="count" style="-fx-font-weight: bold;" text="0 Items" />
+                            <Label fx:id="count2" style="-fx-font-weight: bold;" text="0 Of" />
+                            <Label fx:id="count3" style="-fx-font-weight: bold;" text="0 Skipped" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <JFXButton fx:id="planall" onAction="#planallaction" styleClass="action-btn primary-btn" text="Plan All" />
+                            <JFXButton fx:id="clearlist" onAction="#clearlistaction" styleClass="action-btn danger-btn" text="Clear List" />
+                            <JFXButton fx:id="delsel" onAction="#delselaction" styleClass="action-btn secondary-btn" text="Delete Selected" />
+                        </HBox>
+                    </VBox>
+                </Tab>
+
+                <!-- ====================== Planned Data ====================== -->
+                <Tab text="Planned Data">
+                    <TableView fx:id="table" />
+                </Tab>
+
+            </tabs>
+        </TabPane>
+    </center>
+
+    <!-- ====================== Bottom Buttons ====================== -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="20.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <style>
+                -fx-background-color: #ffffff;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, -3);
+            </style>
+            <JFXButton fx:id="fixchemic" text="Fix Chemicals" visible="false" />
+            <JFXButton fx:id="get" onAction="#getaction" styleClass="big-btn plan-btn" text="Plan" />
+            <JFXButton fx:id="adddbtn" onAction="#adddbtnaction" styleClass="big-btn table-btn" text="Send To Table" />
+            <JFXButton fx:id="clearal" onAction="#clearalaction" styleClass="big-btn clear-btn" text="Clear All" />
+            <JFXButton fx:id="exportbtn" onAction="#exportbtnaction" styleClass="big-btn export-btn" text="Export" />
+            <JFXButton fx:id="deletebtn" onAction="#deletebtnaction" text="Delete" visible="false" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

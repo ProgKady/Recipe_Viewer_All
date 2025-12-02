@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" prefHeight="857.0" prefWidth="1370.0" stylesheets="@primer-dark.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.Preview">
+   <children>
+      <WebView fx:id="webview" layoutY="37.0" onKeyPressed="#viewpress" prefHeight="820.0" prefWidth="1371.0" />
+      <Label alignment="CENTER" layoutX="518.0" layoutY="4.0" prefHeight="28.0" prefWidth="347.0" style="-fx-font-weight: bold; -fx-background-color: #0d419d; -fx-background-radius: 3em;" text="You can edit recipe in preview mode too">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Label>
+   </children>
+</AnchorPane>
