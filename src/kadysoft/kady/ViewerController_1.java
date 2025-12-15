@@ -4501,7 +4501,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 
             Platform.runLater(() -> {
                 String title = "🚧 System Maintenance | صيانة النظام 🚧";
-                String header = "⚠ Service Unavailable | الخدمة غير متاحة";
+                String header = "⚠ Service Unavailable | الخدمة غير متاحة\nسكان الكود اللي علي اليمين ده وحمل الابلكيشن وشوف الريسيبي\nلحد ما المشكله تتحل ان شاء الله";
                 String content =
                         "Dear User,\n" +
                         "🛠 We are currently upgrading and improving the system to serve you better.\n" +
@@ -4509,7 +4509,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
                         "🙏 Thank you for your patience and understanding.\n\n" +
                         "—---------------------------------------------\n\n" +
                         "عزيزي المستخدم،\n" +
-                        "🛠 نحن نقوم حالياً بتطوير وتحسين النظام لنخدمك بشكل أفضل.\n" +
+                        "نحن نقوم حالياً بتطوير وتحسين النظام لنخدمك بشكل أفضل.\n" +
                         "⏳ خلال فترة الصيانة لن تكون الخدمة متاحة.\n" +
                         "🙏 نشكرك على صبرك وتفهمك.\n\n" +
                         "💡 Please try again later | الرجاء المحاولة لاحقاً";
@@ -4518,9 +4518,19 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
                 alert.setTitle(title);
                 alert.setHeaderText(header);
                 alert.setContentText(content);
+                Image image = new Image(getClass().getResource("APP_QR.png").toExternalForm().toString());
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(250);   // العرض 250 بكسل
+                imageView.setFitHeight(250);  // الارتفاع 250 بكسل
+                imageView.setPreserveRatio(true);  // مهم جدًا: يحافظ على نسبة الصورة الأصلية (مش هتتشوه)
+                alert.setGraphic(imageView);
+                //alert.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("APP_QR.png"))));
                 alert.setResizable(true); // يسمح بتوسيع النافذة
 
                 DialogPane dialogPaneo = alert.getDialogPane();
+                alert.setOnHidden(ttt -> {
+                    shutdownApp();
+                });
                 dialogPaneo.getStylesheets().add(
                         getClass().getResource("cupertino-light.css").toExternalForm()
                 );
@@ -4529,7 +4539,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
                 alert.show();
 
                 // countdown 5 seconds then close alert and shutdown
-                javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(15));
+                javafx.animation.PauseTransition delay = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(60));
                 delay.setOnFinished(e -> {
                     alert.close();
                     shutdownApp();
