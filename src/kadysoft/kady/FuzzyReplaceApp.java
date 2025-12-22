@@ -29,7 +29,7 @@ public class FuzzyReplaceApp extends Application {
     public void start(Stage primaryStage) throws IOException {
         // Reference TextArea
         referenceArea = new JFXTextArea();
-        referenceArea.setEditable(false);
+        //referenceArea.setEditable(false);
         referenceArea.setPromptText("Enter correct reference data (one per line)");
         referenceArea.getStyleClass().add("textarea");
 
