@@ -126,8 +126,8 @@
                         </padding>
                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                             <Label text="Excel File:" />
-                            <JFXTextField fx:id="excelfile" onMouseClicked="#excelfileaction" style="-fx-background-radius: 3em; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
-                            <JFXCheckBox fx:id="skiperr" style="-fx-font-weight: bold;" text="Skip Errors" />
+                            <JFXTextField fx:id="excelfile" onMouseClicked="#excelfileaction" promptText="Click here to choose excel file ..." style="-fx-background-radius: 3em; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
+                            <JFXCheckBox fx:id="skiperr" selected="true" style="-fx-font-weight: bold;" text="Errors Report" />
                         </HBox>
 
                         <ListView fx:id="recipelistall" onDragDropped="#recipelistalldd" onDragOver="#recipelistalldo" styleClass="modern-list" VBox.vgrow="ALWAYS" />
