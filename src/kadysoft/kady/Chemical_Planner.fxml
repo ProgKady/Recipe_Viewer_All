@@ -2,16 +2,18 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -27,7 +29,7 @@
 <BorderPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@cupertino-light.css,@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.Chemical_Planner_Controller">
 
     <center>
-        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <JFXTabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
 
                 <!-- ====================== Single Recipe Planner ====================== -->
@@ -129,8 +131,13 @@
                             <JFXTextField fx:id="excelfile" onMouseClicked="#excelfileaction" promptText="Click here to choose excel file ..." style="-fx-background-radius: 3em; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
                             <JFXCheckBox fx:id="skiperr" selected="true" style="-fx-font-weight: bold;" text="Errors Report" />
                         </HBox>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <Accordion fx:id="accord" />
+                     </content>
+                  </ScrollPane>
 
-                        <ListView fx:id="recipelistall" onDragDropped="#recipelistalldd" onDragOver="#recipelistalldo" styleClass="modern-list" VBox.vgrow="ALWAYS" />
+                        <ListView fx:id="recipelistall" onDragDropped="#recipelistalldd" onDragOver="#recipelistalldo" prefHeight="334.0" prefWidth="1170.0" styleClass="modern-list" VBox.vgrow="ALWAYS" />
 
                         <HBox alignment="CENTER_LEFT" spacing="15.0">
                             <Label fx:id="count" style="-fx-font-weight: bold;" text="0 Items" />
@@ -150,7 +157,7 @@
                 </Tab>
 
             </tabs>
-        </TabPane>
+        </JFXTabPane>
     </center>
 
     <!-- ====================== Bottom Buttons ====================== -->
@@ -164,11 +171,12 @@
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, -3);
             </style>
             <JFXButton fx:id="fixchemic" text="Fix Chemicals" visible="false" />
-            <JFXButton fx:id="get" onAction="#getaction" styleClass="big-btn plan-btn" text="Plan" />
-            <JFXButton fx:id="adddbtn" onAction="#adddbtnaction" styleClass="big-btn table-btn" text="Send To Table" />
-            <JFXButton fx:id="clearal" onAction="#clearalaction" styleClass="big-btn clear-btn" text="Clear All" />
-            <JFXButton fx:id="exportbtn" onAction="#exportbtnaction" styleClass="big-btn export-btn" text="Export" />
+            <JFXButton fx:id="get" onAction="#getaction" style="-fx-background-color: green; -fx-text-fill: white;" styleClass="big-btn plan-btn" text="Plan" />
+            <JFXButton fx:id="adddbtn" onAction="#adddbtnaction" style="-fx-background-color: #ffc8dd;" styleClass="big-btn table-btn" text="Send To Table" />
+            <JFXButton fx:id="clearal" onAction="#clearalaction" style="-fx-background-color: #f4a261;" styleClass="big-btn clear-btn" text="Clear All" />
+            <JFXButton fx:id="exportbtn" onAction="#exportbtnaction" style="-fx-background-color: #a2d2ff;" styleClass="big-btn export-btn" text="Export" />
             <JFXButton fx:id="deletebtn" onAction="#deletebtnaction" text="Delete" visible="false" />
+         <JFXButton layoutX="749.0" layoutY="30.0" onAction="#fixnamesaction" style="-fx-background-color: #cdb4db;" styleClass="big-btn export-btn" text="Fix Names" />
         </HBox>
     </bottom>
 

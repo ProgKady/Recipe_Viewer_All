@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -115,8 +116,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.VBox;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import static org.apache.poi.ss.usermodel.CellType.BOOLEAN;
@@ -179,6 +184,9 @@ public class Chemical_Planner_Controller implements Initializable {
     
     @FXML
     private JFXTextField patch;
+    
+    @FXML
+    private Accordion accord;
 
 
 
@@ -274,7 +282,7 @@ public class Chemical_Planner_Controller implements Initializable {
     
     public static String patcchh,messagee;
     
-    
+    public static String letterr;
     
     @FXML
     private JFXCheckBox skiperr;
@@ -288,7 +296,13 @@ public class Chemical_Planner_Controller implements Initializable {
     
     public static int skippp=0;
     
+     @FXML
+void fixnamesaction(ActionEvent event) throws IOException, IOException, ClassNotFoundException {
     
+    FuzzyReplaceApp fra=new FuzzyReplaceApp();
+    fra.start(new Stage());
+    
+}
     
     @FXML
 void delselaction(ActionEvent event) {
@@ -3692,6 +3706,10 @@ OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\r
 PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
 pwe.println(gf);
 pwe.close();
+
+
+get.fire();
+adddbtn.fire();
     
         
     }
@@ -3718,6 +3736,9 @@ pwe.close();
 
     @FXML
     void savetodbaction(ActionEvent event) {
+        
+        
+        
     }
 
 
@@ -3859,6 +3880,56 @@ pwe.close();
 });
    
         
+    
+        
+        
+    
+    
+// بدل الحلقة القديمة اللي كانت بتضيف للـ ComboBox
+try (BufferedReader buf = new BufferedReader(new FileReader(models_file_path))) {
+    String line;
+    while ((line = buf.readLine()) != null) {
+        line = line.trim();
+        if (line.isEmpty()) continue;
+
+        TitledPane titledPane = new TitledPane();
+        titledPane.setText(line); // اسم الموديل
+
+        // محتوى الـ Pane مؤقتًا فاضي أو Label بسيط
+        titledPane.setContent(new Label("جاري تحميل الوصفات..."));
+
+        // ★★★ Listener عند فتح الـ Pane ★★★
+        titledPane.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
+            if (isNowExpanded) {
+                String selectedModel = titledPane.getText();
+
+                // طي أي Pane تاني (عشان واحد بس مفتوح زي الاختيار)
+                accord.getPanes().forEach(pane -> {
+                    if (pane != titledPane) {
+                        pane.setExpanded(false);
+                    }
+                });
+
+                // تحميل الوصفات لهذا الموديل (مع بحث فاضي في البداية)
+                loadFilteredItemsss(selectedModel, "");
+            }
+        });
+
+        accord.getPanes().add(titledPane);
+    }
+} catch (FileNotFoundException e) {
+    System.err.println("ملف الموديلات غير موجود: " + models_file_path);
+} catch (IOException e) {
+    e.printStackTrace();
+}
+    
+    
+    
+    
+recipelistall.setEditable(true);
+recipelistall.setCellFactory(TextFieldListCell.forListView());
+    
+        
    
     }
     
@@ -3891,6 +3962,77 @@ pwe.close();
         });
     }
 
+    
+    
+    private void loadFilteredItemsss(String modell, String searchText) {
+    executorService.execute(() -> {
+        try {
+            String sql = "SELECT * FROM Creation WHERE Model = ? AND Path LIKE ?";
+            try (PreparedStatement pst = conn.prepareStatement(sql)) {
+                pst.setString(1, modell);
+                pst.setString(2, searchText + "%");
+
+                try (ResultSet rs = pst.executeQuery()) {
+
+                    // ننشئ VBox جديد لعرض الـ CheckBoxes
+                    VBox checkBoxContainer = new VBox(5);
+                    checkBoxContainer.setPadding(new Insets(10));
+
+                    while (rs.next()) {
+                        String name = rs.getString("Path");
+
+                        JFXCheckBox checkBox = new JFXCheckBox(name);
+                        checkBox.setPadding(new Insets(2, 0, 2, 10));
+
+                        // حدث الـ ListView عند الاختيار/إلغاء الاختيار
+                        checkBox.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                            Platform.runLater(() -> {
+                                if (isNowSelected) {
+                                    if (!recipelistall.getItems().contains(name)) {
+                                        
+                                        
+                                        try {
+          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
+          letterr=buf.readLine().replace("X:",drib);
+          buf.close();
+      }
+      catch (Exception m) {
+          
+      }
+      String pathy = name.replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
+                                    recipelistall.getItems().add(pathy);
+                                    }
+                                } else {
+                                    String pathy = name.replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
+                                    recipelistall.getItems().remove(pathy);
+                                }
+                            });
+                        });
+
+                        checkBoxContainer.getChildren().add(checkBox);
+                    }
+
+                    // تحديث محتوى الـ TitledPane في الـ UI Thread
+                    Platform.runLater(() -> {
+                        // نبحث عن الـ TitledPane الخاص بالموديل الحالي ونحدث محتواه
+                        for (TitledPane pane : accord.getPanes()) {
+                            if (pane.getText().equals(modell)) {
+                                pane.setContent(checkBoxContainer);
+                                break;
+                            }
+                        }
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    });
+}
+    
+    
+    
+    
     // Method to load filtered items based on user input
     private void loadFilteredItems(String modell, String searchText) {
         executorService.execute(() -> {
@@ -3915,6 +4057,9 @@ pwe.close();
             }
         });
     }
+    
+    
+    
 
     // Method to handle item selection in the ComboBox
     private void handleRecipeSelection(ActionEvent event) {

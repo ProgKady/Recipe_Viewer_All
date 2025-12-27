@@ -26,7 +26,7 @@ public class FuzzyReplaceApp extends Application {
     public static String useb,drib;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException, ClassNotFoundException {
         // Reference TextArea
         referenceArea = new JFXTextArea();
         //referenceArea.setEditable(false);
@@ -87,8 +87,7 @@ public class FuzzyReplaceApp extends Application {
         Scene scene = new Scene(layout, 700, 600);
 
         ////////////// Theme Loader //////////////
-        BufferedReader bis = new BufferedReader(new FileReader(
-                System.getProperty("user.home") + "\\AppData\\Roaming\\Alpha_Planning\\Themes.kady"));
+        BufferedReader bis = new BufferedReader(new FileReader("Themes.kady"));
         String themooo = bis.readLine();
         bis.close();
         URL cssUrl = getClass().getResource(themooo);
@@ -122,12 +121,13 @@ public class FuzzyReplaceApp extends Application {
                 .orElse(input);
     }
 
-    private String getProcessForOrder(String po, String sapCode) {
+    private String getProcessForOrder(String po, String sapCode) throws ClassNotFoundException {
         String result = "";
         referenceArea.clear();
 
         File settings = new File("DataBasesInfo.kady");
         String recipeDBPath = getRecipeDBPath(settings);
+        Class.forName("org.sqlite.JDBC");
         String db2Path = "jdbc:sqlite:" + recipeDBPath;
         String query = "SELECT * FROM Creation";
         try (Connection conn2 = DriverManager.getConnection(db2Path);
