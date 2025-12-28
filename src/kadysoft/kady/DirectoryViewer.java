@@ -23,6 +23,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class DirectoryViewer extends Application {
 
@@ -34,6 +38,7 @@ public class DirectoryViewer extends Application {
     private JFXTextField searchField;
     private TreeItem<String> rootItem;
     private JFXButton openInBrowserButton;
+    public static String klll;
 
     // متغيرات البحث
     private final List<TreeItem<String>> searchResults = new ArrayList<>();
@@ -69,6 +74,23 @@ public class DirectoryViewer extends Application {
         loadButton.setEffect(new DropShadow());
         loadButton.setStyle("-fx-font-weight: bold; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 3em;");
         loadButton.setOnAction(e -> loadPilotDirectory());
+        
+        JFXButton printButton = new JFXButton("طباعة");
+        printButton.setButtonType(JFXButton.ButtonType.RAISED);
+        printButton.setEffect(new DropShadow());
+        printButton.setStyle("-fx-font-weight: bold; -fx-background-color: #1006F3; -fx-text-fill: white; -fx-background-radius: 3em;");
+        printButton.setOnAction(e -> {
+            try {
+                printPilotDirectory();
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
 
         // أزرار التنقل في نتائج البحث
         JFXButton prevButton = new JFXButton("← السابق");
@@ -86,7 +108,7 @@ public class DirectoryViewer extends Application {
         searchBox.setAlignment(Pos.CENTER_LEFT);
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
-        HBox topBar = new HBox(10, loadButton, searchBox);
+        HBox topBar = new HBox(10, printButton,loadButton, searchBox);
         topBar.setAlignment(Pos.CENTER_LEFT);
         topBar.setPadding(new Insets(10));
         topBar.setStyle("-fx-background-color: #ffffff; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0;");
@@ -127,6 +149,7 @@ public class DirectoryViewer extends Application {
                 showFileDetails(file);
                 if (file.getName().endsWith(".ks")) {
                     loadFileInWebView(file);
+                    klll=newValue.getValue();
                     openInBrowserButton.setDisable(false);
                 } else {
                     webView.getEngine().loadContent("<html><body><h3>هذا الملف غير مدعوم للعرض</h3></body></html>");
@@ -170,6 +193,167 @@ public class DirectoryViewer extends Application {
             showAlert("خطأ", "فشل تحميل المجلد: " + ex.getMessage());
         }
     }
+    
+    
+    
+    private void printPilotDirectory() throws FileNotFoundException, UnsupportedEncodingException, IOException, InterruptedException {
+        
+        
+          
+      
+    
+                            
+    
+      File op = new File(klll);
+      
+      
+      if (!klll.contains(".ks")||!klll.contains(".ks")) {
+          
+          //Noti
+      Notifications noti = Notifications.create();
+      noti.title("Error");
+      noti.text("Please Choose One Recipe First.");
+      noti.position(Pos.CENTER);
+      noti.hideAfter(Duration.seconds(3));
+      noti.showError();
+      }
+      
+      else {
+         
+          
+    InputStream inputinstream=new FileInputStream(klll);
+    BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
+    
+    
+    OutputStream instreamm=new FileOutputStream("C:\\Editor\\index.html");
+    PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
+    pwe.append("<html lang=\"ar\">\n<head><title>Kadysoft Ltd - Ahmed Elkady.</title>"
+            + ""
+            
+            + "<style>\n" +
+"        body {\n" +
+"            user-select: none;\n" +
+"            -webkit-user-select: none;\n" +
+"            -moz-user-select: none;\n" +
+"            -ms-user-select: none;\n" +
+"        }\n" +
+"    </style>"
+            
+          +"<script>\n" +
+"        document.addEventListener('dragstart', function(event) {\n" +
+"            event.preventDefault();\n" +
+"        });\n" +
+"\n" +
+"        document.addEventListener('drop', function(event) {\n" +
+"            event.preventDefault();\n" +
+"        });\n" +
+"\n" +
+"        document.addEventListener('contextmenu', function(event) {\n" +
+"            event.preventDefault();\n" +
+"        });\n" +
+"    </script>"  
+            
+            
+            + "<script>\n" +
+"  \n" +
+"  window.addEventListener(`contextmenu`, (e) => {\n" +
+"    e.preventDefault();\n" +
+"});\n" +
+"  \n" +
+"  </script>"
+            + ""
+            + "\n<meta charset=\"UTF-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/>\n\t\t<meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\" />"
+            + ""
+            + "<script>\n" +
+"            \n" +
+"            document.addEventListener('keydown', event => {\n" +
+"  console.log(`User pressed: ${event.key}`);\n" +
+"  event.preventDefault();\n" +
+"  return false;\n" +
+"});\n" +
+"            \n" +
+"            </script>"
+            
+            
+         +"<script>\n" +
+"        document.addEventListener('keydown', function (event) {\n" +
+"            // Disable specific keys or key combinations\n" +
+"            event.preventDefault();\n" +
+"        });\n" +
+"    </script>"   
+            
+            
+            + ""
+            + "\n\t\t<title></title>\n\t\t<link rel=\"stylesheet\" href=\"./app.css\" />\n\t\t<link rel=\"stylesheet\" href=\"./build/jodit.min.css\" />\n\t\t<script src=\"./build/jodit.js\"></script>\n\t</head>\n\t<body>\n\t\t<style>\n\t\t\t#box {\n\t\t\t\tpadding: 100px;\n\t\t\t\tmargin: 20px;\n\t\t\t\tposition: relative;\n\t\t\t\theight: 500px;\n\t\t\t}\n\n\t\t\t@media (max-width: 480px) {\n\t\t\t\t#box {\n\t\t\t\t\tpadding: 0;\n\t\t\t\t}\n\t\t\t}\n\t\t</style>\n\t\t<div id=\"box\">\n\t\t\t<textarea id=\"editor\">\n\n\n\n\n");
+    String line;
+    while ((line = bi.readLine()) != null)  
+    pwe.append(line
+            
+            
+       .replace("ﬦ","A")
+       .replace("ﬧ","B")
+       .replace("ﬨ","C")
+       .replace("﬩","D")
+       .replace("שׁ","E")    
+       .replace("שׂ","F")        
+       .replace("שּׁ","G")         
+       .replace("שּׂ","H")         
+       .replace("אַ","I")         
+       .replace("אָ","J")         
+       .replace("אּ","K")         
+       .replace("בּ","L")         
+       .replace("גּ","M")         
+       .replace("דּ","N")         
+       .replace("הּ","O")         
+       .replace("וּ","P")         
+       .replace("זּ","Q")         
+       .replace("טּ","R")         
+       .replace("יּ","S")         
+       .replace("ךּ","T")         
+       .replace("כּ","U")         
+       .replace("לּ","V")
+       .replace("מּ","W")         
+       .replace("נּ","X")         
+       .replace("סּ","Y")         
+       .replace("ףּ","Z")         
+       .replace("פּ","0")         
+       .replace("צּ","1")         
+       .replace("קּ","2")         
+       .replace("רּ","3")         
+       .replace("שּ","4")         
+       .replace("תּ","5")         
+       .replace("וֹ","6")         
+       .replace("בֿ","7")         
+       .replace("כֿ","8")
+       .replace("פֿ","9")
+       .replace("&NBSP;","")
+            
+            + "\n");   
+    pwe.append("\n\n\n</textarea>\n\t\t</div>\n\t\t<script>\n\t\t\tconst editor = Jodit.make('#editor' ,{\n\t\t\t\tuploader: {\n\t\t\t\t\t\n\t\t\t\t},\n\t\t\t\tfilebrowser: {\n\t\t\t\t\tajax: {\n\t\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t</script>\n\t</body>\n</html>"); 
+    pwe.close();
+    bi.close();
+    Desktop desk = Desktop.getDesktop();
+    desk.open(new File("C:\\Editor\\index.html")); 
+    
+    Thread.sleep(4000);
+    
+    File ggf=new File ("C:\\Editor\\index.html");
+    PrintWriter pl=new PrintWriter(new FileWriter(ggf));
+    pl.println("Powered By Kadysoft");
+    pl.close();
+    
+      
+          
+          
+      }
+      
+         
+        
+        
+        
+        
+    }
+    
 
     private TreeItem<String> createLazyNode(File file) {
         TreeItem<String> item = new TreeItem<>(file.getName());
@@ -399,6 +583,7 @@ public class DirectoryViewer extends Application {
 "});\n" +
 "  \n" +
 "  </script>";
+                   
 
             webView.getEngine().loadContent(htmlContent);
 
