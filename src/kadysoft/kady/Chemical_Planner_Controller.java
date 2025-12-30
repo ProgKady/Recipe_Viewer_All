@@ -559,7 +559,7 @@ void planallaction(ActionEvent event) throws FileNotFoundException, IOException,
                     finalReport.append("\nالأسباب:\n");
                     finalReport.append(failedReasons.toString());
                 } else {
-                    finalReport.append("🎉 جميع الريسيبيات تمت معالجتها بنجاح!\n");
+                    finalReport.append("جميع الريسيبيات تمت معالجتها بنجاح!\n");
                 }
 
                 Alert reportAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -3590,6 +3590,7 @@ System.out.println(selectedItem);
         String lin1,lin2,lin3;
         lin1=model.getSelectionModel().getSelectedItem().toString();
         lin2=recipe.getSelectionModel().getSelectedItem().toString();
+        woow=lin2;
         lin3=NewDir.file_dir.replace("X:",drib+":")+"\\PRODUCTION\\"+lin1+"\\"+lin2+".ks";  //Path To Recipe.
         
         //Read File Here//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3929,6 +3930,13 @@ try (BufferedReader buf = new BufferedReader(new FileReader(models_file_path))) 
 recipelistall.setEditable(true);
 recipelistall.setCellFactory(TextFieldListCell.forListView());
     
+
+  try {
+            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
+        } catch (FileNotFoundException ex) {
+           
+        }
         
    
     }

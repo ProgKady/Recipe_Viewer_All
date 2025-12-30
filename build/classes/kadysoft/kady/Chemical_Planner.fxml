@@ -26,7 +26,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@cupertino-light.css,@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.Chemical_Planner_Controller">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" style="-fx-font-family: &quot;Cairo SemiBold&quot;;" stylesheets="@cupertino-light.css,@styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.Chemical_Planner_Controller">
 
     <center>
         <JFXTabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">

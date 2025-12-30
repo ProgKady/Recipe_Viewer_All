@@ -47,6 +47,15 @@ public class DirectoryViewer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        
+          try {
+            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
+        } catch (FileNotFoundException ex) {
+           
+        }
+        
+        
         treeView = new JFXTreeView<>();
         treeView.setStyle("-fx-font-weight: bold; -fx-font-size: 14; -fx-background-color: #f4f4f4;");
 
@@ -140,6 +149,7 @@ public class DirectoryViewer extends Application {
 
         BorderPane root = new BorderPane();
         root.setTop(topBar);
+        root.setStyle("-fx-font-family: 'Cairo SemiBold';");
         root.setCenter(splitPane);
 
         // حدث اختيار عنصر في الشجرة

@@ -188,6 +188,8 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   
   ToggleGroup tg;
   
+  
+  
   @FXML
   private TableView table;
   
@@ -195,15 +197,7 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   private ObservableList<String> storedRowData = null;
   
   
-  
-  @FXML
-  private Hyperlink link;
-  
-  @FXML
-  private JFXRadioButton date;
-  
-  @FXML
-  private JFXTextField content;
+
   
   @FXML
     private WebView addo;
@@ -211,40 +205,30 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   @FXML
     private JFXButton performance;
   
-  @FXML
-  private JFXRadioButton stage;
-  
+ 
   @FXML
   private CheckBox audit;
   
   @FXML
-    private JFXButton openrecipesfolder,printic,getallbtn1;
+    private JFXButton printic,getallbtn1;
 
     @FXML
     private JFXButton editorprint,chemicalplan;
   
-  @FXML
-  private JFXRadioButton model;
-  
-  @FXML
-  private JFXRadioButton name;
-  
-  @FXML
-  private JFXButton getallbtn,coster,aiaraiar;
-  
-  @FXML
-  private Label adslabel,tablee,image;
-  
-  @FXML
-  private ImageView adsimage;
-  
-//  @FXML
-//  private Rectangle rectangle;
-  
  
   
   @FXML
-    private WebView marque;
+  private JFXButton getallbtn,coster;
+  
+  @FXML
+  private Label tablee,image,link;
+  
+ 
+  
+
+ 
+  
+  
   
   @FXML
   private JFXTextArea coode;
@@ -260,7 +244,7 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
     private JFXButton recipeprocesses;
 
     @FXML
-    private JFXButton calculatetime,coasterbtn;
+    private JFXButton calculatetime;
 
     @FXML
     private Label openadmin;
@@ -354,10 +338,7 @@ String CONFIG_FILE = "config.txt";
     private ListView<String> steplist;
     
     
-    @FXML
-    private JFXTextArea aero;
-    
- 
+   
     
      @FXML
     void searchrecipeaction(MouseEvent event) {
@@ -1964,6 +1945,7 @@ aloo.showAndWait();
 
         // وضع VBox داخل GridPane
         GridPane gridpane = new GridPane();
+        gridpane.setStyle("-fx-font-family: 'Cairo SemiBold';");
         gridpane.setPadding(new Insets(10));
         gridpane.setAlignment(Pos.CENTER);
         gridpane.add(vbox, 0, 0);
@@ -2947,161 +2929,161 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
     
     }
     
-    @FXML
-    void openrecipesfolderaction(ActionEvent event) throws IOException {
-
-//      Desktop desk=Desktop.getDesktop();
-//      desk.open(new File (NewDir.file_dir));
-        
-    }
+//    @FXML
+//    void openrecipesfolderaction(ActionEvent event) throws IOException {
+//
+////      Desktop desk=Desktop.getDesktop();
+////      desk.open(new File (NewDir.file_dir));
+//        
+//    }
   
-  @FXML
-  void contentaction(KeyEvent event) {
-    if (this.date.isSelected()) {
-      this.table.getColumns().clear();
-      ObservableList<ObservableList> data = FXCollections.observableArrayList();
-      try {
-        String sql = "select * from Creation where Date=?";
-        this.pst = this.conn.prepareStatement(sql);
-        this.pst.setString(1, this.content.getText());
-        this.rs = this.pst.executeQuery();
-        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
-          final int j = i;
-          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
-          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
-                }
-              });
-          this.table.getColumns().addAll(new Object[] { col });
-        } 
-        while (this.rs.next()) {
-          ObservableList<String> row = FXCollections.observableArrayList();
-          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
-            row.add(this.rs.getString(j)); 
-          data.add(row);
-        } 
-        this.table.setItems(data);
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-      } finally {
-        try {
-          this.rs.close();
-          this.pst.close();
-        } catch (Exception exception) {}
-      } 
-    } else if (this.name.isSelected()) {
-      this.table.getColumns().clear();
-      ObservableList<ObservableList> data = FXCollections.observableArrayList();
-      try {
-        String sql = "select * from Creation where Name=?";
-        this.pst = this.conn.prepareStatement(sql);
-        this.pst.setString(1, this.content.getText());
-        this.rs = this.pst.executeQuery();
-        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
-          final int j = i;
-          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
-          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
-                }
-              });
-          this.table.getColumns().addAll(new Object[] { col });
-        } 
-        while (this.rs.next()) {
-          ObservableList<String> row = FXCollections.observableArrayList();
-          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
-            row.add(this.rs.getString(j)); 
-          data.add(row);
-        } 
-        this.table.setItems(data);
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-      } finally {
-        try {
-          this.rs.close();
-          this.pst.close();
-        } catch (Exception exception) {}
-      } 
-    } else if (this.model.isSelected()) {
-      this.table.getColumns().clear();
-      ObservableList<ObservableList> data = FXCollections.observableArrayList();
-      try {
-        String sql = "select * from Creation where Model=?";
-        this.pst = this.conn.prepareStatement(sql);
-        this.pst.setString(1, this.content.getText());
-        this.rs = this.pst.executeQuery();
-        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
-          final int j = i;
-          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
-          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
-                }
-              });
-          this.table.getColumns().addAll(new Object[] { col });
-        } 
-        while (this.rs.next()) {
-          ObservableList<String> row = FXCollections.observableArrayList();
-          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
-            row.add(this.rs.getString(j)); 
-          data.add(row);
-        } 
-        this.table.setItems(data);
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-      } finally {
-        try {
-          this.rs.close();
-          this.pst.close();
-        } catch (Exception exception) {}
-      } 
-    } else if (this.stage.isSelected()) {
-      this.table.getColumns().clear();
-      ObservableList<ObservableList> data = FXCollections.observableArrayList();
-      try {
-        String sql = "select * from Creation where Stage=?";
-        this.pst = this.conn.prepareStatement(sql);
-        this.pst.setString(1, this.content.getText());
-        this.rs = this.pst.executeQuery();
-        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
-          final int j = i;
-          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
-          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
-                }
-              });
-          this.table.getColumns().addAll(new Object[] { col });
-        } 
-        while (this.rs.next()) {
-          ObservableList<String> row = FXCollections.observableArrayList();
-          for (int j = 1; j<=rs.getMetaData().getColumnCount(); j++) 
-            row.add(this.rs.getString(j)); 
-          data.add(row);
-        } 
-        this.table.setItems(data);
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-      } finally {
-        try {
-          this.rs.close();
-          this.pst.close();
-        } catch (Exception exception) {}
-      } 
-    } else {
-      Image img = new Image(getClass().getResourceAsStream("kadysoft.png"));
-      ImageView imgview = new ImageView();
-      imgview.setImage(img);
-      Notifications noti = Notifications.create();
-      noti.title("Error");
-      noti.text("Please Choose One Filter Type.");
-      noti.graphic(imgview);
-      noti.position(Pos.CENTER);
-      noti.show();
-    } 
-  }
-  
+//  @FXML
+//  void contentaction(KeyEvent event) {
+//    if (this.date.isSelected()) {
+//      this.table.getColumns().clear();
+//      ObservableList<ObservableList> data = FXCollections.observableArrayList();
+//      try {
+//        String sql = "select * from Creation where Date=?";
+//        this.pst = this.conn.prepareStatement(sql);
+//        this.pst.setString(1, this.content.getText());
+//        this.rs = this.pst.executeQuery();
+//        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
+//          final int j = i;
+//          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
+//          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+//                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
+//                }
+//              });
+//          this.table.getColumns().addAll(new Object[] { col });
+//        } 
+//        while (this.rs.next()) {
+//          ObservableList<String> row = FXCollections.observableArrayList();
+//          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
+//            row.add(this.rs.getString(j)); 
+//          data.add(row);
+//        } 
+//        this.table.setItems(data);
+//      } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, e);
+//      } finally {
+//        try {
+//          this.rs.close();
+//          this.pst.close();
+//        } catch (Exception exception) {}
+//      } 
+//    } else if (this.name.isSelected()) {
+//      this.table.getColumns().clear();
+//      ObservableList<ObservableList> data = FXCollections.observableArrayList();
+//      try {
+//        String sql = "select * from Creation where Name=?";
+//        this.pst = this.conn.prepareStatement(sql);
+//        this.pst.setString(1, this.content.getText());
+//        this.rs = this.pst.executeQuery();
+//        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
+//          final int j = i;
+//          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
+//          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+//                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
+//                }
+//              });
+//          this.table.getColumns().addAll(new Object[] { col });
+//        } 
+//        while (this.rs.next()) {
+//          ObservableList<String> row = FXCollections.observableArrayList();
+//          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
+//            row.add(this.rs.getString(j)); 
+//          data.add(row);
+//        } 
+//        this.table.setItems(data);
+//      } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, e);
+//      } finally {
+//        try {
+//          this.rs.close();
+//          this.pst.close();
+//        } catch (Exception exception) {}
+//      } 
+//    } else if (this.model.isSelected()) {
+//      this.table.getColumns().clear();
+//      ObservableList<ObservableList> data = FXCollections.observableArrayList();
+//      try {
+//        String sql = "select * from Creation where Model=?";
+//        this.pst = this.conn.prepareStatement(sql);
+//        this.pst.setString(1, this.content.getText());
+//        this.rs = this.pst.executeQuery();
+//        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
+//          final int j = i;
+//          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
+//          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+//                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
+//                }
+//              });
+//          this.table.getColumns().addAll(new Object[] { col });
+//        } 
+//        while (this.rs.next()) {
+//          ObservableList<String> row = FXCollections.observableArrayList();
+//          for (int j = 1; j <= this.rs.getMetaData().getColumnCount(); j++)
+//            row.add(this.rs.getString(j)); 
+//          data.add(row);
+//        } 
+//        this.table.setItems(data);
+//      } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, e);
+//      } finally {
+//        try {
+//          this.rs.close();
+//          this.pst.close();
+//        } catch (Exception exception) {}
+//      } 
+//    } else if (this.stage.isSelected()) {
+//      this.table.getColumns().clear();
+//      ObservableList<ObservableList> data = FXCollections.observableArrayList();
+//      try {
+//        String sql = "select * from Creation where Stage=?";
+//        this.pst = this.conn.prepareStatement(sql);
+//        this.pst.setString(1, this.content.getText());
+//        this.rs = this.pst.executeQuery();
+//        for (int i = 0; i < this.rs.getMetaData().getColumnCount(); i++) {
+//          final int j = i;
+//          TableColumn<Object, Object> col = new TableColumn<>(this.rs.getMetaData().getColumnName(i + 1));
+//          col.setCellValueFactory((Callback)new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+//                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+//                  return new SimpleStringProperty(((ObservableList<String>)param.getValue()).get(j).toString());
+//                }
+//              });
+//          this.table.getColumns().addAll(new Object[] { col });
+//        } 
+//        while (this.rs.next()) {
+//          ObservableList<String> row = FXCollections.observableArrayList();
+//          for (int j = 1; j<=rs.getMetaData().getColumnCount(); j++) 
+//            row.add(this.rs.getString(j)); 
+//          data.add(row);
+//        } 
+//        this.table.setItems(data);
+//      } catch (Exception e) {
+//        JOptionPane.showMessageDialog(null, e);
+//      } finally {
+//        try {
+//          this.rs.close();
+//          this.pst.close();
+//        } catch (Exception exception) {}
+//      } 
+//    } else {
+//      Image img = new Image(getClass().getResourceAsStream("kadysoft.png"));
+//      ImageView imgview = new ImageView();
+//      imgview.setImage(img);
+//      Notifications noti = Notifications.create();
+//      noti.title("Error");
+//      noti.text("Please Choose One Filter Type.");
+//      noti.graphic(imgview);
+//      noti.position(Pos.CENTER);
+//      noti.show();
+//    } 
+//  }
+//  
   
   
   
@@ -3486,12 +3468,9 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
 public void initialize(URL url, ResourceBundle rb) {
     
     
-     try {
-            String fontPath = System.getProperty("user.home")+"\\AppData\\Roaming\\Alpha_Planning\\Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
-            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
-        } catch (FileNotFoundException ex) {
-           
-        }
+   
+    
+    
   
     
     this.conn = db.java_db();
@@ -3905,10 +3884,10 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
     Toolkit tool = Toolkit.getDefaultToolkit();
     tool.setLockingKeyState(20, true);
     this.tg = new ToggleGroup();
-    this.date.setToggleGroup(this.tg);
-    this.stage.setToggleGroup(this.tg);
-    this.name.setToggleGroup(this.tg);
-    this.model.setToggleGroup(this.tg);
+//    this.date.setToggleGroup(this.tg);
+//    this.stage.setToggleGroup(this.tg);
+//    this.name.setToggleGroup(this.tg);
+//    this.model.setToggleGroup(this.tg);
     Date currentDate = GregorianCalendar.getInstance().getTime();
     DateFormat df = DateFormat.getDateInstance();
     String dateString = df.format(currentDate);
@@ -3916,7 +3895,7 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     String timeString = sdf.format(d);
     String value1 = dateString;
-    this.content.setText(timeString);
+//    this.content.setText(timeString);
     this.conn = db.java_db();
     
    
@@ -3934,16 +3913,16 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
     
         
    getallbtn.fire();
-   marque.getEngine().setJavaScriptEnabled(true);
-     try {
-          BufferedReader buf = new BufferedReader(new FileReader("Doaa.kady"));
-          imoo1=buf.readLine().replace("X:",drib+":");
-          buf.close();   
-          } catch (IOException ex) {}
-
-   URI uri = Paths.get(imoo1).toAbsolutePath().toUri();
-   marque.getEngine().load(uri.toString());
-   
+//   marque.getEngine().setJavaScriptEnabled(true);
+//     try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Doaa.kady"));
+//          imoo1=buf.readLine().replace("X:",drib+":");
+//          buf.close();   
+//          } catch (IOException ex) {}
+//
+//   URI uri = Paths.get(imoo1).toAbsolutePath().toUri();
+//   marque.getEngine().load(uri.toString());
+//   
 //   marque.getEngine().loadContent(coode.getText());
     
 
@@ -4164,6 +4143,7 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
 
         // وضع VBox داخل GridPane
         GridPane gridpane = new GridPane();
+        gridpane.setStyle("-fx-font-family: 'Cairo SemiBold';");
         gridpane.setPadding(new Insets(10));
         gridpane.setAlignment(Pos.CENTER);
         gridpane.add(vbox, 0, 0);
@@ -4277,7 +4257,7 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
         notificationLabel.setWrapText(true);
         notificationLabel.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         notificationLabel.setStyle(
-            "-fx-font-family: 'Arial';" +
+            "-fx-font-family: 'Cairo SemiBold';" +
             "-fx-font-weight: bold;" +
             "-fx-font-size: 18px;" +
             "-fx-text-fill: #222222;" +
@@ -4962,6 +4942,17 @@ textTimeline.play();
 
 }
 catch (Exception gg) {}
+
+
+
+
+    
+     try {
+            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
+        } catch (FileNotFoundException ex) {
+           
+        }
 
 
 

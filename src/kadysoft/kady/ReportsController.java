@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -1174,6 +1175,13 @@ datatable.getColumns().clear();
     String value1 = timeString;
     
 
+      try {
+            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
+        } catch (FileNotFoundException ex) {
+           
+        }
+    
         
     }    
     
