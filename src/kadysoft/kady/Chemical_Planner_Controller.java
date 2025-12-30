@@ -3114,7 +3114,7 @@ String code = lili.getText();
         l5.getItems().clear();
         l6.getItems().clear();
         l7.getItems().clear();
-        l8.getItems().clear();
+        l8.getItems().clear();   
         l9.getItems().clear();
         l10.getItems().clear();
         l11.getItems().clear();

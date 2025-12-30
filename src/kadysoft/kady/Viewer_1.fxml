@@ -32,7 +32,7 @@
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <TableView fx:id="table" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="table" editable="true" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <effect>
                         <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
                      </effect></TableView>
@@ -43,6 +43,7 @@
                         <WebView fx:id="addo" prefHeight="243.0" prefWidth="1313.0" />
                         <StackPane>
                            <children>
+                              <JFXTextArea fx:id="coode" prefHeight="45.0" prefWidth="1112.0" visible="false" />
                               <HBox alignment="CENTER" prefHeight="59.0" prefWidth="1313.0" spacing="15.0">
                                  <children>
                                     <JFXButton fx:id="getallbtn1" buttonType="RAISED" minHeight="21.0" onAction="#getall1action" style="-fx-background-radius: 3em; -fx-background-color: transparent;" styleClass="refresh" textFill="WHITE">
@@ -139,7 +140,6 @@
             </BorderPane>
          </children>
       </StackPane>
-      <JFXTextArea fx:id="coode" prefHeight="52.0" prefWidth="30.0" visible="false" />
       <Label fx:id="link" text="Label" visible="false" />
    </children>
    <stylesheets>
