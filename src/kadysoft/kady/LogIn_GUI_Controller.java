@@ -99,6 +99,30 @@ public class LogIn_GUI_Controller  implements Initializable {
   @FXML
   private Hyperlink forgotpasswordbtn;
   
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+  
+  
   HingeTransition pt4;
   
   Connection conn = null;
@@ -578,6 +602,21 @@ public class LogIn_GUI_Controller  implements Initializable {
             Stage stg = new Stage();
             Parent root = FXMLLoader.<Parent>load(getClass().getResource("Viewer_1.fxml"));
             Scene sce = new Scene(root);
+            
+                   //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        sce.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
+            
             sce.getStylesheets().add("table-cell-color-example.css");
             stg.setTitle("Viewer Controller");
             stg.centerOnScreen();
@@ -921,7 +960,7 @@ fileCheckTimer = new Timer(true); // Daemon thread
 fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
     @Override
     public void run() {
-        File file = new File("CAUTION.kady");
+        File file = new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Caution"));
         if (!file.exists()) {
 
             //////////////////////////////////////////////////////////////////////////
@@ -960,7 +999,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
                     shutdownApp();
                 });
                 dialogPaneo.getStylesheets().add(
-                        getClass().getResource("cupertino-light.css").toExternalForm()
+                        getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm()
                 );
 
                 // show alert (non-blocking)

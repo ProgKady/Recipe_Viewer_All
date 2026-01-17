@@ -924,12 +924,12 @@ public class New_Entry_Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
        
         
-        try {
-          BufferedReader buf = new BufferedReader(new FileReader("HR_Data.kady"));
-          imoo1=buf.readLine();
-          ref.setText(imoo1);
-          buf.close();   
-          } catch (IOException ex) {}
+//        try {
+//          BufferedReader buf = new BufferedReader(new FileReader("HR_Data.kady"));
+//          imoo1=buf.readLine();
+//          ref.setText(imoo1);
+//          buf.close();   
+//          } catch (IOException ex) {}
         
         
         Filee=ref.getText();

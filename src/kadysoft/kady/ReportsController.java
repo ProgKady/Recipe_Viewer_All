@@ -5,10 +5,12 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -85,7 +87,26 @@ public class ReportsController implements Initializable {
     
     
     
-    
+////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
     
@@ -103,7 +124,7 @@ ButtonType buttonTypeOneh = new ButtonType("DEVELOPMENT");
 ButtonType buttonTypeCancelh = new ButtonType("PRODUCTION");
 alerth.getButtonTypes().setAll(buttonTypeOneh, buttonTypeCancelh);
 DialogPane dialogPaneih = alerth.getDialogPane();
-dialogPaneih.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+dialogPaneih.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 Optional<ButtonType> resultsh = alerth.showAndWait();
 
 if (resultsh.isPresent() && resultsh.get() == buttonTypeOneh) {
@@ -470,7 +491,7 @@ ButtonType buttonTypeOneh = new ButtonType("DEVELOPMENT");
 ButtonType buttonTypeCancelh = new ButtonType("PRODUCTION");
 alerth.getButtonTypes().setAll(buttonTypeOneh, buttonTypeCancelh);
 DialogPane dialogPaneih = alerth.getDialogPane();
-dialogPaneih.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+dialogPaneih.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 Optional<ButtonType> resultsh = alerth.showAndWait();
 
 if (resultsh.isPresent() && resultsh.get() == buttonTypeOneh) {
@@ -486,7 +507,7 @@ ButtonType buttonTypeOne = new ButtonType("2 Shots");
 ButtonType buttonTypeCancel = new ButtonType("3,4,5,6 Shots");
 alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 DialogPane dialogPanei = alert.getDialogPane();
-dialogPanei.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+dialogPanei.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 Optional<ButtonType> results = alert.showAndWait();
 if (results.isPresent() && results.get() == buttonTypeOne) {
     
@@ -663,7 +684,7 @@ ButtonType buttonTypeOner = new ButtonType("PRODUCTION");
 ButtonType buttonTypeCancelr = new ButtonType("PILOT");
 alertr.getButtonTypes().setAll(buttonTypeOner, buttonTypeCancelr);
 DialogPane dialogPaneir = alertr.getDialogPane();
-dialogPaneir.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+dialogPaneir.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 Optional<ButtonType> resultsr = alertr.showAndWait();
 if (resultsr.isPresent() && resultsr.get() == buttonTypeOner) {
     
@@ -677,7 +698,7 @@ ButtonType buttonTypeOne = new ButtonType("2 Shots");
 ButtonType buttonTypeCancel = new ButtonType("3 Shots");
 alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
 DialogPane dialogPanei = alert.getDialogPane();
-dialogPanei.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+dialogPanei.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 Optional<ButtonType> results = alert.showAndWait();
 if (results.isPresent() && results.get() == buttonTypeOne) {
     
@@ -1176,8 +1197,8 @@ datatable.getColumns().clear();
     
 
       try {
-            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
-            javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
+        String fontPath = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Fonts"); // غيّر المسار حسب مكان الخط عندك
+        javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
         } catch (FileNotFoundException ex) {
            
         }

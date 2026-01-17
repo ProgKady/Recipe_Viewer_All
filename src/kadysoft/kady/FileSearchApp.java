@@ -2,6 +2,7 @@ package kadysoft.kady;
 
 
 
+import java.io.BufferedReader;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -31,12 +33,35 @@ public class FileSearchApp extends Application {
 
     private TextArea textArea;
     private TextField searchField;
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
 
     @Override
     public void start(Stage primaryStage) {
         
         try {
-            String fontPath = System.getProperty("user.home")+"\\AppData\\Roaming\\Alpha_Planning\\Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            String fontPath = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Fonts"); // غيّر المسار حسب مكان الخط عندك
             Font cairoSemiBold = Font.loadFont(new FileInputStream(fontPath), 18);
         } catch (FileNotFoundException ex) {
           
@@ -78,7 +103,7 @@ public class FileSearchApp extends Application {
         Scene scene = new Scene(bp, 1700, 900);
         
         // Apply Cupertino Light theme
-        scene.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
         // Drag over
         scene.setOnDragOver((DragEvent event) -> {
             if (event.getGestureSource() != textArea && event.getDragboard().hasFiles()) {

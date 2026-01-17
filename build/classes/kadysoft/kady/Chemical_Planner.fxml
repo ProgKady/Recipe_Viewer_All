@@ -103,7 +103,7 @@
                                     <ListView fx:id="l4" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                                     <ListView fx:id="l5" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                                     <ListView fx:id="l6" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                                    <ListView fx:id="l7" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    <ListView fx:id="l7" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                     <ListView fx:id="l8" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <ListView fx:id="l9" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <ListView fx:id="l10" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="3" />

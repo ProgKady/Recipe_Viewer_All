@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -53,6 +54,27 @@ public class Main extends Application {
     
     public static String diro;
     
+    
+       ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
    public void start(Stage stage) throws Exception {
@@ -117,6 +139,21 @@ public class Main extends Application {
        
       Parent root = (Parent)FXMLLoader.load(this.getClass().getResource("LogIn_GUI.fxml"));
       Scene scene = new Scene(root);
+      
+       //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        scene.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
+      
       stage.setTitle("Recipe Maker By Kadysoft Ltd.");
       stage.centerOnScreen();
       stage.setResizable(false);
@@ -125,12 +162,12 @@ public class Main extends Application {
       stage.getIcons().add(new Image(Main.class.getResourceAsStream("washing.png")));
       //Platform.setImplicitExit(false);
 stage.show();
-stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-    @Override
-    public void handle(WindowEvent event) {
-        event.consume();
-    }
-});
+//stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//    @Override
+//    public void handle(WindowEvent event) {
+//        event.consume();
+//    }
+//});
       
  //////////////////////////////////////////////////////////////////////////
       

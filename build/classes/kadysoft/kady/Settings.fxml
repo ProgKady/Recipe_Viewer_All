@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="850.0" prefWidth="1312.0" style="-fx-font-family: &quot;Cairo SemiBold&quot;;" stylesheets="@cupertino-light.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kadysoft.kady.SettingsController">
+   <center>
+      <JFXTabPane BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="DataBase">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1312.0" spacing="20.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <JFXTextField fx:id="db_field" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="Choose database to start ..." style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                 <effect>
+                                    <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                 </effect>
+                              </JFXTextField>
+                              <JFXButton buttonType="RAISED" onAction="#db_browseaction" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                              <JFXButton buttonType="RAISED" layoutX="428.0" layoutY="30.0" onAction="#test_dbaction" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Test Connection" />
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </HBox>
+                     </top>
+                     <bottom>
+                        <TitledPane prefHeight="200.0" prefWidth="200.0" text="Log" BorderPane.alignment="CENTER">
+                           <content>
+                              <JFXTextArea fx:id="log_area" editable="false" labelFloat="true" promptText="Logs will drop here ..." />
+                           </content>
+                        </TitledPane>
+                     </bottom></BorderPane>
+               </content>
+            </Tab>
+            <Tab text="Adds On">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <center>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="TOP_CENTER">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Recipes" />
+                                          <JFXTextField fx:id="tf1" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: X:\\Recipe_System\\Recipes" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse1action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="20.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Mod Recipes" />
+                                          <JFXTextField fx:id="tf2" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: X:\\Models\\Recipes" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse2action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="192.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Recipe System" />
+                                          <JFXTextField fx:id="tf4" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: X:\\Recipe_System" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse4action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="450.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Font" />
+                                          <JFXTextField fx:id="tf7" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: Z:\\Fonts.ttf" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse7action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="536.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Themes" />
+                                          <JFXTextField fx:id="tf8" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: Roaming\\Alpha_Planning\\Themes.css" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse8action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                          <JFXRadioButton fx:id="light" onAction="#lightaction" selected="true" text="Light">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="4.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXRadioButton>
+                                          <JFXRadioButton fx:id="dark" layoutX="592.0" layoutY="35.0" onAction="#darkaction" text="Dark">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="4.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXRadioButton>
+                                          <Label fx:id="note" style="-fx-font-weight: bold; -fx-text-fill: red;" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="622.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Main Editor" />
+                                          <JFXTextField fx:id="tf9" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: D:\\Editor\\wysiwyg\\full.html" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse9action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="687.0" prefHeight="71.0" prefWidth="1292.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15;">
+                                       <effect>
+                                          <DropShadow height="25.0" offsetY="3.0" radius="12.0" width="25.0" />
+                                       </effect>
+                                       <children>
+                                          <Label text="Path To Recipes" />
+                                          <JFXTextField fx:id="tf11" editable="false" labelFloat="true" prefHeight="32.0" prefWidth="386.0" promptText="For Example: W" style="-fx-font-weight: bold; -fx-text-fill: black; -jfx-focus-color: transparent; -jfx-unfocus-color: transparent; -fx-background-radius: 15;">
+                                             <effect>
+                                                <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
+                                             </effect>
+                                          </JFXTextField>
+                                          <JFXButton buttonType="RAISED" onAction="#browse11action" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Browse" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </center></BorderPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+            <Tab text="About">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <ImageView fitHeight="739.0" fitWidth="794.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                           <image>
+                              <Image url="@aboutttt.png" />
+                           </image>
+                        </ImageView>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="1312.0" spacing="30.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets left="30.0" />
+         </padding>
+         <children>
+            <JFXButton fx:id="save" buttonType="RAISED" onAction="#saveaction" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Save" />
+            <JFXButton buttonType="RAISED" layoutX="40.0" layoutY="28.0" onAction="#discardction" style="-fx-background-color: #007aff; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-radius: 15;" text="Discard" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

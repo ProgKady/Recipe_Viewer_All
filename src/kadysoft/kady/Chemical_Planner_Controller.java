@@ -1,7 +1,6 @@
 package kadysoft.kady;
 
 
-
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
@@ -282,7 +281,7 @@ public class Chemical_Planner_Controller implements Initializable {
     
     public static String patcchh,messagee;
     
-    public static String letterr;
+    
     
     @FXML
     private JFXCheckBox skiperr;
@@ -295,6 +294,31 @@ public class Chemical_Planner_Controller implements Initializable {
     private JFXButton delsel;
     
     public static int skippp=0;
+    
+    
+    
+       ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        public static String letterr=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes_Path");
     
      @FXML
 void fixnamesaction(ActionEvent event) throws IOException, IOException, ClassNotFoundException {
@@ -570,7 +594,7 @@ void planallaction(ActionEvent event) throws FileNotFoundException, IOException,
                 reportAlert.getDialogPane().setPrefSize(600, 350);
                 DialogPane dialogPaneu = reportAlert.getDialogPane();
                 dialogPaneu.getStylesheets().add(
-              getClass().getResource("cupertino-light.css").toExternalForm());
+              getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
                 reportAlert.showAndWait();
 
                 // إشعار سريع
@@ -648,14 +672,14 @@ private boolean processRecipeFile(String filePath, String recipeName, String mod
                 // إزالة الفلتر القاسي اللي كان بيستبعد أي اسم فيه رقم أو - أو _
                 // دلوقتي بنعتمد بشكل أساسي على وجود السعر في ملف Prices.kady
 
-                String price = findValueInKadyFile(chemName, NewDir.file_dirrrr.replace("X:",drib+":") + "\\Recipe_Indexes\\Prices.kady", "=$");
+                String price = findValueInKadyFile(chemName, getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipe_System") + "\\Recipe_Indexes\\Prices.kady", "=$");
                 if (price == null || price.isEmpty()) {
                     skippedChemicals++;
                     // System.out.println("Skipped (no price found): " + chemName); // للتشخيص المؤقت
                     continue;
                 }
 
-                String dilution = findValueInKadyFile(chemName, NewDir.file_dirrrr.replace("X:",drib+":") + "\\Recipe_Indexes\\Dilution.kady", "=");
+                String dilution = findValueInKadyFile(chemName, getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipe_System") + "\\Recipe_Indexes\\Dilution.kady", "=");
                 if (dilution == null || dilution.isEmpty()) dilution = "1.0";
 
                 String amountStr = tds.get(5).text().trim().replace(",", ".");
@@ -2269,7 +2293,7 @@ pwe.close();
         alo.setResizable(false);
         DialogPane dialogPane = alo.getDialogPane();
         dialogPane.getStylesheets().add(
-      getClass().getResource("primer-dark.css").toExternalForm());
+      getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
         alo.showAndWait();
         sheetnam=gr.getText();
                 
@@ -2652,7 +2676,7 @@ String code = lili.getText();
 
                 if (!tds.get(7).text().isEmpty()) {
                     String string = tds.get(7).text();
-                    BufferedReader buf = new BufferedReader(new FileReader(NewDir.file_dirrrr + "\\Recipe_Indexes\\Chemical_Dictionary.kady"));
+                    BufferedReader buf = new BufferedReader(new FileReader(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipe_System") + "\\Recipe_Indexes\\Chemical_Dictionary.kady"));
                     String line;
                     String linebeforeequal = null;
                     String lineafterequal;
@@ -3136,7 +3160,7 @@ if (tds.get(8).text().isEmpty()||tds.get(8).text().contains("OLD STONE")) {
 }
 else { 
 String string = tds.get(8).text();
-BufferedReader buf = new BufferedReader(new FileReader(NewDir.file_dirrrr.replace("X:",drib+":") + "\\Recipe_Indexes\\Prices.kady"));
+BufferedReader buf = new BufferedReader(new FileReader(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipe_System") + "\\Recipe_Indexes\\Prices.kady"));
 String line;
 String linebeforeequal;
 String lineafterequal;
@@ -3213,7 +3237,7 @@ if (tds.get(8).text().isEmpty()||tds.get(8).text().contains("/")||tds.get(8).tex
 }
 else {  
 String string = tds.get(8).text();
-BufferedReader buf = new BufferedReader(new FileReader(NewDir.file_dirrrr.replace("X:",drib+":") + "\\Recipe_Indexes\\Dilution.kady"));
+BufferedReader buf = new BufferedReader(new FileReader(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipe_System") + "\\Recipe_Indexes\\Dilution.kady"));
 String line;
 boolean found = false;
 while ((line = buf.readLine()) != null) {
@@ -3591,7 +3615,7 @@ System.out.println(selectedItem);
         lin1=model.getSelectionModel().getSelectedItem().toString();
         lin2=recipe.getSelectionModel().getSelectedItem().toString();
         woow=lin2;
-        lin3=NewDir.file_dir.replace("X:",drib+":")+"\\PRODUCTION\\"+lin1+"\\"+lin2+".ks";  //Path To Recipe.
+        lin3=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes")+"\\PRODUCTION\\"+lin1+"\\"+lin2+".ks";  //Path To Recipe.
         
         //Read File Here//////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3765,29 +3789,29 @@ adddbtn.fire();
         this.conn = db.java_db();
         
         
-         useb=System.getProperty("user.name");
-    try {
-          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));
-          drib=buf.readLine();
-          buf.close();   
-          } catch (IOException ex) {       
-      //Alert
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Fatal Error");
-      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
-      alert.setResizable(false);
-      DialogPane dialogPane = alert.getDialogPane();
-      dialogPane.getStylesheets().add(
-    getClass().getResource("cupertino-dark.css").toExternalForm());
-      alert.showAndWait();
-      
-      Stage jk = (Stage)this.patch.getScene().getWindow();
-      jk.close();
-          }
+//         useb=System.getProperty("user.name");
+//    try {
+//          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));
+//          drib=buf.readLine();
+//          buf.close();   
+//          } catch (IOException ex) {       
+//      //Alert
+//      Alert alert = new Alert(Alert.AlertType.WARNING);
+//      alert.setTitle("Fatal Error");
+//      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
+//      alert.setResizable(false);
+//      DialogPane dialogPane = alert.getDialogPane();
+//      dialogPane.getStylesheets().add(
+//    getClass().getResource("cupertino-dark.css").toExternalForm());
+//      alert.showAndWait();
+//      
+//      Stage jk = (Stage)this.patch.getScene().getWindow();
+//      jk.close();
+//          }
         
        
      
-    models_file_path=NewDir.file_dirr.replace("X:",drib+":")+"\\Models.kady";
+    models_file_path=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes")+"\\Models.kady";
     recipes_folder=NewDir.file_dir.replace("X:",drib+":");
     
     
@@ -3932,7 +3956,7 @@ recipelistall.setCellFactory(TextFieldListCell.forListView());
     
 
   try {
-            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            String fontPath = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Fonts"); // غيّر المسار حسب مكان الخط عندك
             javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
         } catch (FileNotFoundException ex) {
            
@@ -3999,14 +4023,14 @@ recipelistall.setCellFactory(TextFieldListCell.forListView());
                                     if (!recipelistall.getItems().contains(name)) {
                                         
                                         
-                                        try {
-          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
-          letterr=buf.readLine().replace("X:",drib);
-          buf.close();
-      }
-      catch (Exception m) {
-          
-      }
+//                                        try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
+//          letterr=buf.readLine().replace("X:",drib);
+//          buf.close();
+//      }
+//      catch (Exception m) {
+//          
+//      }
       String pathy = name.replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
                                     recipelistall.getItems().add(pathy);
                                     }

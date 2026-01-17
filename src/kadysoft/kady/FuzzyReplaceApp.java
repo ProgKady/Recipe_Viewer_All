@@ -24,6 +24,27 @@ public class FuzzyReplaceApp extends Application {
     JFXTextArea referenceArea;
     JFXTextArea dataArea;
     public static String useb,drib;
+    
+       ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void start(Stage primaryStage) throws IOException, ClassNotFoundException {
@@ -87,7 +108,7 @@ public class FuzzyReplaceApp extends Application {
         Scene scene = new Scene(layout, 700, 600);
 
         ////////////// Theme Loader //////////////
-        BufferedReader bis = new BufferedReader(new FileReader("Themes.kady"));
+        BufferedReader bis = new BufferedReader(new FileReader(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")));
         String themooo = bis.readLine();
         bis.close();
         URL cssUrl = getClass().getResource(themooo);
@@ -125,10 +146,10 @@ public class FuzzyReplaceApp extends Application {
         String result = "";
         referenceArea.clear();
 
-        File settings = new File("DataBasesInfo.kady");
-        String recipeDBPath = getRecipeDBPath(settings);
+        //File settings = new File("DataBasesInfo.kady");
+        //String recipeDBPath = getRecipeDBPath(settings);
         Class.forName("org.sqlite.JDBC");
-        String db2Path = "jdbc:sqlite:" + recipeDBPath;
+        String db2Path = "jdbc:sqlite:" + getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "DataBase");
         String query = "SELECT * FROM Creation";
         try (Connection conn2 = DriverManager.getConnection(db2Path);
              PreparedStatement pst2 = conn2.prepareStatement(query);
@@ -148,34 +169,34 @@ public class FuzzyReplaceApp extends Application {
         return result;
     }
 
-    public String getRecipeDBPath(File settingsFile) {
-        
-      useb=System.getProperty("user.name");
-      try {
-          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));
-          drib=buf.readLine();
-          buf.close();   
-          } catch (IOException ex) {       
-      //Alert
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Fatal Error");
-      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
-      alert.setResizable(false);
-      alert.showAndWait();
-          }
-        
-        
-        try (BufferedReader reader = new BufferedReader(new FileReader(settingsFile))) {
-           
-           String db_path=reader.readLine().replace("X:",drib+":");
-           return db_path; 
-                
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    public String getRecipeDBPath(File settingsFile) {
+//        
+//      useb=System.getProperty("user.name");
+//      try {
+//          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));
+//          drib=buf.readLine();
+//          buf.close();   
+//          } catch (IOException ex) {       
+//      //Alert
+//      Alert alert = new Alert(Alert.AlertType.WARNING);
+//      alert.setTitle("Fatal Error");
+//      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
+//      alert.setResizable(false);
+//      alert.showAndWait();
+//          }
+//        
+//        
+//        try (BufferedReader reader = new BufferedReader(new FileReader(settingsFile))) {
+//           
+//           String db_path=reader.readLine().replace("X:",drib+":");
+//           return db_path; 
+//                
+//            
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public static void main(String[] args) {
         launch(args);

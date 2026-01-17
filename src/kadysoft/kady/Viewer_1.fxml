@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -32,10 +33,7 @@
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <TableView fx:id="table" editable="true" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-                     <effect>
-                        <DropShadow height="25.0" offsetY="6.0" radius="12.0" width="25.0" />
-                     </effect></TableView>
+                  <TableView fx:id="table" editable="true" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <VBox prefHeight="302.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
@@ -125,7 +123,7 @@
                                           <DropShadow />
                                        </effect>
                                     </JFXButton>
-                                    <JFXButton fx:id="performance" buttonType="RAISED" onAction="#performanceaction" style="-fx-background-color: transparent; -fx-font-weight: bold;" styleClass="performance" stylesheets="@CSS.css" />
+                                    <JFXButton fx:id="performance" buttonType="RAISED" disable="true" onAction="#performanceaction" style="-fx-background-color: transparent; -fx-font-weight: bold;" styleClass="performance" stylesheets="@CSS.css" />
                                     <CheckBox fx:id="audit" mnemonicParsing="false" prefHeight="32.0" prefWidth="115.0" style="-fx-font-weight: bold; -fx-background-color: transparent; -fx-background-radius: 3em;" styleClass="audit" underline="true" />
                                  </children>
                                  <effect>
@@ -137,6 +135,20 @@
                      </children>
                   </VBox>
                </top>
+               <bottom>
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="1313.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="71.0" fitWidth="40.0" onMouseClicked="#settoaction" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@settings.gif" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </bottom>
             </BorderPane>
          </children>
       </StackPane>

@@ -168,6 +168,7 @@ import javafx.animation.FadeTransition;
 import javafx.geometry.Bounds;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
@@ -188,6 +189,27 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   
   ToggleGroup tg;
   
+  
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
   
   
   @FXML
@@ -233,7 +255,7 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   @FXML
   private JFXTextArea coode;
   
-  public static String letterr,imoo,imoo1,imoo2,hihi;
+  public static String imoo,imoo1,imoo2,hihi;
   
   @FXML
   private JFXButton seepilot,timer;
@@ -261,6 +283,8 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
     private double dx = 2; // سرعة X
     private double dy = 2; // سرعة Y
     private final Random random = new Random();
+    
+    public static String letterr=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes_Path");
   
   
     public static String lproduct,rproduct,tempraturee,ftank,etank,cdosage,timer_temprature,oldtimemin,oldtimehour,oldtimemin2,oldtimehour2,msg;
@@ -325,7 +349,7 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
 private int currentStep = 0;
 private List<TourStep> steps = new ArrayList<>();
 private Pane overlayPane;
-String CONFIG_FILE = "config.txt";
+//String CONFIG_FILE = "config.txt";
 @FXML private StackPane mainRoot;
 
 
@@ -353,8 +377,8 @@ String CONFIG_FILE = "config.txt";
      @FXML
     void coasteraction (ActionEvent event) throws IOException {
         
-    Desktop dfdsg=Desktop.getDesktop();
-    dfdsg.open(new File ("Coaster.exe"));
+    //Desktop dfdsg=Desktop.getDesktop();
+    //dfdsg.open(new File ("Coaster.exe"));
         
     }
     
@@ -372,6 +396,21 @@ String CONFIG_FILE = "config.txt";
     Stage stg = new Stage();
     Parent root = FXMLLoader.<Parent>load(getClass().getResource("Chemical_Planner.fxml"));
     Scene sce = new Scene(root);
+    
+           //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        sce.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
+    
     stg.setTitle("Chemical Plan");
     stg.setResizable(true);
     stg.setScene(sce);
@@ -420,7 +459,36 @@ String CONFIG_FILE = "config.txt";
     }
     
     
+     @FXML
+    void settoaction(MouseEvent event) throws IOException {
+
+    Stage stg = new Stage();
+    Parent root = FXMLLoader.<Parent>load(getClass().getResource("Settings.fxml"));
+    Scene sce = new Scene(root);
     
+        //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        sce.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
+    
+    stg.setTitle("Settings");
+    stg.setResizable(true);
+    stg.setScene(sce);
+    stg.setMaximized(true);
+    stg.centerOnScreen();
+    stg.getIcons().add(new javafx.scene.image.Image(Main.class.getResourceAsStream("washing.png")));
+    stg.show();
+        
+    }
     
     
     
@@ -794,7 +862,7 @@ pwe.close();
       alerto.setResizable(false);
       DialogPane dialogPaneo = alerto.getDialogPane();
       dialogPaneo.getStylesheets().add(
-    getClass().getResource("cupertino-light.css").toExternalForm());
+    getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
       Optional<ButtonType> optiono = alerto.showAndWait();
       passy=fss.getText();
       stonabathth=Double.parseDouble(passy);
@@ -886,7 +954,7 @@ pwe.close();
       alerto.setResizable(false);
       DialogPane dialogPaneo = alerto.getDialogPane();
       dialogPaneo.getStylesheets().add(
-    getClass().getResource("cupertino-light.css").toExternalForm());
+    getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
       Optional<ButtonType> optiono = alerto.showAndWait();
       passy=fss.getText();
       stonabathth=Double.parseDouble(passy);
@@ -976,7 +1044,7 @@ pwe.close();
       alertoo.setResizable(false);
       DialogPane dialogPaneoo = alertoo.getDialogPane();
       dialogPaneoo.getStylesheets().add(
-    getClass().getResource("cupertino-light.css").toExternalForm());
+    getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
       Optional<ButtonType> optionoio = alertoo.showAndWait();
       passyy=fsss.getText();
       stonabaththh=Double.parseDouble(passyy);
@@ -1074,7 +1142,7 @@ aloo.setHeaderText("Here is time for "+recipenami+"");
 aloo.setContentText("This Recipe Was One Shot:\nTime In Minutes=   "+gmf1+"."+"\nTime In Hours=   "+gdf1+".");
 DialogPane dialogPanej = aloo.getDialogPane();
 dialogPanej.getStylesheets().add(
-getClass().getResource("cupertino-light.css").toExternalForm());
+getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 aloo.showAndWait();
         
       /////////////////////////////////////////////////////////////////////////////////////////
@@ -1105,7 +1173,7 @@ aloo.setHeaderText("Here is time for "+recipenami+"");
 aloo.setContentText("This Recipe Was Two Shots:\nFirst Shot Info:\nTime In Minutes=   "+gmf1+"."+"\nTime In Hours=   "+gdf1+".\n\n"+"Second Shot Info:\nTime In Minutes=   "+gmf2+"."+"\nTime In Hours=   "+gdf2+".\n\n");
 DialogPane dialogPanej = aloo.getDialogPane();
 dialogPanej.getStylesheets().add(
-getClass().getResource("cupertino-light.css").toExternalForm());
+getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 aloo.showAndWait();
        
         /////////////////////////////////////////////////////////////////////////////////   
@@ -1195,7 +1263,7 @@ aloo.showAndWait();
       alerto.setResizable(false);
       DialogPane dialogPaneo = alerto.getDialogPane();
       dialogPaneo.getStylesheets().add(
-    getClass().getResource("cupertino-light.css").toExternalForm());
+    getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
       Optional<ButtonType> optiono = alerto.showAndWait();
       String passy=fss.getText();
       if (optiono.get() == null) {} 
@@ -1429,7 +1497,7 @@ aloo.showAndWait();
             al.setGraphic(kk);
             DialogPane dialogPane = al.getDialogPane();
             dialogPane.getStylesheets().add(
-          getClass().getResource("cupertino-light.css").toExternalForm());
+          getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
             al.showAndWait();
             
            
@@ -1454,6 +1522,19 @@ aloo.showAndWait();
     Stage stg = new Stage();
     Parent root = FXMLLoader.<Parent>load(getClass().getResource("Reports.fxml"));
     Scene sce = new Scene(root);
+           //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        sce.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
     stg.setTitle("Create Report");
     stg.setResizable(true);
     stg.setMaximized(true);
@@ -1707,7 +1788,7 @@ aloo.showAndWait();
             al.setGraphic(kk);
             DialogPane dialogPane = al.getDialogPane();
             dialogPane.getStylesheets().add(
-          getClass().getResource("cupertino-light.css").toExternalForm());
+          getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
             al.showAndWait();
             
            
@@ -1759,14 +1840,14 @@ aloo.showAndWait();
         }
         
         else {
-      try {
-          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
-          letterr=buf.readLine().replace("X:",drib);
-          buf.close();
-      }
-      catch (Exception m) {
-          
-      }
+//      try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
+//          letterr=buf.readLine().replace("X:",drib);/
+//          buf.close();
+//      }
+//      catch (Exception m) {
+//          
+//      }
       String pathy = link.getText().replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
       File op = new File(pathy);
       
@@ -1955,7 +2036,7 @@ aloo.showAndWait();
         alol.setTitle("Preview a recipe");
         DialogPane dialogPane = alol.getDialogPane();
         dialogPane.setContent(gridpane);
-        dialogPane.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
         alol.setResizable(true);
         alol.showAndWait();
         
@@ -1996,12 +2077,12 @@ aloo.showAndWait();
             return;
         }
 
-        // Read Recipe_Drive_Letter.kady for letter replacement (your logic)
-        try (BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"))) {
-            letterr = buf.readLine().replace("X:", drib);
-        } catch (Exception e) {
-            // Ignore or log
-        }
+//        // Read Recipe_Drive_Letter.kady for letter replacement (your logic)
+//        try (BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"))) {
+//            letterr = buf.readLine().replace("X:", drib);/
+//        } catch (Exception e) {
+//            // Ignore or log
+//        }
 
         String pathy = ksFilePath.replace("\\", "\\\\")
                 .replace("Z:", letterr + ":")
@@ -2103,14 +2184,14 @@ aloo.showAndWait();
   @FXML
   void printicaction(ActionEvent event) throws IOException, InterruptedException {
       
-       try {
-          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
-          letterr=buf.readLine().replace("X:",drib);
-          buf.close();
-      }
-      catch (Exception m) {
-          
-      }
+//       try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));/
+//          letterr=buf.readLine().replace("X:",drib);
+//          buf.close();
+//      }
+//      catch (Exception m) {
+//          
+//      }
       
     
                             
@@ -2136,7 +2217,7 @@ aloo.showAndWait();
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     
     
-    OutputStream instreamm=new FileOutputStream("C:\\Editor\\index.html");
+    OutputStream instreamm=new FileOutputStream(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
     pwe.append("<html lang=\"ar\">\n<head><title>Kadysoft Ltd - Ahmed Elkady.</title>"
             + ""
@@ -2244,11 +2325,11 @@ aloo.showAndWait();
     pwe.close();
     bi.close();
     Desktop desk = Desktop.getDesktop();
-    desk.open(new File("C:\\Editor\\index.html")); 
+    desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     
     Thread.sleep(4000);
     
-    File ggf=new File ("C:\\Editor\\index.html");
+    File ggf=new File (getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pl=new PrintWriter(new FileWriter(ggf));
     pl.println("Powered By Kadysoft");
     pl.close();
@@ -2498,7 +2579,34 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
   
   
   
-  
+  private TextField styledField(String prompt) {
+    TextField tf = new TextField();
+    tf.setPromptText(prompt);
+    tf.setStyle(fieldStyle());
+    return tf;
+}
+
+private String fieldStyle() {
+    return
+            "-fx-background-radius:12;" +
+            "-fx-border-radius:12;" +
+            "-fx-background-color:#f9fbfd;" +
+            "-fx-border-color:#dcdfe6;" +
+            "-fx-text-fill:#2c3e50;" +
+            "-fx-font-size:13px;" +
+            "-fx-padding:10 14;";
+}
+
+private Label styledLabel(String text) {
+    Label lbl = new Label(text);
+    lbl.setStyle(
+            "-fx-font-size:14px;" +
+            "-fx-font-weight:600;" +
+            "-fx-text-fill:#34495e;"
+    );
+    return lbl;
+}
+
   
   
   @FXML
@@ -2517,13 +2625,13 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
             FileChooser fileChooser = new FileChooser();
             
             
-            try {
-          BufferedReader buf = new BufferedReader(new FileReader("RecipesPath.kady"));
-          hihi=buf.readLine().replace("X:",drib+":");
-          buf.close(); 
-        } catch (FileNotFoundException ex) {    
-        }
-        String go = hihi;
+//            try {
+//          BufferedReader buf = new BufferedReader(new FileReader("RecipesPath.kady"));/
+//          hihi=buf.readLine().replace("X:",drib+":");
+//          buf.close(); 
+//        } catch (FileNotFoundException ex) {    
+//        }
+        String go = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes")+"\\PRODUCTION";
         fileChooser.setInitialDirectory(new File(go));
             
             
@@ -2533,234 +2641,313 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
             );
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML Files", new String[] { "*.html" }));
             File file = fileChooser.showOpenDialog(null);
-            if (file != null) {
-                selectedHtmlFile = file;
-                
-                
-        ////////////////////////////////////////////////////////////////
-                
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Info & Range");
-        //dialog.setWidth(1000);
-        //dialog.setResizable(true);
-        TextField headerField = new TextField("كل حاجة تمت بحب بواسطة كادي سوفت");
-        headerField.setDisable(true);
-        //headerField.setPromptText("Enter header text (bold)");
-        
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss a");
-        ZonedDateTime now = ZonedDateTime.now(ZoneOffset.ofHours(3));
-        String timeString = dtf.format(now);
-        
-        TextField enterr = new TextField(timeString);
-        enterr.setPromptText("أدخل وقت الدخول ");
-        
-        TextField exitt = new TextField("04:00:00 PM");
-        exitt.setPromptText("أدخل وقت الخروج ");
-        
-        TextField fromField = new TextField();
-        fromField.setPromptText("(المكن) من");
-        
-        TextField toField = new TextField();
-        toField.setPromptText("(المكن) الي");
-        
-        TextField lotnum = new TextField();
-        lotnum.setPromptText("رقم اللوت");
-        
-        VBox vbox = new VBox(10,
-            new Label("أدخل العنوان الرئيسي"), headerField,
-            new Label("أدخل رينج المكن من والي"),
-            new HBox(10, new Label("من"), fromField, new Label("الي:"), toField,
-            new Label("رقم اللوت: "),lotnum),
-                
-            new HBox(10, new Label("وقت الدخول"), enterr,
-            new Label("وقت الخروج"), exitt)
-        );
-        vbox.setMinSize(800, 180);
-        vbox.setStyle("-fx-padding: 10;");
-        dialog.getDialogPane().setContent(vbox);
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-        
-        String css = getClass().getResource("cupertino-light.css").toExternalForm();
-        dialog.getDialogPane().getStylesheets().add(css);
-        
-        dialog.showAndWait().ifPresent(type -> {
-            if (type == ButtonType.OK) {
-                String headerText = headerField.getText().trim();
-                String fromStr = fromField.getText().trim();
-                String toStr = toField.getText().trim();
-                String lotnumber = lotnum.getText().trim();
-                String entertime=enterr.getText().trim();
-                String exittimee=exitt.getText().trim();
-                if (headerText.isEmpty() || fromStr.isEmpty() || toStr.isEmpty()|| lotnumber.isEmpty()|| entertime.isEmpty()|| exittimee.isEmpty()) {
-                    showAlert("Error", "All fields are required.");
-                    return;
-                }
+            
+            
+            
+            
+ if (file != null) {
+    selectedHtmlFile = file;
 
-                try {
-                    int from = Integer.parseInt(fromStr);
-                    int to = Integer.parseInt(toStr);
-                    if (from > to || from < 1) {
-                        showAlert("Error", "Invalid page range.");
-                        return;
-                    }
-                    String content = readFile(selectedHtmlFile);
-                    
-                    ///////////////////////////////////////////////////////////FGHFFGHF////////////////////////////////////////////////
-                    
-//                       //Time Query
+    final Dialog<ButtonType> dialog = new Dialog<>();
+    dialog.setTitle("Info & Range");
+    dialog.setResizable(false);
 
-                     
+    // ================== Title ==================
+    Label title = new Label("إدخال بيانات التشغيل");
+    title.setStyle(
+        "-fx-font-size: 24px; " +
+        "-fx-font-weight: bold; " +
+        "-fx-text-fill: #1e40af; " +
+        "-fx-alignment: center;"
+    );
 
-//            DateTimeFormatter formatterr = DateTimeFormatter.ofPattern("hh"); //Hour
-//            String currentTimee = formatterr.format(LocalDateTime.now());
-//            String ho=currentTimee;
-//            System.out.println(ho);
-//            
-//            DateTimeFormatter formatterrr = DateTimeFormatter.ofPattern("mm"); //Minutes
-//            String currentTimeee = formatterrr.format(LocalDateTime.now());
-//            String min=currentTimeee;
-//            System.out.println(min);
-//                 
-//        String path = selectedHtmlFile.getAbsolutePath().toString();
-//        String[] parts = path.split("\\\\");
-//        String modo = parts[parts.length - 2];
-//        String wasshh = parts[parts.length - 1];
-//        String wassh = wasshh.replace(".ks","");
-//        
-//        System.out.println(modo);
-//        System.out.println(wassh);
-//        
-//        String timo;
+    // ================== Header ==================
+    TextField headerField = new TextField("كل حاجة تمت بحب بواسطة كادي سوفت");
+    headerField.setDisable(true);
+    headerField.setStyle(
+        "-fx-background-color: #f1f5f9; " +
+        "-fx-text-fill: #475569; " +
+        "-fx-background-radius: 10; " +
+        "-fx-border-radius: 10; " +
+        "-fx-border-color: #e2e8f0; " +
+        "-fx-border-width: 2; " +
+        "-fx-padding: 10 14; " +
+        "-fx-font-size: 15px;"
+    );
+
+    // ================== Time ==================
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a");
+    ZonedDateTime now = ZonedDateTime.now(ZoneOffset.ofHours(3));
+    TextField enterTime = new TextField(dtf.format(now));
+    enterTime.setPromptText("وقت الدخول");
+    enterTime.setStyle(
+        "-fx-background-color: #f8fafc; " +
+        "-fx-background-radius: 10; " +
+        "-fx-border-radius: 10; " +
+        "-fx-border-color: #cbd5e1; " +
+        "-fx-border-width: 2; " +
+        "-fx-padding: 10 14; " +
+        "-fx-font-size: 15px;"
+    );
+
+    TextField exitTime = new TextField("04:00:00 PM");
+    exitTime.setPromptText("وقت الخروج");
+    exitTime.setStyle(enterTime.getStyle());
+
+    // ================== Range ==================
+    TextField fromField = new TextField();
+    fromField.setPromptText("من");
+    fromField.setStyle(enterTime.getStyle());
+
+    TextField toField = new TextField();
+    toField.setPromptText("إلى");
+    toField.setStyle(enterTime.getStyle());
+
+    TextField lotNum = new TextField();
+    lotNum.setPromptText("رقم اللوت");
+    lotNum.setStyle(enterTime.getStyle());
+
+    // ================== Labels ==================
+    String labelStyle =
+        "-fx-font-size: 15px; " +
+        "-fx-font-weight: 600; " +
+        "-fx-text-fill: #334155;";
+
+    // ================== Layout ==================
+    GridPane grid = new GridPane();
+    grid.setHgap(20);
+    grid.setVgap(18);
+    grid.setStyle("-fx-padding: 10;");
+
+    Label lblHeader = new Label("العنوان");
+    lblHeader.setStyle(labelStyle);
+    grid.add(lblHeader, 0, 0);
+    grid.add(headerField, 1, 0, 3, 1);
+
+    Label lblRange = new Label("رينج المكن");
+    lblRange.setStyle(labelStyle);
+    grid.add(lblRange, 0, 1);
+    grid.add(fromField, 1, 1);
+    grid.add(toField, 2, 1);
+    grid.add(lotNum, 3, 1);
+
+    Label lblTime = new Label("الوقت");
+    lblTime.setStyle(labelStyle);
+    grid.add(lblTime, 0, 2);
+    grid.add(enterTime, 1, 2);
+    grid.add(exitTime, 2, 2);
+
+    VBox root = new VBox(30, title, grid);
+    root.setStyle(
+        "-fx-padding: 35; " +
+        "-fx-background-color: white; " +
+        "-fx-background-radius: 16; " +
+        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 30, 0, 0, 12);"
+    );
+
+    // ================== Custom Buttons ==================
+    javafx.scene.control.Button okButton = new javafx.scene.control.Button("تأكيد");
+    okButton.setDefaultButton(true);
+    okButton.setStyle(
+        "-fx-background-color: linear-gradient(to bottom, #3b82f6, #2563eb); " +
+        "-fx-text-fill: white; " +
+        "-fx-font-size: 15px; " +
+        "-fx-font-weight: bold; " +
+        "-fx-padding: 10 28; " +
+        "-fx-background-radius: 12; " +
+        "-fx-border-radius: 12; " +
+        "-fx-cursor: hand; " +
+        "-fx-effect: dropshadow(gaussian, rgba(59,130,246,0.4), 12, 0, 0, 4);"
+    );
+
+    javafx.scene.control.Button cancelButton = new javafx.scene.control.Button("إلغاء");
+    cancelButton.setCancelButton(true);
+    cancelButton.setStyle(
+        "-fx-background-color: #6b7280; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-size: 15px; " +
+        "-fx-font-weight: bold; " +
+        "-fx-padding: 10 28; " +
+        "-fx-background-radius: 12; " +
+        "-fx-border-radius: 12; " +
+        "-fx-cursor: hand;"
+    );
+
+    HBox buttonBar = new HBox(15, okButton, cancelButton);
+    buttonBar.setAlignment(Pos.CENTER_RIGHT);
+    buttonBar.setPadding(new Insets(15, 20, 15, 20));
+    buttonBar.setStyle("-fx-background-color: #f8fafc; -fx-background-radius: 0 0 16 16;");
+
+    // ================== Final Content ==================
+    VBox dialogContent = new VBox(root, buttonBar);
+    dialogContent.setStyle("-fx-background-color: transparent;");
+
+    dialog.getDialogPane().setContent(dialogContent);
+    dialog.getDialogPane().setStyle("-fx-background-color: transparent;");
+
+    // ================== Button Actions ==================
+    okButton.setOnAction(eventr -> {
+        if (fromField.getText().trim().isEmpty() ||
+            toField.getText().trim().isEmpty() ||
+            lotNum.getText().trim().isEmpty() ||
+            enterTime.getText().trim().isEmpty() ||
+            exitTime.getText().trim().isEmpty()) {
+            showAlert("خطأ", "جميع الحقول مطلوبة");
+            return;
+        }
+
+        try {
+            int from = Integer.parseInt(fromField.getText().trim());
+            int to = Integer.parseInt(toField.getText().trim());
+
+            if (from < 1 || from > to) {
+                showAlert("خطأ", "نطاق غير صحيح (من يجب أن يكون أقل من أو يساوي إلى)");
+                return;
+            }
+
+            String content = readFile(selectedHtmlFile);
+            generateFinalHtml(
+                content,
+                headerField.getText(),
+                from,
+                to,
+                lotNum.getText().trim(),
+                enterTime.getText().trim(),
+                exitTime.getText().trim()
+            );
+
+            dialog.setResult(ButtonType.OK);
+            dialog.close();
+
+        } catch (NumberFormatException ex) {
+            showAlert("خطأ", "الرجاء إدخال أرقام صحيحة في حقول الرينج");
+        } catch (Exception ex) {
+            showAlert("خطأ", "حدث خطأ أثناء المعالجة");
+            ex.printStackTrace();
+        }
+    });
+
+    cancelButton.setOnAction(eventg -> {
+        dialog.setResult(ButtonType.CANCEL);
+        dialog.close();
+    });
+
+    dialog.showAndWait();
+} 
+            
+            
+            
+//           if (file != null) {
+//    selectedHtmlFile = file;
 //
-//       
-//double totalTime = 0;
-//boolean found1 = false;
-//boolean found2 = false;
-//boolean found3 = false;
+//    Dialog<ButtonType> dialog = new Dialog<>();
+//    dialog.setTitle("Info & Range");
+//    dialog.setResizable(false);
 //
-//// Query for Shot 1
-//String queryShot1 = "SELECT * FROM Timer WHERE Name LIKE ? AND Model LIKE ? AND Shot LIKE ?";
-//pst = conn.prepareStatement(queryShot1);
-//pst.setString(1, "%" + wassh + "%");
-//pst.setString(2, "%" + modo + "%");
-//pst.setString(3, "%1%");
-//rs = pst.executeQuery();
-//while (rs.next()) {
-//    found1 = true;
-//    found3 = true;
-//    String proc = rs.getString("Time_In_Hour_Updated");
-//    if (proc.equals("Hasnot_Updated_Yet")) {
-//        proc = rs.getString("Time_In_Hour");
-//    }
-//    totalTime += Double.parseDouble(proc);
-//}
+//    // ================== Title ==================
+//    Label title = new Label("إدخال بيانات التشغيل");
+//    title.setStyle(
+//            "-fx-font-size:20px;" +
+//            "-fx-font-weight:bold;" +
+//            "-fx-text-fill:#2c3e50;"
+//    );
 //
-//// Query for Shot 2
-//String queryShot22 = "SELECT * FROM Timer WHERE Name LIKE ? AND Model LIKE ? AND Shot LIKE ?";
-//pst = conn.prepareStatement(queryShot22);
-//pst.setString(1, "%" + wassh + "%");
-//pst.setString(2, "%" + modo + "%");
-//pst.setString(3, "%2%");
-//rs = pst.executeQuery();
-//while (rs.next()) {
-//    found2 = true;
-//    found3 = true;
-//    String proc = rs.getString("Time_In_Hour_Updated");
-//    if (proc.equals("Hasnot_Updated_Yet")) {
-//        proc = rs.getString("Time_In_Hour");
-//    }
-//    totalTime += Double.parseDouble(proc);
-//}
+//    // ================== Header ==================
+//    TextField headerField = new TextField("كل حاجة تمت بحب بواسطة كادي سوفت");
+//    headerField.setDisable(true);
+//    headerField.setStyle(fieldStyle() +
+//            "-fx-background-color:#eef2f7;" +
+//            "-fx-text-fill:#2c3e50;"
+//    );
 //
-//if (found1 && found2) {
-//    System.out.println("Shot 1 and 2 found. Total time: " + totalTime);
-//} else if (found1) {
-//    System.out.println("Only Shot 1 found. Time: " + totalTime);
-//} else if (found2) {
-//    System.out.println("Only Shot 2 found. Time: " + totalTime);
-//} else {
-//    System.out.println("No shots found.");
-//}
+//    // ================== Time ==================
+//    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("hh:mm:ss a");
+//    ZonedDateTime now = ZonedDateTime.now(ZoneOffset.ofHours(3));
 //
-//timo = String.valueOf(totalTime); // Store final time as string
+//    TextField enterTime = styledField("وقت الدخول");
+//    enterTime.setText(dtf.format(now));
 //
-//double d1=Double.parseDouble(timo);
-//double d2=Double.parseDouble(ho);
-//double d3=d1+d2;
-//double d4=Math.ceil(d3);
-//int d5=(int) d4;
-//String exttimeo=Integer.toString(d5);
+//    TextField exitTime = styledField("وقت الخروج");
+//    exitTime.setText("04:00:00 PM");
 //
+//    // ================== Range ==================
+//    TextField fromField = styledField("من");
+//    TextField toField   = styledField("إلى");
+//    TextField lotNum    = styledField("رقم اللوت");
 //
-//    if (found3==false) {
-//       
-//double totalTimee = 0;
-//boolean foundShot1 = false;
-//boolean foundShot2 = false;
-//boolean foundShot3 = false;
+//    // ================== Layout ==================
+//    GridPane grid = new GridPane();
+//    grid.setHgap(15);
+//    grid.setVgap(15);
 //
-//// Array of shot numbers
-//int[] shots = {1, 2, 3};
+//    grid.add(styledLabel("العنوان"), 0, 0);
+//    grid.add(headerField, 1, 0, 3, 1);
 //
-//for (int shot : shots) {
-//    String query = "SELECT Time_In_Hour_Updated, Time_In_Hour FROM Timer_Three_Shots WHERE Name LIKE ? AND Model LIKE ? AND Shot LIKE ?";
-//    pst = conn.prepareStatement(query);
-//    pst.setString(1, "%" + wassh + "%");
-//    pst.setString(2, "%" + modo + "%");
-//    pst.setString(3, "%" + shot + "%");
-//    rs = pst.executeQuery();
+//    grid.add(styledLabel("رينج المكن"), 0, 1);
+//    grid.add(fromField, 1, 1);
+//    grid.add(toField, 2, 1);
+//    grid.add(lotNum, 3, 1);
 //
-//    while (rs.next()) {
-//        String time = rs.getString("Time_In_Hour_Updated");
-//        if (time.equals("Hasnot_Updated_Yet")) {
-//            time = rs.getString("Time_In_Hour");
+//    grid.add(styledLabel("الوقت"), 0, 2);
+//    grid.add(enterTime, 1, 2);
+//    grid.add(exitTime, 2, 2);
+//
+//    VBox root = new VBox(25, title, grid);
+//    root.setMinWidth(800);
+//    root.setStyle(
+//            "-fx-padding:30;" +
+//            "-fx-background-color:#ffffff;" +
+//            "-fx-background-radius:18;" +
+//            "-fx-effect:dropshadow(gaussian, rgba(0,0,0,0.20), 30, 0.25, 0, 10);"
+//    );
+//
+//    dialog.getDialogPane().setContent(root);
+//    dialog.getDialogPane().setStyle("-fx-background-color:transparent;");
+//    dialog.getDialogPane().getButtonTypes()
+//            .addAll(ButtonType.OK, ButtonType.CANCEL);
+//
+//    dialog.showAndWait().ifPresent(type -> {
+//        if (type == ButtonType.OK) {
+//
+//            if (fromField.getText().isEmpty()
+//                    || toField.getText().isEmpty()
+//                    || lotNum.getText().isEmpty()
+//                    || enterTime.getText().isEmpty()
+//                    || exitTime.getText().isEmpty()) {
+//
+//                showAlert("خطأ", "جميع الحقول مطلوبة");
+//                return;
+//            }
+//
+//            try {
+//                int from = Integer.parseInt(fromField.getText());
+//                int to   = Integer.parseInt(toField.getText());
+//
+//                if (from < 1 || from > to) {
+//                    showAlert("خطأ", "رينج غير صحيح");
+//                    return;
+//                }
+//
+//                String content = readFile(selectedHtmlFile);
+//
+//                generateFinalHtml(
+//                        content,
+//                        headerField.getText(),
+//                        from,
+//                        to,
+//                        lotNum.getText(),
+//                        enterTime.getText(),
+//                        exitTime.getText()
+//                );
+//
+//            } catch (Exception ex) {
+//                showAlert("خطأ", "قيمة غير صحيحة");
+//                ex.printStackTrace();
+//            }
 //        }
-//        totalTimee += Double.parseDouble(time);
-//
-//        // Mark which shot was found
-//        if (shot == 1) foundShot1 = true;
-//        if (shot == 2) foundShot2 = true;
-//        if (shot == 3) foundShot3 = true;
-//    }
+//    });
 //}
-//
-//// Display result
-//if (foundShot1 || foundShot2 || foundShot3) {
-//    System.out.println("Total Time from existing shots: " + totalTimee);
-//    if (foundShot1) System.out.println("Shot 1 included.");
-//    if (foundShot2) System.out.println("Shot 2 included.");
-//    if (foundShot3) System.out.println("Shot 3 included.");
-//} else {
-//    System.out.println("No shots found.");
-//}
-//
-//timo = String.valueOf(totalTimee); // Final time value as String
-//
-//double d11=Double.parseDouble(timo);
-//double d22=Double.parseDouble(ho);
-//double d33=d11+d22;
-//double d44=Math.ceil(d33);
-//int d55=(int) d44;
-//String exttimeoo=Integer.toString(d55);
-//
-//    } 
-//
-//    
-//String exittimeeo=exttimeo+":"+min+"";
-//exitt.setText(exittimeeo);
 
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    
-                    generateFinalHtml(content, headerText, from, to, lotnumber,entertime, exittimee);
-                } catch (NumberFormatException | IOException ex) {
-                    showAlert("Error", "Invalid number input or file error.");
-                    ex.printStackTrace();
-                }
-            }
-        });
-                
-        ////////////////////////////////////////////////////////////////
-            }
         
         
             
@@ -2777,13 +2964,13 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
             
                 
     FileChooser fcho = new FileChooser();
-    try {
-          BufferedReader buf = new BufferedReader(new FileReader("RecipesPath.kady"));
-          hihi=buf.readLine().replace("X:",drib+":");
-          buf.close(); 
-        } catch (FileNotFoundException ex) {    
-        }
-    String go = hihi;
+//    try {
+//          BufferedReader buf = new BufferedReader(new FileReader("RecipesPath.kady"));/
+//          hihi=buf.readLine().replace("X:",drib+":");
+//          buf.close(); 
+//        } catch (FileNotFoundException ex) {    
+//        }
+    String go = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes")+"\\PRODUCTION";
     fcho.setInitialDirectory(new File(go));
     fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("Kadysoft Files", new String[] { "*.ks" }));
     fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML Files", new String[] { "*.html" }));
@@ -2794,7 +2981,7 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     
     
-    OutputStream instreamm=new FileOutputStream("C:\\Editor\\index.html");
+    OutputStream instreamm=new FileOutputStream(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
     pwe.append("<html lang=\"ar\">\n<head><title>Kadysoft Ltd - Ahmed Elkady.</title>"
             + ""
@@ -2907,11 +3094,11 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
     pwe.close();
     bi.close();
     Desktop desk = Desktop.getDesktop();
-    desk.open(new File("C:\\Editor\\index.html")); 
+    desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     
     Thread.sleep(4000);
     
-    File ggf=new File ("C:\\Editor\\index.html");
+    File ggf=new File (getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pl=new PrintWriter(new FileWriter(ggf));
     pl.println("Powered By Kadysoft");
     pl.close();
@@ -3208,14 +3395,14 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
       
       
     } else {
-      try {
-          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
-          letterr=buf.readLine().replace("X:",drib+":");
-          buf.close();
-      }
-      catch (Exception m) {
-          
-      }
+//      try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));/
+//          letterr=buf.readLine().replace("X:",drib+":");
+//          buf.close();
+//      }
+//      catch (Exception m) {
+//          
+//      }
       String pathy = link.getText().replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
       File op = new File(pathy);
       
@@ -3341,7 +3528,7 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
         alo.setResizable(false);
         DialogPane dialogPane = alo.getDialogPane();
         dialogPane.getStylesheets().add(
-      getClass().getResource("cupertino-light.css").toExternalForm());
+      getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
         alo.showAndWait();
         File nm=new File (System.getProperty("user.home")+"\\Hehehe\\Roro.ks");
         if (pathy.contains(".ks")) {
@@ -3467,34 +3654,31 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
   
 public void initialize(URL url, ResourceBundle rb) {
     
-    
-   
-    
-    
+
   
     
     this.conn = db.java_db();
     
     
-    useb=System.getProperty("user.name");
-    try {
-          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));
-          drib=buf.readLine();
-          buf.close();   
-          } catch (IOException ex) {       
-      //Alert
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Fatal Error");
-      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
-      alert.setResizable(false);
-      DialogPane dialogPane = alert.getDialogPane();
-      dialogPane.getStylesheets().add(
-    getClass().getResource("cupertino-light.css").toExternalForm());
-      alert.showAndWait();
-      
-      Stage jk = (Stage)this.addo.getScene().getWindow();
-      jk.close();
-          }
+//    useb=System.getProperty("user.name");
+//    try {
+//          BufferedReader buf = new BufferedReader(new FileReader("PCs\\"+useb+".kady"));/
+//          drib=buf.readLine();
+//          buf.close();   
+//          } catch (IOException ex) {       
+//      //Alert
+//      Alert alert = new Alert(Alert.AlertType.WARNING);
+//      alert.setTitle("Fatal Error");
+//      alert.setContentText("Fatal Error while reading user file.\nWe can't find the specified file.");
+//      alert.setResizable(false);
+//      DialogPane dialogPane = alert.getDialogPane();
+//      dialogPane.getStylesheets().add(
+//    getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
+//      alert.showAndWait();
+//      
+//      Stage jk = (Stage)this.addo.getScene().getWindow();
+//      jk.close();
+//          }
     
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3543,7 +3727,7 @@ alert.setHeaderText("List of Notifications:");
 alert.setContentText(contentBuilder.toString().isEmpty() ? "No messages found." : contentBuilder.toString());
 DialogPane dialogPaneo = alert.getDialogPane();
 dialogPaneo.getStylesheets().add(
-getClass().getResource("cupertino-light.css").toExternalForm());
+getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
 alert.showAndWait();
 
  
@@ -3594,8 +3778,8 @@ alert.showAndWait();
           
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    String addddlink="X:\\Models\\ADS\\ADS.html";
-    String newllllink=addddlink.replace("X:",drib+":");
+    //String addddlink="X:\\Models\\ADS\\ADS.html";
+    String newllllink=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\ADS.html";
     
     
 //    Timeline reloadTimeline = new Timeline(
@@ -3793,7 +3977,6 @@ calculatetime.setTooltip(new Tooltip ("Calculate Time"));
 openadmin.setTooltip(new Tooltip ("Open Admin"));
 chemicalplan.setTooltip(new Tooltip ("Create Chemical Plan"));
 audit.setTooltip(new Tooltip ("Choose In Case Of Audit"));
-
 performance.setTooltip(new Tooltip ("Worker Performance"));
 
 
@@ -3802,11 +3985,11 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
 //rectangle.setArcWidth(30.0);   // Corner radius
 //rectangle.setArcHeight(30.0);
 
-          try {
-          BufferedReader buf = new BufferedReader(new FileReader("BackgroundImage.kady"));
-          imoo=buf.readLine().replace("X:",drib+":");
-          buf.close();   
-          } catch (IOException ex) {}
+//          try {
+//          BufferedReader buf = new BufferedReader(new FileReader("BackgroundImage.kady"));
+//          imoo=buf.readLine().replace("X:",drib+":");
+//          buf.close();   
+//          } catch (IOException ex) {}
 
 //
 //ImagePattern pattern = new ImagePattern(
@@ -3957,14 +4140,14 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
         }
         
         else {
-      try {
-          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
-          letterr=buf.readLine().replace("X:",drib);
-          buf.close();
-      }
-      catch (Exception m) {
-          
-      }
+//      try {
+//          BufferedReader buf = new BufferedReader(new FileReader("Recipe_Drive_Letter.kady"));
+//          letterr=buf.readLine().replace("X:",drib);
+//          buf.close();
+//      }
+//      catch (Exception m) {
+//          
+//      }
       String pathy = filePath.replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
       File op = new File(pathy);
       
@@ -4153,7 +4336,7 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
         alol.setTitle("Preview a recipe");
         DialogPane dialogPane = alol.getDialogPane();
         dialogPane.setContent(gridpane);
-        dialogPane.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
         alol.setResizable(true);
         alol.showAndWait();
         
@@ -4285,16 +4468,16 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
                 File kadyFile = new File("NotiData.kady");
                 if (!kadyFile.exists()) {
                     PrintWriter writer = new PrintWriter("NotiData.kady", "UTF-8");
-                    writer.println("X:\\Models\\ADS\\Noti_File.kady");
-                    writer.println("X:\\Models\\ADS\\Noti_Img.png");
+                    writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Models")+"\\ADS\\Noti_File.kady");
+                    writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Models")+"\\ADS\\Noti_Img.png");
                     writer.println("5"); // repeat every 5 minutes
                     writer.println("1"); // close after 1 minute
                     writer.close();
                 }
 
                 BufferedReader buf = new BufferedReader(new InputStreamReader(new FileInputStream(kadyFile), "UTF-8"));
-                String notifile = buf.readLine().replace("X:", drib + ":");
-                String notiimg = buf.readLine().replace("X:", drib + ":");
+                String notifile = buf.readLine();
+                String notiimg = buf.readLine();
                 double repeatd = Double.parseDouble(buf.readLine());
                 double closed = Double.parseDouble(buf.readLine());
                 buf.close();
@@ -4512,7 +4695,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
                     shutdownApp();
                 });
                 dialogPaneo.getStylesheets().add(
-                        getClass().getResource("cupertino-light.css").toExternalForm()
+                        getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm()
                 );
 
                 // show alert (non-blocking)
@@ -4810,7 +4993,7 @@ try {
             Platform.runLater(() -> {
                 Scene scene = mainRoot.getScene();
                 if (scene != null) {
-                    showStep(mainRoot, scene); // استخدم الـ StackPane الأساسي
+                    //showStep(mainRoot, scene); // استخدم الـ StackPane الأساسي
                 }
             });
         }
@@ -4824,8 +5007,8 @@ try {
 File kadyFile = new File("RandomMsg.kady");
 if (!kadyFile.exists()) {
 PrintWriter writer = new PrintWriter("NotiData.kady", "UTF-8");
-writer.println("X:\\Models\\ADS\\Random_Msg.kady");
-writer.println("X:\\Models\\ADS\\Random_Img.png");
+writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Models")+"\\ADS\\Random_Msg.kady");
+writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Models")+"\\ADS\\Random_Img.png");
 writer.close();
 }
 
@@ -4894,48 +5077,48 @@ writer.close();
 //        textTimeline.setCycleCount(Timeline.INDEFINITE);
 //        textTimeline.play();
 
-
-String[] messagess = lines.toArray(new String[0]);
-
-// index to keep track of current message
-final int[] currentIndex = {0};
-Timeline textTimeline = new Timeline(
-        new KeyFrame(Duration.seconds(3), e -> {
-            textLabel.setText(messagess[currentIndex[0]]);
-            currentIndex[0] = (currentIndex[0] + 1) % messagess.length; 
-            // after last message, loop back to 0
-        })
-);
-textTimeline.setCycleCount(Timeline.INDEFINITE); // run forever
-textTimeline.play();
-
-
-        // ====== Panel فيها الصورة + النص ======
-        HBox panel = new HBox(10, avatar, textLabel);
-        panel.setPadding(new Insets(10));
-        
-        panel.setAlignment(Pos.CENTER_LEFT);
-        panel.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8,0,2,2); -fx-background-radius:25; -fx-border-radius:25;");
-        StackPane container = new StackPane(panel);
-        container.setMaxSize(400, 30);
-        container.setStyle("-fx-background-radius:25; -fx-border-radius:25;");
-        mainRoot.getChildren().add(container);
-        // ====== حركة عشوائية للـ panel ======
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                double x = container.getTranslateX() + dx;
-                double y = container.getTranslateY() + dy;
-                double width = mainRoot.getWidth() / 2 - 100; // حدود X
-                double height = mainRoot.getHeight() / 2 - 60; // حدود Y
-                if (x > width || x < -width) dx *= -1;
-                if (y > height || y < -height) dy *= -1;
-                container.setTranslateX(container.getTranslateX() + dx);
-                container.setTranslateY(container.getTranslateY() + dy);
-            }
-        };
-        timer.start();
-        
+//
+//String[] messagess = lines.toArray(new String[0]);
+//
+//// index to keep track of current message
+//final int[] currentIndex = {0};
+//Timeline textTimeline = new Timeline(
+//        new KeyFrame(Duration.seconds(3), e -> {
+//            textLabel.setText(messagess[currentIndex[0]]);
+//            currentIndex[0] = (currentIndex[0] + 1) % messagess.length; 
+//            // after last message, loop back to 0
+//        })
+//);
+//textTimeline.setCycleCount(Timeline.INDEFINITE); // run forever
+//textTimeline.play();
+//
+//
+//        // ====== Panel فيها الصورة + النص ======
+//        HBox panel = new HBox(10, avatar, textLabel);
+//        panel.setPadding(new Insets(10));
+//        
+//        panel.setAlignment(Pos.CENTER_LEFT);
+//        panel.setStyle("-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8,0,2,2); -fx-background-radius:25; -fx-border-radius:25;");
+//        StackPane container = new StackPane(panel);
+//        container.setMaxSize(400, 30);
+//        container.setStyle("-fx-background-radius:25; -fx-border-radius:25;");
+//        mainRoot.getChildren().add(container);
+//        // ====== حركة عشوائية للـ panel ======
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                double x = container.getTranslateX() + dx;
+//                double y = container.getTranslateY() + dy;
+//                double width = mainRoot.getWidth() / 2 - 100; // حدود X
+//                double height = mainRoot.getHeight() / 2 - 60; // حدود Y
+//                if (x > width || x < -width) dx *= -1;
+//                if (y > height || y < -height) dy *= -1;
+//                container.setTranslateX(container.getTranslateX() + dx);
+//                container.setTranslateY(container.getTranslateY() + dy);
+//            }
+//        };
+//        timer.start();
+//        
                 
                 
                 
@@ -4948,7 +5131,7 @@ catch (Exception gg) {}
 
     
      try {
-            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            String fontPath = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Fonts"); // غيّر المسار حسب مكان الخط عندك
             javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
         } catch (FileNotFoundException ex) {
            
@@ -5219,16 +5402,16 @@ public void stopExcelWatcher() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 private boolean isFirstLaunch() {
-        File file = new File(CONFIG_FILE);
+        File file = new File("");
         return !file.exists();
     }
 
     private void saveFirstLaunchFlag() {
-        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
-            writer.write("launched=true");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+//            writer.write("launched=true");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 private void showStep(StackPane root, Scene scene) {
@@ -5351,6 +5534,28 @@ private void shutdownApp() {
    class HourService extends Service<Date>
     {
 
+       
+       ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+       
         private Calendar calendar;
 
         public final void setCalendarInstance(Calendar c)
@@ -5369,12 +5574,11 @@ private void shutdownApp() {
                     
                     
          //   X:\Models\Recipes        
-          BufferedReader buf = new BufferedReader(new FileReader("Timme.kady"));
-          String imoo22=buf.readLine().replace("X:",drib+":");
-          buf.close();   
-            
-                    
-                    BufferedReader buffr=new BufferedReader (new FileReader (imoo22));
+//          BufferedReader buf = new BufferedReader(new FileReader("Timme.kady"));/
+          //String imoo22=;
+//          buf.close();   
+                  
+                    BufferedReader buffr=new BufferedReader (new FileReader (getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")+"\\ADS\\time.txt"));
                     String timey=buffr.readLine();
                     int secondsdelay = Integer.parseInt(timey);  //READ FROM FILE
                     buffr.close();

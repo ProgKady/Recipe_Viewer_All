@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.awt.Desktop;
 import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,12 +45,34 @@ public class DirectoryViewer extends Application {
     private final List<TreeItem<String>> searchResults = new ArrayList<>();
     private int currentResultIndex = -1;
     private Label resultLabel;
+    
+    
+       ////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        public static String getValueByKey(String filePath, String key) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("=")) {
+                continue;
+                }
+                String[] parts = line.split("=", 2);
+                String currentKey = parts[0].trim();
+                if (currentKey.equals(key)) {
+                    return parts[1].trim();
+                }
+            }
+        } catch (IOException e) {
+        e.printStackTrace();
+        }
+        return null; 
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void start(Stage primaryStage) {
         
           try {
-            String fontPath = "Cairo.ttf"; // غيّر المسار حسب مكان الخط عندك
+            String fontPath = getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Fonts"); // غيّر المسار حسب مكان الخط عندك
             javafx.scene.text.Font cairoSemiBold = javafx.scene.text.Font.loadFont(new FileInputStream(fontPath), 15);
         } catch (FileNotFoundException ex) {
            
@@ -175,7 +198,22 @@ public class DirectoryViewer extends Application {
 
         Scene scene = new Scene(root, 1300, 800);
         primaryStage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+        
+        
+               //////////////////////////////Theme////////////////////////////////
+    String themooo=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes");
+    // Check if CSS exists
+    URL cssUrl = getClass().getResource(themooo);
+    if (cssUrl == null) {
+        System.err.println("ERROR: cupertino-dark.css not found in same package as controller!");
+    } else {
+        // Apply theme to both scene and root (ensures it always works)
+        String cssPath = cssUrl.toExternalForm();
+        scene.getStylesheets().add(cssPath);
+        root.getStylesheets().add(cssPath);
+    }
+    ////////////////////////////////////////////////////////////////////
+        
         primaryStage.setTitle("Pilot Viewer");
         primaryStage.setMaximized(true);
         primaryStage.show();
@@ -186,7 +224,7 @@ public class DirectoryViewer extends Application {
     private void loadPilotDirectory() {
         try {
             useb = System.getProperty("user.name");
-            File pilotDir = new File(NewDir.file_dir + "\\PILOT");
+            File pilotDir = new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes") + "\\PILOT");
 
             if (!pilotDir.exists() || !pilotDir.isDirectory()) {
                 showAlert("خطأ في المسار", "مجلد PILOT غير موجود أو غير صالح:\n" + pilotDir.getAbsolutePath());
@@ -235,7 +273,7 @@ public class DirectoryViewer extends Application {
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     
     
-    OutputStream instreamm=new FileOutputStream("C:\\Editor\\index.html");
+    OutputStream instreamm=new FileOutputStream(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
     pwe.append("<html lang=\"ar\">\n<head><title>Kadysoft Ltd - Ahmed Elkady.</title>"
             + ""
@@ -343,11 +381,11 @@ public class DirectoryViewer extends Application {
     pwe.close();
     bi.close();
     Desktop desk = Desktop.getDesktop();
-    desk.open(new File("C:\\Editor\\index.html")); 
+    desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     
     Thread.sleep(4000);
     
-    File ggf=new File ("C:\\Editor\\index.html");
+    File ggf=new File (getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pl=new PrintWriter(new FileWriter(ggf));
     pl.println("Powered By Kadysoft");
     pl.close();

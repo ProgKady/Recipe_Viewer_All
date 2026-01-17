@@ -601,18 +601,18 @@ enddate.setText(futureDate.toString());
     
     
     public void updateDaysBeforeLoadingTable() throws ClassNotFoundException {
-    Class.forName("org.sqlite.JDBC");    
-    String url = "jdbc:sqlite:C:\\PE\\Workers.db";
-    String sql = "UPDATE workers " +
-                 "SET days = MIN(10, CAST(julianday('now') - julianday(start_date) AS INTEGER)) " +
-                 "WHERE days < 10;";
-    try (Connection conn = DriverManager.getConnection(url);
-         Statement stmt = conn.createStatement()) {
-        int rowsUpdated = stmt.executeUpdate(sql);
-        System.out.println("Updated days for " + rowsUpdated + " users.");
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+//    Class.forName("org.sqlite.JDBC");    
+//    String url = "jdbc:sqlite:C:\\PE\\Workers.db";
+//    String sql = "UPDATE workers " +
+//                 "SET days = MIN(10, CAST(julianday('now') - julianday(start_date) AS INTEGER)) " +
+//                 "WHERE days < 10;";
+//    try (Connection conn = DriverManager.getConnection(url);
+//         Statement stmt = conn.createStatement()) {
+//        int rowsUpdated = stmt.executeUpdate(sql);
+//        System.out.println("Updated days for " + rowsUpdated + " users.");
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
 }
 
     

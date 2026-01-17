@@ -3,8 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/SettingsController.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/Main.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/ReportsController.java</file>
             <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/ViewerController_1.java</file>
-            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/Chemical_Planner.fxml</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/db.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/LogIn_GUI_Controller.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/FileSearchApp.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/DirectoryViewer.java</file>
+            <file>file:/C:/Users/Ahmed.ElKady/Documents/NetBeansProjects/RecipeMaker_Viewer_All/src/kadysoft/kady/FuzzyReplaceApp.java</file>
         </group>
     </open-files>
 </project-private>
