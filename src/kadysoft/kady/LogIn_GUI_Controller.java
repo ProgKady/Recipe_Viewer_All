@@ -903,6 +903,21 @@ private void shutdownApp() {
   
   public void initialize(URL url, ResourceBundle rb) {
       
+      
+      
+      
+      File fdgfd=new File (System.getProperty("user.home")+"\\setto.cfg");
+      if (!fdgfd.exists()) {
+          try {
+              fdgfd.createNewFile();
+          } catch (IOException ex) {
+              
+          }
+          
+      }
+      
+      
+      
 //      
 //     List<String> excelFilePaths = new ArrayList<>();
 //        String folderPath = "Y:\\باركود";

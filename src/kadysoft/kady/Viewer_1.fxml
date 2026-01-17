@@ -33,7 +33,7 @@
          <children>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <center>
-                  <TableView fx:id="table" editable="true" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" tableMenuButtonVisible="true" BorderPane.alignment="CENTER" />
+                  <TableView fx:id="table" pickOnBounds="true" mouseTransparent="false" tableMenuButtonVisible="true" editable="true" onMouseClicked="#tableaction" prefHeight="672.0" prefWidth="1313.0" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: &quot;Cairo SemiBold&quot;;" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <VBox prefHeight="302.0" prefWidth="1313.0" BorderPane.alignment="CENTER">

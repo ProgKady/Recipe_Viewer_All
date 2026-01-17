@@ -4672,3 +4672,28 @@ Add support for NO_HEADER tweak in tables .table-view.no-header > .column-header
   -fx-opacity: 0.85;
   -fx-effect: dropshadow(three-pass-box, -color-shadow-default, 8px, 0.6, 0, 2);
 }
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;   /* أو لون خفيف عشان تتأكد */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-pick-on-bounds: true;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f0f0f0;       /* لون واضح عشان تشوف الحدود */
+    -fx-alignment: CENTER;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-pick-on-bounds: true;
+}
+
+.table-view .show-hide-columns-button {
+    -fx-opacity: 1.0;
+    -fx-pick-on-bounds: true;
+}
+
+/* لو في overlay شفاف بيغطي */
+.stack-pane, .border-pane {
+    -fx-pick-on-bounds: false;   /* مهم جدًا في بعض الحالات */
+}
