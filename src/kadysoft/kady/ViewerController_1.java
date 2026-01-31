@@ -3201,7 +3201,7 @@ try {
 try {
 File kadyFile = new File("RandomMsg.kady");
 if (!kadyFile.exists()) {
-PrintWriter writer = new PrintWriter("NotiData.kady", "UTF-8");
+PrintWriter writer = new PrintWriter("RandomMsg.kady", "UTF-8");
 writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Random_Msg.kady");
 writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Random_Img.png");
 writer.close();
