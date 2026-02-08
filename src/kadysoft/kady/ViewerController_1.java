@@ -1,5 +1,12 @@
 package kadysoft.kady;
 //IMPORTS
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -108,6 +115,9 @@ import org.jsoup.select.Elements;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.net.URLClassLoader;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -124,6 +134,7 @@ import javafx.animation.FadeTransition;
 import javafx.geometry.Bounds;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.AudioClip;
@@ -142,6 +153,11 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
   ResultSet rs = null;
   PreparedStatement pst = null;
   ToggleGroup tg;
+  
+  
+  
+  
+  public static String pecoco;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////   
         public static String getValueByKey(String filePath, String key) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -237,7 +253,7 @@ private int currentStep = 0;
 private List<TourStep> steps = new ArrayList<>();
 private Pane overlayPane;
 //String CONFIG_FILE = "config.txt";
-@FXML private StackPane mainRoot;
+@FXML private BorderPane mainRoot;
 @FXML
 private ListView<String> steplist;
     
@@ -1076,166 +1092,534 @@ aloo.showAndWait();
   
   
   @FXML
-  void costeraction (ActionEvent event) throws IOException {   
-      FileChooser fcho = new FileChooser();
-      fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("KADYSOFT Files", new String[]{"*.ks"}));
-      fcho.setTitle("Kady Choose");
-      File f = fcho.showOpenDialog((Window)null);
-      String dirpathe = f.getAbsolutePath().toString();
-       ///Decrypt////////////////////////////////////
-           try { 
-    coode.clear();
-    InputStream inputinstream=new FileInputStream(dirpathe);
-    BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
-    String lo;
-    while ((lo=bi.readLine())!=null) {
-        coode.appendText("\n"+lo
-       .replace("ﬦ","A")
-       .replace("ﬧ","B")
-       .replace("ﬨ","C")
-       .replace("﬩","D")
-       .replace("שׁ","E")    
-       .replace("שׂ","F")        
-       .replace("שּׁ","G")         
-       .replace("שּׂ","H")         
-       .replace("אַ","I")         
-       .replace("אָ","J")         
-       .replace("אּ","K")         
-       .replace("בּ","L")         
-       .replace("גּ","M")         
-       .replace("דּ","N")         
-       .replace("הּ","O")         
-       .replace("וּ","P")         
-       .replace("זּ","Q")         
-       .replace("טּ","R")         
-       .replace("יּ","S")         
-       .replace("ךּ","T")         
-       .replace("כּ","U")         
-       .replace("לּ","V")
-       .replace("מּ","W")         
-       .replace("נּ","X")         
-       .replace("סּ","Y")         
-       .replace("ףּ","Z")         
-       .replace("פּ","0")         
-       .replace("צּ","1")         
-       .replace("קּ","2")         
-       .replace("רּ","3")         
-       .replace("שּ","4")         
-       .replace("תּ","5")         
-       .replace("וֹ","6")         
-       .replace("בֿ","7")         
-       .replace("כֿ","8")
-       .replace("פֿ","9")
-       .replace("&NBSP;","")               
-      ); 
-    }
-    bi.close();
-        }catch (Exception g) {}
-       String proco=null;
-       int bathnumzzzz=0;
-       String moduu,commentt;
-       String ston,fom,hypo,enzym,moon,dryr1,dryr2,dryr3;
-       ston="No";
-       fom="No";
-       hypo="No";
-       enzym="No";
-       moon="No";
-       dryr1="No";
-       dryr2="No";
-       dryr3="No";
-       List<String> shots = new ArrayList<>();
-       int bathnum=0;
-       int dss=1;
-                            org.jsoup.nodes.Document docy = Jsoup.parse(coode.getText());
-                            for (Element table : docy.select("table")) {
-                            for (Element row : table.select("tr")) {
-                            Elements tds = row.select("td");
-                            if (tds.get(7).text().contains("stone")||tds.get(7).text().contains("Stone")||tds.get(7).text().contains("STONE")) { 
-                                ston="STONE";
-                                stonn=ston;   
-                            }
-                             else {
-                                stonn=ston;
-                            }
-                            if (tds.get(7).text().contains("foam")||tds.get(7).text().contains("Foam")||tds.get(7).text().contains("FOAM")||tds.get(7).text().contains("BOOL")||tds.get(7).text().contains("BOOL فوم")) { 
-                                fom="FOAM";
-                                fomm=fom;   
-                            }
-                             else {
-                                fomm=fom;
-                            }
-                            
-                            if (tds.get(7).text().contains("BLEACH")||tds.get(7).text().contains("HYPO")) {
-                                hypo="BLEACH";
-                                hypoo=hypo;
-                            }
-                             else {
-                              hypoo=hypo;
-                            }
-                            if (tds.get(7).text().contains("ENZYME")||tds.get(7).text().contains("ENZYM")||tds.get(7).text().contains("ACUDELL")||tds.get(7).text().contains("NSY")) {
-                                enzym="ENZYME";
-                                enzymm=enzym;
-                            }
-                             else {
-                                enzymm=enzym;
-                            }
-                            if (tds.get(3).text().contains("MOON WASH")||tds.get(3).text().contains("MOON")||tds.get(3).text().contains("Moon Wash")||tds.get(3).text().contains("MON WASH")) {
-                                moon="MOON WASH";
-                                moonn=moon;
-                            }
-                            else {
-                                 moonn=moon;
-                            } 
-                            String dalil=tds.get(3).text();
-                            if (dalil.contains("EXTRACT")||dalil.contains("extract")||dalil.contains("Extract")||dalil.contains("EXTRA")||dalil.contains("EXTRACTION")||dalil.contains("extraction")) {
-                            shots.add(dalil);}
-                            else {
-                            }
-                           }}  
-                          bathnum=shots.size();
-                          if (shots.size()==1) {
-                          dryr1="DRYER 1";
-                          dryr11=dryr1;
-                          dryr22="No";
-                          dryr33="No";
-                          }
-                          else if (shots.size()==2) {
-                          dryr1="DRYER 1";
-                          dryr2="DRYER 2";
-                          dryr11=dryr1;
-                          dryr22=dryr2;
-                          dryr33="No";
-                          }
-                          else if (shots.size()==3) {
-                          dryr1="DRYER 1";
-                          dryr2="DRYER 2";
-                          dryr3="DRYER 3";
-                          dryr11=dryr1;
-                          dryr22=dryr2;
-                          dryr33=dryr3;
-                          }
-                          else {
-                          dryr1="No";
-                          dryr2="No";
-                          dryr3="No";
-                          dryr11=dryr1;
-                          dryr22=dryr2;
-                          dryr33=dryr3;
-                          }
-            JFXTextArea kk=new JFXTextArea ();
-            kk.setStyle("-fx-font-weight:bold;");
-            kk.setEditable(true);
-            kk.setText("Stone: "+stonn+"\n"+"Foam: "+fomm+"\n"+"Bleach: "+hypoo+"\n"+"Enzyme: "+enzymm+"\n"+"Moon Wash: "+moonn+"\n"+"Dryer 1: "+dryr11+"\n"+"Dryer 2: "+dryr22+"\n"+"Dryer 3: "+dryr33+"\n");
-            Alert al=new Alert (Alert.AlertType.ERROR);
-            al.setTitle("Recipe Viewer");
-            al.setHeaderText("Here is your recipe Type: ");
-            al.setContentText("Please edit me if you found errors, iam not a human. Iam a computer\nMy developer is KADINIO.");
-            al.setResizable(false);
-            al.setGraphic(kk);
-            DialogPane dialogPane = al.getDialogPane();
-            dialogPane.getStylesheets().add(
-          getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
-            al.showAndWait();     
+  void costeraction (ActionEvent event) throws IOException { 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+FileChooser fcho = new FileChooser();
+fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("Kadysoft Files", new String[] { "*.ks" }));
+fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("HTML Files", new String[] { "*.html" }));
+fcho.setTitle("Kady Choose");
+File f = fcho.showOpenDialog((Window)null);
+String recipenami=f.getName().replace(".ks","").replace(".html","");
+String recipepathy = f.getAbsolutePath().toString();
+
+String didd1=NewDir.file_dir+"\\PRODUCTION\\";
+String didd2="\\"+f.getName();
+
+String modelooo=recipepathy.replace(didd1,"").replace(didd2,"");
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+InputStream inputinstream=new FileInputStream(recipepathy);
+BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
+String lo;
+coode.clear();
+while ((lo=bi.readLine())!=null) {        
+coode.appendText("\n"+lo
+.replace("ﬦ","A")
+.replace("ﬧ","B")
+.replace("ﬨ","C")
+.replace("﬩","D")
+.replace("שׁ","E")    
+.replace("שׂ","F")        
+.replace("שּׁ","G")         
+.replace("שּׂ","H")         
+.replace("אַ","I")         
+.replace("אָ","J")         
+.replace("אּ","K")         
+.replace("בּ","L")         
+.replace("גּ","M")         
+.replace("דּ","N")         
+.replace("הּ","O")         
+.replace("וּ","P")         
+.replace("זּ","Q")         
+.replace("טּ","R")         
+.replace("יּ","S")         
+.replace("ךּ","T")         
+.replace("כּ","U")         
+.replace("לּ","V")
+.replace("מּ","W")         
+.replace("נּ","X")         
+.replace("סּ","Y")         
+.replace("ףּ","Z")         
+.replace("פּ","0")         
+.replace("צּ","1")         
+.replace("קּ","2")         
+.replace("רּ","3")         
+.replace("שּ","4")         
+.replace("תּ","5")         
+.replace("וֹ","6")         
+.replace("בֿ","7")         
+.replace("כֿ","8")
+.replace("פֿ","9")
+.replace("&NBSP;","")                       
+); 
+}
+bi.close();
+String gf=coode.getText();
+OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\r.ks");
+PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
+pwe.println(gf);
+pwe.close();
+///////////////////////////////////////////////////////////////////////////////////////////////////////////   
+List<Double> pri = new ArrayList<>();
+List<Double> qua = new ArrayList<>();
+List<Double> dil = new ArrayList<>();
+List<String> nom = new ArrayList<>();
+
+////////////////////////////////////////////////
+File inputFile = new File(System.getProperty("user.home")+"\\r.ks"); //
+org.jsoup.nodes.Document docj = Jsoup.parse(inputFile, "UTF-8"); //
+//Document docj = Jsoup.parse(codee);
+for (Element table : docj.select("TABLE")) {
+for (Element row : table.select("TR")) {
+Elements tds = row.select("TD");
+if (tds.get(8).text().isEmpty()||tds.get(8).text().contains("OLD STONE")) {   
+}
+else { 
+String string = tds.get(8).text();
+BufferedReader buf = new BufferedReader(new FileReader(NewDir.file_dirrrr + "\\Recipe_Indexes\\Prices.kady"));
+String line;
+String linebeforeequal;
+String lineafterequal;
+boolean found = false;
+while ((line = buf.readLine()) != null) {
+linebeforeequal = line.substring(0, line.indexOf("=$"));  // Item
+lineafterequal = line.substring(line.indexOf("=$") + 2);  // Price
+if (string.equals(linebeforeequal)) {
+    System.out.println(linebeforeequal);
+double number1 = Double.parseDouble(lineafterequal);
+pri.add(number1);
+String itaam = linebeforeequal;
+nom.add(itaam);
+found = true;
+break;
+}
+}
+// If the item wasn't found in the file, add it to the except variable
+//if (!found) {
+//except = except + "\n" + tds.get(7).text();
+//}
+buf.close();   
+//String string=tds.get(8).text();
+//BufferedReader buf=new BufferedReader (new FileReader (NewDir.file_dirrrr + "\\Recipe_Indexes\\Prices.kady"));
+//String line;
+//String linebeforeequal;
+//String lineafterequal;
+//while ((line=buf.readLine())!=null) {       
+//linebeforeequal=line.substring(0,line.indexOf("=$")-0);  //Item
+//lineafterequal=line.substring(line.indexOf("=$") + 2 , line.length());  //Price
+//if (string.equals(linebeforeequal)) {
+//double number1 = Double.parseDouble(lineafterequal);
+//pri.add(number1);
+//String itaam = linebeforeequal;
+//nom.add(itaam);
+//break;
+//}
+//else {
+//except=except+"\n"+tds.get(7).text();    
+//}
+//}
+//buf.close();
+
+
+
+}          
+//////////////////////KG//////////////////////////
+String skip=tds.get(8).text();
+if (skip.equals("OLD STONE")) {   
+}
+else {
+if (tds.get(5).text().isEmpty()||tds.get(5).text().contains("/")||tds.get(5).text().contains("\\")||tds.get(5).text().contains("OPERATPR")||tds.get(5).text().contains("OPERATOR")||tds.get(5).text().contains("AMOUNT")||tds.get(5).text().contains("AMT")||tds.get(5).text().contains("-")||tds.get(5).text().contains("DATE")||tds.get(5).text().contains("WASH")||tds.get(5).text().contains("WASH NAME")) {}
+else if (tds.get(6).text().contains("GR")||tds.get(6).text().contains("Gr")||tds.get(6).text().contains("gr")) {
+double am=(Double.parseDouble(tds.get(5).text().replace(",","."))/1000);
+String amm=Double.toString(am);
+if (amm.contains("E")) { 
+BigDecimal bd = new BigDecimal(amm);
+double val = bd.doubleValue();
+qua.add(val);   
+}
+else {
+qua.add(am);
+}
+}
+
+else if (tds.get(6).text().contains("GARDAL")||tds.get(6).text().contains("GARDEL")
+||tds.get(6).text().contains("Gardal")||tds.get(6).text().contains("Gardel")||tds.get(6).text().contains("gardal")||tds.get(6).text().contains("gardel")) {
+String sky=tds.get(8).text();
+if (sky.equals("FOAM")) {
+double am=4.0/5.0;
+qua.add(am);   
+}
+else {
+double am=Double.parseDouble(tds.get(5).text().replace(",","."))*12;
+qua.add(am);    
+}
+}
+else {
+double number2 = Double.parseDouble(tds.get(5).text());
+qua.add(number2);
+}    
+}
+//////////////////////////////////////////////
+if (tds.get(8).text().isEmpty()||tds.get(8).text().contains("/")||tds.get(8).text().contains("\\")||tds.get(8).text().contains("CHEMICAL")||tds.get(8).text().contains("chemical")||tds.get(8).text().matches("[0-9_-]+")||tds.get(8).text().contains("TIME")||tds.get(8).text().contains("HOURS")||tds.get(8).text().contains("MINS")||tds.get(8).text().contains("SHOT")||tds.get(8).text().contains("OLD STONE")) {    
+}
+else {  
+String string = tds.get(8).text();
+BufferedReader buf = new BufferedReader(new FileReader(NewDir.file_dirrrr + "\\Recipe_Indexes\\Dilution.kady"));
+String line;
+boolean found = false;
+while ((line = buf.readLine()) != null) {
+String linebeforeequal = line.substring(0, line.indexOf("=")).trim();  // Item
+String lineafterequal = line.substring(line.indexOf("=") + 1).trim();  // Dilution
+if (string.equals(linebeforeequal)) {
+double number3 = Double.parseDouble(lineafterequal);
+dil.add(number3);
+found = true;
+break;
+}
+}
+if (!found) {
+double number3 = Double.parseDouble("1.0");
+dil.add(number3);
+}
+buf.close();
+}
+///////////////////////////////////////////////
+}}    
+if (qua.size()!=pri.size()||qua.size()!=dil.size()) { 
+Notifications noti = Notifications.create();
+noti.title("Fatal Error!");
+noti.text("We found that all chemicals names weren't set.\nWe suggest to fix chemicals again.");
+noti.position(Pos.CENTER);
+noti.hideAfter(Duration.seconds(10));
+noti.showError();
+}
+else {
+    
+    
+//Show alert to write pcs.    
+List<Double> result = new ArrayList<>();
+for (int i = 0; i < qua.size(); i++) {
+result.add((qua.get(i) / dil.get(i))* pri.get(i));
+}
+double sum = 0.0;
+for (double number : result) {
+sum += number;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+            // Parse the HTML file
+            org.jsoup.nodes.Document docv = Jsoup.parse(inputFile, "UTF-8");
+            // Find all table rows
+            Elements rows = docv.select("tr");
+            boolean pcsFound = false;
+            for (Element row : rows) {
+                Elements cells = row.select("td");
+                for (int i = 0; i < cells.size(); i++) {
+                    if ("PCS".equalsIgnoreCase(cells.get(i).text().trim())) {
+                        if (i + 1 < cells.size()) {
+                            String nextValue = cells.get(i + 1).text().trim();
+                            System.out.println("Next value after PCS: " + nextValue);
+                            pecoco=nextValue;
+                        } else {
+                            System.out.println("PCS found but no next cell.");
+                            pecoco="120";
+                        }
+                        pcsFound = true;
+                        break;
+                    }
+                    else if (cells.get(i).text().trim().contains("PCS")) {
+                        if (i + 1 < cells.size()) {
+                            String nextValue = cells.get(i + 1).text().trim();
+                            System.out.println("Next value after PCS: " + nextValue);
+                            pecoco=nextValue;
+                        } else {
+                            System.out.println("PCS found but no next cell.");
+                            pecoco="120";
+                        }
+                        pcsFound = true;
+                        break;
+                    }
+                }
+
+                if (pcsFound) break;
+            }
+
+            if (!pcsFound) {
+                System.out.println("PCS not found");
+                pecoco="";
+            }
+/////////////////////////////////////////////////////////////////////////////////////////////
+JFXTextField grr = new JFXTextField(pecoco);
+grr.setStyle("-fx-font-size:15;-fx-font-weight:bold;");
+grr.setLabelFloat(true);
+grr.setPromptText("Add PCS Number ...");
+grr.setMinSize(300.0D, 25.0D);
+Alert aloo = new Alert(Alert.AlertType.INFORMATION);
+aloo.setTitle("PCS Number?");
+aloo.setGraphic((Node)grr);
+aloo.setResizable(false);
+DialogPane dialogPane = aloo.getDialogPane();
+dialogPane.getStylesheets().add(
+getClass().getResource("cupertino-light.css").toExternalForm());
+aloo.showAndWait();
+double pcsnum=Double.parseDouble(grr.getText()+".0");
+double onegar=sum/pcsnum;
+
+Alert alertd = new Alert(Alert.AlertType.CONFIRMATION);
+alertd.setTitle("Save To DB");
+alertd.setHeaderText("Cost Result");
+alertd.setContentText("Here Is The result of Cost For "+recipenami+" Recipe.");
+ButtonType buttonTypeCanceld = new ButtonType("Cancel");
+alertd.getButtonTypes().setAll( buttonTypeCanceld);
+DialogPane dialogPaneid = alertd.getDialogPane();
+dialogPaneid.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+Optional<ButtonType> resultsd = alertd.showAndWait();
+
+Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+alert.setTitle("Result");
+alert.setHeaderText("Cost Result");
+alert.setContentText("Here is the result of chemicals costs for one garment  :   "+Double.toString(onegar)+"   $.");
+ButtonType buttonTypeOne = new ButtonType("Report");
+ButtonType buttonTypeCancel = new ButtonType("Cancel");
+alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeCancel);
+DialogPane dialogPanei = alert.getDialogPane();
+dialogPanei.getStylesheets().add(getClass().getResource("cupertino-light.css").toExternalForm());
+Optional<ButtonType> results = alert.showAndWait();
+if (results.isPresent() && results.get() == buttonTypeOne) {
+//Create Report.  (PDF)
+    ////////////////////////////Start Report//////////////////////////////
+    Date currentDate = GregorianCalendar.getInstance().getTime();
+    DateFormat df = DateFormat.getDateInstance();
+    String dateString = df.format(currentDate);
+    Date d = new Date();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    String timeString = sdf.format(d);
+    String value0 = timeString;
+    String value00 = value0.replace("/", "_");
+    String repname = "Chemical_Report_Of_"+recipenami;
+    String reppath = System.getProperty("user.home") + "\\Desktop";
+    FileChooser dialog = new FileChooser();
+    dialog.setInitialDirectory(new File(reppath));
+    dialog.setInitialFileName(repname);
+    dialog.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", new String[] { "*.pdf" }));
+    File dialogResult = dialog.showSaveDialog(null);
+    String filePath = dialogResult.getAbsolutePath().toString();
+    try {
+      com.itextpdf.text.Document myDocument = new com.itextpdf.text.Document();
+      PdfWriter myWriter = PdfWriter.getInstance(myDocument, new FileOutputStream(filePath));
+      PdfPTable table = new PdfPTable(5);
+      table.size();
+      //table.setHorizontalAlignment(1);
+      myDocument.open();
+      float[] columnWidths = { 15.0F, 15.0F,15.0F,15.0F,15.0F };
+      table.setWidths(columnWidths);
+      table.setWidthPercentage(100.0F);
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("Cost Report For "+recipenami+" Recipe. ", FontFactory.getFont("Times-Bold", 12.0F, 1)));
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("-------------------------------------------------------------------------------------------"));
+      table.addCell(new PdfPCell((Phrase)new Paragraph("Name", FontFactory.getFont("Times-Roman", 10.0F, 1))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph("Quantity", FontFactory.getFont("Times-Roman", 10.0F, 1))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph("Dilution", FontFactory.getFont("Times-Roman", 10.0F, 1))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph("Price", FontFactory.getFont("Times-Roman", 10.0F, 1))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph("Total", FontFactory.getFont("Times-Roman", 10.0F, 1))));
+      int no=0;
+      int stageno=1;
+      while (no<qua.size()) {                                                                                                                
+      table.addCell(new PdfPCell((Phrase)new Paragraph(nom.get(no), FontFactory.getFont("Times-Roman", 8.0F, 0))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph(Double.toString(qua.get(no)), FontFactory.getFont("Times-Roman", 8.0F, 0))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph(Double.toString(dil.get(no)), FontFactory.getFont("Times-Roman", 8.0F, 0))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph(Double.toString(pri.get(no)), FontFactory.getFont("Times-Roman", 8.0F, 0))));
+      table.addCell(new PdfPCell((Phrase)new Paragraph(Double.toString((qua.get(no)/dil.get(no))*pri.get(no)), FontFactory.getFont("Times-Roman", 8.0F, 0))));
+      no++;
+      } 
+      myDocument.add((com.itextpdf.text.Element)table);
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("-------------------------------"));
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("Total Of Cost (New) :    "+Double.toString(sum)+"          $.", FontFactory.getFont("Times-Bold", 10.0F, 1)));
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("Total Of Garments (New) :    "+Double.toString(pcsnum)+"          PCS.", FontFactory.getFont("Times-Bold", 10.0F, 1)));
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("One Garment Costs (New) :    "+Double.toString(onegar)+"          $.", FontFactory.getFont("Times-Bold", 10.0F, 1)));
+      myDocument.add((com.itextpdf.text.Element)new Paragraph("-------------------------------"));
+      myDocument.setPageSize(PageSize.A4.rotate());
+      myDocument.close();
+      Alert alooo = new Alert(Alert.AlertType.CONFIRMATION);
+      alooo.setTitle("Info");
+      alooo.setHeaderText("Info!");
+      alooo.setContentText("Report was generated successfully");
+      alooo.setResizable(true);
+      DialogPane dialogPaneu = alooo.getDialogPane();
+      dialogPaneu.getStylesheets().add(
+      getClass().getResource("cupertino-light.css").toExternalForm());
+      alooo.showAndWait();
+    } catch (Exception e) {
+    } finally {
+      try {
+      } catch (Exception e) {
+      } 
+    } 
+    Desktop de = Desktop.getDesktop();
+    de.open(new File(reppath + "\\" + repname + ".pdf"));
+    ////////////////////////////End Report////////////////////////////////
+} 
+else {}
+}   
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//      FileChooser fcho = new FileChooser();
+//      fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("KADYSOFT Files", new String[]{"*.ks"}));
+//      fcho.setTitle("Kady Choose");
+//      File f = fcho.showOpenDialog((Window)null);
+//      String dirpathe = f.getAbsolutePath().toString();
+//       ///Decrypt////////////////////////////////////
+//           try { 
+//    coode.clear();
+//    InputStream inputinstream=new FileInputStream(dirpathe);
+//    BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
+//    String lo;
+//    while ((lo=bi.readLine())!=null) {
+//        coode.appendText("\n"+lo
+//       .replace("ﬦ","A")
+//       .replace("ﬧ","B")
+//       .replace("ﬨ","C")
+//       .replace("﬩","D")
+//       .replace("שׁ","E")    
+//       .replace("שׂ","F")        
+//       .replace("שּׁ","G")         
+//       .replace("שּׂ","H")         
+//       .replace("אַ","I")         
+//       .replace("אָ","J")         
+//       .replace("אּ","K")         
+//       .replace("בּ","L")         
+//       .replace("גּ","M")         
+//       .replace("דּ","N")         
+//       .replace("הּ","O")         
+//       .replace("וּ","P")         
+//       .replace("זּ","Q")         
+//       .replace("טּ","R")         
+//       .replace("יּ","S")         
+//       .replace("ךּ","T")         
+//       .replace("כּ","U")         
+//       .replace("לּ","V")
+//       .replace("מּ","W")         
+//       .replace("נּ","X")         
+//       .replace("סּ","Y")         
+//       .replace("ףּ","Z")         
+//       .replace("פּ","0")         
+//       .replace("צּ","1")         
+//       .replace("קּ","2")         
+//       .replace("רּ","3")         
+//       .replace("שּ","4")         
+//       .replace("תּ","5")         
+//       .replace("וֹ","6")         
+//       .replace("בֿ","7")         
+//       .replace("כֿ","8")
+//       .replace("פֿ","9")
+//       .replace("&NBSP;","")               
+//      ); 
+//    }
+//    bi.close();
+//        }catch (Exception g) {}
+//       String proco=null;
+//       int bathnumzzzz=0;
+//       String moduu,commentt;
+//       String ston,fom,hypo,enzym,moon,dryr1,dryr2,dryr3;
+//       ston="No";
+//       fom="No";
+//       hypo="No";
+//       enzym="No";
+//       moon="No";
+//       dryr1="No";
+//       dryr2="No";
+//       dryr3="No";
+//       List<String> shots = new ArrayList<>();
+//       int bathnum=0;
+//       int dss=1;
+//                            org.jsoup.nodes.Document docy = Jsoup.parse(coode.getText());
+//                            for (Element table : docy.select("table")) {
+//                            for (Element row : table.select("tr")) {
+//                            Elements tds = row.select("td");
+//                            if (tds.get(7).text().contains("stone")||tds.get(7).text().contains("Stone")||tds.get(7).text().contains("STONE")) { 
+//                                ston="STONE";
+//                                stonn=ston;   
+//                            }
+//                             else {
+//                                stonn=ston;
+//                            }
+//                            if (tds.get(7).text().contains("foam")||tds.get(7).text().contains("Foam")||tds.get(7).text().contains("FOAM")||tds.get(7).text().contains("BOOL")||tds.get(7).text().contains("BOOL فوم")) { 
+//                                fom="FOAM";
+//                                fomm=fom;   
+//                            }
+//                             else {
+//                                fomm=fom;
+//                            }
+//                            
+//                            if (tds.get(7).text().contains("BLEACH")||tds.get(7).text().contains("HYPO")) {
+//                                hypo="BLEACH";
+//                                hypoo=hypo;
+//                            }
+//                             else {
+//                              hypoo=hypo;
+//                            }
+//                            if (tds.get(7).text().contains("ENZYME")||tds.get(7).text().contains("ENZYM")||tds.get(7).text().contains("ACUDELL")||tds.get(7).text().contains("NSY")) {
+//                                enzym="ENZYME";
+//                                enzymm=enzym;
+//                            }
+//                             else {
+//                                enzymm=enzym;
+//                            }
+//                            if (tds.get(3).text().contains("MOON WASH")||tds.get(3).text().contains("MOON")||tds.get(3).text().contains("Moon Wash")||tds.get(3).text().contains("MON WASH")) {
+//                                moon="MOON WASH";
+//                                moonn=moon;
+//                            }
+//                            else {
+//                                 moonn=moon;
+//                            } 
+//                            String dalil=tds.get(3).text();
+//                            if (dalil.contains("EXTRACT")||dalil.contains("extract")||dalil.contains("Extract")||dalil.contains("EXTRA")||dalil.contains("EXTRACTION")||dalil.contains("extraction")) {
+//                            shots.add(dalil);}
+//                            else {
+//                            }
+//                           }}  
+//                          bathnum=shots.size();
+//                          if (shots.size()==1) {
+//                          dryr1="DRYER 1";
+//                          dryr11=dryr1;
+//                          dryr22="No";
+//                          dryr33="No";
+//                          }
+//                          else if (shots.size()==2) {
+//                          dryr1="DRYER 1";
+//                          dryr2="DRYER 2";
+//                          dryr11=dryr1;
+//                          dryr22=dryr2;
+//                          dryr33="No";
+//                          }
+//                          else if (shots.size()==3) {
+//                          dryr1="DRYER 1";
+//                          dryr2="DRYER 2";
+//                          dryr3="DRYER 3";
+//                          dryr11=dryr1;
+//                          dryr22=dryr2;
+//                          dryr33=dryr3;
+//                          }
+//                          else {
+//                          dryr1="No";
+//                          dryr2="No";
+//                          dryr3="No";
+//                          dryr11=dryr1;
+//                          dryr22=dryr2;
+//                          dryr33=dryr3;
+//                          }
+//            JFXTextArea kk=new JFXTextArea ();
+//            kk.setStyle("-fx-font-weight:bold;");
+//            kk.setEditable(true);
+//            kk.setText("Stone: "+stonn+"\n"+"Foam: "+fomm+"\n"+"Bleach: "+hypoo+"\n"+"Enzyme: "+enzymm+"\n"+"Moon Wash: "+moonn+"\n"+"Dryer 1: "+dryr11+"\n"+"Dryer 2: "+dryr22+"\n"+"Dryer 3: "+dryr33+"\n");
+//            Alert al=new Alert (Alert.AlertType.ERROR);
+//            al.setTitle("Recipe Viewer");
+//            al.setHeaderText("Here is your recipe Type: ");
+//            al.setContentText("Please edit me if you found errors, iam not a human. Iam a computer\nMy developer is KADINIO.");
+//            al.setResizable(false);
+//            al.setGraphic(kk);
+//            DialogPane dialogPane = al.getDialogPane();
+//            dialogPane.getStylesheets().add(
+//          getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
+//            al.showAndWait();     
   }
   
   
@@ -2709,7 +3093,41 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
 
     
     
-   
+  
+//  ///////////////////////////////////////////////////////////Plugin/////////////////////////////////////////////////////////////////////////////  
+//  Platform.runLater(() -> {
+//          try {
+//            File pluginsDir = new File("Java\\bin");
+//            URLClassLoader loader = new URLClassLoader(
+//                    new URL[]{pluginsDir.toURI().toURL()},
+//                    null
+//            );
+//            String className = "plugin2.KSPlugin";
+//            Class<?> pluginClass = loader.loadClass(className);
+//            Object pluginInstance = pluginClass.getDeclaredConstructor().newInstance();
+//            Method runMethod = pluginClass.getMethod("run");
+//            runMethod.invoke(pluginInstance);
+//            /*
+//            File[] files = pluginsDir.listFiles(f -> f.getName().endsWith(".class"));
+//            if (files != null) {
+//                for (File f : files) {
+//                    String name = f.getName().replace(".class", "");
+//                    Class<?> c = loader.loadClass("external." + name);
+//                    Object o = c.getDeclaredConstructor().newInstance();
+//                    c.getMethod("run").invoke(o);
+//                }
+//            }
+//            */
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    });
+//  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+//    
+    
+  
+  
+  
  // Create Popup
         Popup notificationPopup = new Popup();
         VBox mainContainer = new VBox();
@@ -2785,9 +3203,9 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
         timeline.setCycleCount(Timeline.INDEFINITE);
         KeyFrame pollingFrame = new KeyFrame(Duration.seconds(60), e -> {
             try {
-                File kadyFile = new File("NotiData.kady");
+                File kadyFile = new File(System.getProperty("user.home")+"\\NotiData.kady");
                 if (!kadyFile.exists()) {
-                    PrintWriter writer = new PrintWriter("NotiData.kady", "UTF-8");
+                    PrintWriter writer = new PrintWriter(System.getProperty("user.home")+"\\NotiData.kady", "UTF-8");
                     writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Noti_File.kady");
                     writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Noti_Img.png");
                     writer.println("5"); // repeat every 5 minutes
@@ -2908,6 +3326,7 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 
 
 
+//IN SPECIFIC TIME
 //String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح
 //fileCheckTimer4 = new Timer(true);
 //fileCheckTimer4.scheduleAtFixedRate(new TimerTask() {
@@ -3084,7 +3503,8 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
 
 
 
-//
+
+//ALL DRIVES
 //fileCheckTimer2 = new Timer(true); // Daemon thread
 //fileCheckTimer2.scheduleAtFixedRate(new TimerTask() {
 //    @Override
@@ -3199,9 +3619,9 @@ try {
 
 
 try {
-File kadyFile = new File("RandomMsg.kady");
+File kadyFile = new File(System.getProperty("user.home")+"\\RandomMsg.kady");
 if (!kadyFile.exists()) {
-PrintWriter writer = new PrintWriter("RandomMsg.kady", "UTF-8");
+PrintWriter writer = new PrintWriter(System.getProperty("user.home")+"\\RandomMsg.kady", "UTF-8");
 writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Random_Msg.kady");
 writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Random_Img.png");
 writer.close();
