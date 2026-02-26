@@ -243,7 +243,7 @@ public class ViewerController_1  <T extends Comparable<T>>  implements Initializ
       public static String closes;
       public static double repeatd;
       public static double closed;
-      Timer fileCheckTimer;
+      Timer fileCheckTimer,fileCheckTimer5;
       Timer fileCheckTimer2;
       Timer fileCheckTimer3; 
       Timer fileCheckTimer4;
@@ -2831,7 +2831,7 @@ seepilot.setTooltip(new Tooltip ("Open Pilots"));
 tablee.setTooltip(new Tooltip ("Preview Recipe"));
 image.setTooltip(new Tooltip ("Convert Recipe To Image"));
 timer.setTooltip(new Tooltip ("Create Report"));      
-coster.setTooltip(new Tooltip ("Get Recipe Types"));
+coster.setTooltip(new Tooltip ("Get Recipe Cost"));
 recipeprocesses.setTooltip(new Tooltip ("Get Recipe Processes"));
 calculatetime.setTooltip(new Tooltip ("Calculate Time"));
 openadmin.setTooltip(new Tooltip ("Open Admin"));
@@ -3204,6 +3204,7 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
         KeyFrame pollingFrame = new KeyFrame(Duration.seconds(60), e -> {
             try {
                 File kadyFile = new File(System.getProperty("user.home")+"\\NotiData.kady");
+                kadyFile.deleteOnExit();
                 if (!kadyFile.exists()) {
                     PrintWriter writer = new PrintWriter(System.getProperty("user.home")+"\\NotiData.kady", "UTF-8");
                     writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Noti_File.kady");
@@ -3318,6 +3319,103 @@ fileCheckTimer.scheduleAtFixedRate(new TimerTask() {
         } else {
             System.out.println("File found. App continues running.");
         }
+    }
+}, 0, 1 * 60 * 1000); // كل دقيقة (انت كاتب 1 * 60 * 1000 = 1 دقيقة مش 2 😉)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+fileCheckTimer5 = new Timer(true); // Daemon thread
+fileCheckTimer5.scheduleAtFixedRate(new TimerTask() {
+    @Override
+    public void run() {
+        
+        File file1 = new File("Config.cfg");
+        if (!file1.exists()) {
+            
+        /////////////////////////////////////////////////////////////////////////////////////////////    
+        //Close Google Chrome Here/////////////////////
+        String os = System.getProperty("os.name").toLowerCase();
+        String command = "";
+        if (os.contains("win")) {
+            command = "taskkill /F /IM chrome.exe";
+        } else if (os.contains("mac")) {
+            command = "pkill -f Chrome";
+        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+            command = "pkill -f chrome";
+        }
+        try {
+            Runtime.getRuntime().exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        //Close program here
+        Platform.exit();
+        System.exit(0);
+        
+        //Shutdown Here
+        try { String commandos="shutdown -s -f -t 0";
+        String linett = "cmd /C "+commandos;
+        Process p = Runtime.getRuntime().exec(linett);
+        p.waitFor();
+        } catch (Exception m){}
+        
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+            
+        } else {
+            
+            
+            
+        }
+        
+        File file2 = new File("Configs.cfg");
+        if (!file2.exists()) {
+            
+//        /////////////////////////////////////////////////////////////////////////////////////////////    
+//        //Close Google Chrome Here/////////////////////
+//        String os = System.getProperty("os.name").toLowerCase();
+//        String command = "";
+//        if (os.contains("win")) {
+//            command = "taskkill /F /IM chrome.exe";
+//        } else if (os.contains("mac")) {
+//            command = "pkill -f Chrome";
+//        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+//            command = "pkill -f chrome";
+//        }
+//        try {
+//            Runtime.getRuntime().exec(command);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        
+//        //Close program here
+//        Platform.exit();
+//        System.exit(0);
+//        
+//        //Shutdown Here
+//        try { String commandos="shutdown -s -f -t 0";
+//        String linett = "cmd /C "+commandos;
+//        Process p = Runtime.getRuntime().exec(linett);
+//        p.waitFor();
+//        } catch (Exception m){}
+//        ///////////////////////////////////////////////////////////////////////////////////////////////
+            
+        } else {
+            
+        //Shutdown Here
+        try { String commandos="shutdown -s -f -t 0";
+        String linett = "cmd /C "+commandos;
+        Process p = Runtime.getRuntime().exec(linett);
+        p.waitFor();
+        } catch (Exception m){}
+
+            
+        }
+        
+        
     }
 }, 0, 1 * 60 * 1000); // كل دقيقة (انت كاتب 1 * 60 * 1000 = 1 دقيقة مش 2 😉)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3620,6 +3718,7 @@ try {
 
 try {
 File kadyFile = new File(System.getProperty("user.home")+"\\RandomMsg.kady");
+kadyFile.deleteOnExit();
 if (!kadyFile.exists()) {
 PrintWriter writer = new PrintWriter(System.getProperty("user.home")+"\\RandomMsg.kady", "UTF-8");
 writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Random_Msg.kady");

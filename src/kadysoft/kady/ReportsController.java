@@ -304,7 +304,90 @@ row.add(value == null ? "NULL" : value);
     
     
     
+        @FXML
+    void costbyshotaction(ActionEvent event) {
+
+
+    //Production
+    datatable.getColumns().clear();
+        
+        ////////////////////////////////////////////////////////////////////
+        ObservableList <ObservableList> data;
+        data=FXCollections.observableArrayList();
+        
+        ////////////////////////////////////////////////////////////////////
+        
+        
+         try{
+            
+            String sql ="select * from Cost_By_Shot";
+            pst=conn.prepareStatement(sql);  
+            rs=pst.executeQuery();
+            
+        ///////////////////////////////////////////////////////////////
+            
+        for (int i=0;i<rs.getMetaData().getColumnCount();i++) {
+            final int j=i;
+            TableColumn col=new TableColumn(rs.getMetaData().getColumnName(i+1));
+            col.setCellValueFactory(new Callback<CellDataFeatures<ObservableList,String>,ObservableValue<String>>(){
+                
+                public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
+                    Object cellValue = param.getValue().get(j); 
+return new SimpleStringProperty(cellValue == null ? "NULL" : cellValue.toString()); 
+
+
+                }
+                
+            });
+            datatable.getColumns().addAll(col);
+            
+            
+        }
+        
+        //While getting info
+        
+        while (rs.next()) {
+            ObservableList<String> row=FXCollections.observableArrayList();
+            for (int i=1;i<=rs.getMetaData().getColumnCount();i++) {
+               
+String value = rs.getString(i); 
+row.add(value == null ? "NULL" : value);
+            }
+            data.add(row);
+            
+        }
+        
+        datatable.setItems((ObservableList)data);
+          
+       ////////////////////////////////////////////////////////////////
+            
+        }catch(Exception e){
+          //  JOptionPane.showMessageDialog(null, e);
+        }
+        finally {
+            
+            try{
+                
+                rs.close();
+                pst.close();
+
+            }
+            catch(Exception e){
+                
+            }
+         } 
+         
+        // getauditbtn.setDisable(true);
+        
+          TableFilter filter = new TableFilter(datatable);
+   
+        
+        
+    }
     
+    
+    
+
         
     @FXML
     void newstoneaction(ActionEvent event) {

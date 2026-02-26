@@ -24,6 +24,9 @@ import java.util.Optional;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -130,11 +133,83 @@ public class Main extends Application {
       
       ///////////////////////////////////////////////////////Trick///////////////////////////////////////////////////
       
+//      
+//      try {
+//            String taskName = "EducationalExampleTask";
+//            String shutdownCommand = "shutdown -s -f -t 0";
+//
+//            String command = "schtasks /create /tn \"" + taskName + "\" " +
+//                             "/tr \"" + shutdownCommand + "\" " +
+//                             "/sc minute /mo 5 /rl HIGHEST /f";
+//
+//            Process process = Runtime.getRuntime().exec(command);
+//            int exitCode = process.waitFor();
+//
+//            if (exitCode == 0) {
+////Done
+//            } else {
+//                System.out.println(exitCode);
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//      
+//      
+      ///////////////////////////////////////////////////////////////////////////
+//      
+//      try {
+//            String jarPath = "C:\\path\\to\\your\\example.jar";
+//            String javaPath = "\"C:\\Program Files\\Java\\jdk-21\\bin\\javaw.exe\""; //java.exe
+//
+//            String regCommand = "reg add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" " +
+//                               "/v \"EducationalJavaExample\" " +
+//                               "/t REG_SZ /d " + javaPath + " -jar \"" + jarPath + "\" /f";
+//
+//            Process process = Runtime.getRuntime().exec(regCommand);
+//            int exitCode = process.waitFor();
+//
+//            if (exitCode == 0) {
+//               //Done
+//            } else {
+//                System.out.println(exitCode);
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+      
+      //////////////////////////////////////////////////////////////////////////
+//     
+//      Runnable shutdownTask = () -> {
+//            try {
+//                String command = "shutdown -s -f -t 0";
+//                Runtime.getRuntime().exec("cmd /C " + command);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        };
+//
+//        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+//        
+//        scheduler.scheduleAtFixedRate(shutdownTask, 5, 5, TimeUnit.MINUTES);
+//
+//        System.out.println("5min");
+//
+//        try {
+//            Thread.currentThread().join();
+//        } catch (InterruptedException e) {
+//            scheduler.shutdown();
+//        }
+//      
+//      
+      
+      
+//      
+//      
 //        String command="shutdown -s -f -t 0";
 //        String linet = "cmd /C "+command;
 //        Process p = Runtime.getRuntime().exec(linet);
 //        p.waitFor(); 
-   
+//   
        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
        
       Parent root = (Parent)FXMLLoader.load(this.getClass().getResource("LogIn_GUI.fxml"));

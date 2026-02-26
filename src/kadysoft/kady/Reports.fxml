@@ -14,17 +14,17 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="62.0" prefWidth="1335.0" spacing="25.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="delete" buttonType="RAISED" onAction="#deleteaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #196f3d; -fx-text-fill: white;" text="Export">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </JFXButton>
             <JFXButton fx:id="timebtn" buttonType="RAISED" onAction="#timeaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Time">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </JFXButton>
             <JFXButton fx:id="costbtn" buttonType="RAISED" onAction="#costaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #063970; -fx-text-fill: white;" text="Cost">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" onAction="#costbyshotaction" prefHeight="33.0" prefWidth="121.0" style="-fx-background-radius: 3em; -fx-background-color: #450920; -fx-text-fill: white;" text="Cost By Shot">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -45,6 +45,11 @@
                </font>
             </JFXButton>
             <JFXButton fx:id="filterbtn2" buttonType="RAISED" onAction="#filterbtn2action" prefHeight="36.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: red; -fx-text-fill: white;" text="Clear">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="delete" buttonType="RAISED" onAction="#deleteaction" prefHeight="37.0" prefWidth="105.0" style="-fx-background-radius: 3em; -fx-background-color: #196f3d; -fx-text-fill: white;" text="Export">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>

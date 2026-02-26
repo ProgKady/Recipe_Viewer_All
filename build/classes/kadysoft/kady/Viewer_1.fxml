@@ -8,6 +8,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -106,19 +107,6 @@
         </ScrollPane>
     </left>
 
-    <!-- الجزء الرئيسي -->
-    <center>
-        <VBox>
-            <WebView fx:id="addo" minHeight="180.0" prefHeight="260.0" VBox.vgrow="NEVER" />
-
-            <TableView fx:id="table" onMouseClicked="#tableaction" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: 'Cairo SemiBold'; -fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
-                <padding>
-                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                </padding>
-            </TableView>
-        </VBox>
-    </center>
-
     <!-- تحت - Settings -->
     <bottom>
         <HBox alignment="CENTER_LEFT" minHeight="45.0" prefHeight="50.0" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 1 0 0 0;">
@@ -139,5 +127,22 @@
     <children>
         <Label fx:id="link" text="Label" visible="false" />
     </children>
+   <center>
+      <BorderPane prefHeight="672.0" prefWidth="1140.0" BorderPane.alignment="CENTER">
+         <center>
+            <SplitPane dividerPositions="0.5411764705882353" orientation="VERTICAL" prefHeight="200.0" prefWidth="1140.0" BorderPane.alignment="CENTER">
+               <items>
+                     <WebView fx:id="addo" minHeight="180.0" prefHeight="260.0" />
+         
+                        <TableView fx:id="table" onMouseClicked="#tableaction" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-font-family: 'Cairo SemiBold'; -fx-background-color: #ffffff;">
+                         <padding>
+                             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                         </padding>
+                     </TableView>
+               </items>
+            </SplitPane>
+         </center>
+      </BorderPane>
+   </center>
 
 </BorderPane>
