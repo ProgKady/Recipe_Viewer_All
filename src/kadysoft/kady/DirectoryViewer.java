@@ -1,9 +1,19 @@
 package kadysoft.kady;
 
 import com.jfoenix.controls.*;
+import java.awt.Desktop;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,17 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-
-import java.awt.Desktop;
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -120,7 +119,9 @@ public class DirectoryViewer extends Application {
                 Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
                 Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } catch (Exception ex) {
+                  Logger.getLogger(DirectoryViewer.class.getName()).log(Level.SEVERE, null, ex);
+              }
         });
         
 
@@ -244,7 +245,7 @@ public class DirectoryViewer extends Application {
     
     
     
-    private void printPilotDirectory() throws FileNotFoundException, UnsupportedEncodingException, IOException, InterruptedException {
+    private void printPilotDirectory() throws FileNotFoundException, UnsupportedEncodingException, IOException, InterruptedException, Exception {
         
         
           
@@ -269,7 +270,44 @@ public class DirectoryViewer extends Application {
       else {
          
           
-    InputStream inputinstream=new FileInputStream(klll);
+          
+                      ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (klll == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = klll;
+    String nameofit=Paths.get(klll).getFileName().toString();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    //////////////////////////////////////////////////////////// 
+          
+          
+          
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     
     
@@ -380,6 +418,10 @@ public class DirectoryViewer extends Application {
     pwe.append("\n\n\n</textarea>\n\t\t</div>\n\t\t<script>\n\t\t\tconst editor = Jodit.make('#editor' ,{\n\t\t\t\tuploader: {\n\t\t\t\t\t\n\t\t\t\t},\n\t\t\t\tfilebrowser: {\n\t\t\t\t\tajax: {\n\t\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t</script>\n\t</body>\n</html>"); 
     pwe.close();
     bi.close();
+    
+    
+    
+    
     Desktop desk = Desktop.getDesktop();
     desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     
@@ -390,7 +432,11 @@ public class DirectoryViewer extends Application {
     pl.println("Powered By Kadysoft");
     pl.close();
     
-      
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
           
           
       }
@@ -575,8 +621,46 @@ public class DirectoryViewer extends Application {
 
     private void loadFileInWebView(File file) {
         try {
+            
+            
+                            ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (file == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = file.getAbsolutePath();
+    String nameofit=file.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+            
+            
+            
             StringBuilder content = new StringBuilder();
-            BufferedReader bi = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            BufferedReader bi = new BufferedReader(new InputStreamReader(new FileInputStream(temp), "UTF-8"));
             String line;
             while ((line = bi.readLine()) != null) {
                 content.append("\n").append(line
@@ -634,6 +718,12 @@ public class DirectoryViewer extends Application {
                    
 
             webView.getEngine().loadContent(htmlContent);
+            
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
 
         } catch (Exception ex) {
             webView.getEngine().loadContent("<html><body><h3 style='color:red;'>خطأ في تحميل المحتوى</h3></body></html>");
@@ -652,9 +742,45 @@ public class DirectoryViewer extends Application {
             if (!tempDir.exists()) tempDir.mkdirs();
 
             File tempFile = new File(tempDir, "Roro.ks");
+            
+            
+                            ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (file == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = file.getAbsolutePath();
+    String nameofit=file.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+            
 
             StringBuilder content = new StringBuilder();
-            BufferedReader bi = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            BufferedReader bi = new BufferedReader(new InputStreamReader(new FileInputStream(temp), "UTF-8"));
             String line;
             while ((line = bi.readLine()) != null) {
                 content.append("\n").append(line
@@ -677,6 +803,14 @@ public class DirectoryViewer extends Application {
             pw.println("<style>body { user-select: none; }</style>");
             pw.println("<script>document.oncontextmenu = () => false; document.onkeydown = () => false;</script>");
             pw.close();
+            
+                        	
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+            
 
             Desktop.getDesktop().open(tempFile);
 

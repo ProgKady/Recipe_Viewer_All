@@ -14,30 +14,27 @@ import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AccessDeniedException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,9 +42,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -63,13 +66,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
@@ -89,21 +96,31 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import javax.imageio.ImageIO;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.ParserConfigurationException;
 import static kadysoft.kady.ViewerController_1.drib;
 import org.controlsfx.control.Notifications;
@@ -112,37 +129,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.net.URLClassLoader;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicInteger;
-import javafx.animation.FadeTransition;
-import javafx.geometry.Bounds;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.media.AudioClip;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.TextAlignment;
-import javafx.stage.Popup;
-import javafx.stage.Screen;
-import javax.swing.filechooser.FileSystemView;
 import org.xml.sax.SAXException;
 
 
@@ -368,7 +354,7 @@ private ListView<String> steplist;
     
     
     @FXML
-    void calculatetimeaction(ActionEvent event) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+    void calculatetimeaction(ActionEvent event) throws FileNotFoundException, UnsupportedEncodingException, IOException, Exception {
           String opaa=openadmin.getText();
         if (opaa.equals("Open Admin")) {
               Notifications noti = Notifications.create();
@@ -387,7 +373,46 @@ fcho.setTitle("Kady Choose");
 File f = fcho.showOpenDialog((Window)null);
 String recipenami=f.getName().replace(".ks","").replace(".html","");
 String recipepathy = f.getAbsolutePath().toString();
-InputStream inputinstream=new FileInputStream(recipepathy);
+
+
+
+    ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (f == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = f.getAbsolutePath();
+    String nameofit=f.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File tempk = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+
+
+
+InputStream inputinstream=new FileInputStream(tempk);
 BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
 String lo;
 coode.clear();
@@ -433,11 +458,22 @@ coode.appendText("\n"+lo
 ); 
 }
 bi.close();
+
+
+
+
 String gf=coode.getText();
 OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\iq.ks");
 PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
 pwe.println(gf);
 pwe.close();
+
+    ////////////////////////////////////////////////////////////////
+    if (tempk.exists()) {
+        tempk.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+
    //Get Time And Shots
    List<Integer> time = new ArrayList<>();
    List<Integer> timeSum = new ArrayList<>();
@@ -961,8 +997,46 @@ aloo.showAndWait();
       String dirpathe = f.getAbsolutePath().toString();
        ///Decrypt////////////////////////////////////
            try { 
+               
+              
+              ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (f == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = f.getAbsolutePath();
+    String nameofit=f.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File tempb = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+               
+               
+               
     coode.clear();
-    InputStream inputinstream=new FileInputStream(dirpathe);
+    InputStream inputinstream=new FileInputStream(tempb);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     String lo;
     while ((lo=bi.readLine())!=null) {
@@ -1007,6 +1081,15 @@ aloo.showAndWait();
       ); 
     }
     bi.close();
+    
+    	
+    ////////////////////////////////////////////////////////////////
+    if (tempb.exists()) {
+        tempb.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+    
+    
         }catch (Exception g) {}
        String stages=null;
        int bathnumzzz=0;
@@ -1092,7 +1175,7 @@ aloo.showAndWait();
   
   
   @FXML
-  void costeraction (ActionEvent event) throws IOException { 
+  void costeraction (ActionEvent event) throws IOException, Exception { 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 FileChooser fcho = new FileChooser();
 fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("Kadysoft Files", new String[] { "*.ks" }));
@@ -1106,15 +1189,49 @@ String didd1=NewDir.file_dir+"\\PRODUCTION\\";
 String didd2="\\"+f.getName();
 
 String modelooo=recipepathy.replace(didd1,"").replace(didd2,"");
+
+
+    ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String resultg = KeyDecoder.extractData(longKey.trim());
+    if (f == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = f.getAbsolutePath();
+    String nameofit=f.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, resultg);
+    File tempg = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-InputStream inputinstream=new FileInputStream(recipepathy);
+InputStream inputinstream=new FileInputStream(tempg);
 BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
 String lo;
 coode.clear();
-while ((lo=bi.readLine())!=null) {        
-coode.appendText("\n"+lo
-.replace("ﬦ","A")
-.replace("ﬧ","B")
+while ((lo=bi.readLine())!=null) {  lo   
 .replace("ﬨ","C")
 .replace("﬩","D")
 .replace("שׁ","E")    
@@ -1149,10 +1266,16 @@ coode.appendText("\n"+lo
 .replace("בֿ","7")         
 .replace("כֿ","8")
 .replace("פֿ","9")
-.replace("&NBSP;","")                       
-); 
+.replace("&NBSP;","");
 }
 bi.close();
+
+    ////////////////////////////////////////////////////////////////
+    if (tempg.exists()) {
+        tempg.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+
 String gf=coode.getText();
 OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\r.ks");
 PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
@@ -1627,7 +1750,7 @@ else {}
   
   
   @FXML
-    void tableeaction(MouseEvent event) throws IOException, InterruptedException {
+    void tableeaction(MouseEvent event) throws IOException, InterruptedException, Exception {
         String wsa=link.getText();
         if (!wsa.contains(".ks")) {
         //Noti to choose one first
@@ -1666,9 +1789,46 @@ else {}
               tw2o.createNewFile();
           }
           else {      
-          }         
+          }
+          
+          
+              ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (op == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = op.getAbsolutePath();
+    String nameofit=op.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+          
+          
+          
     coode.clear();
-    InputStream inputinstream=new FileInputStream(pathy);
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     String lo;
     while ((lo=bi.readLine())!=null) {
@@ -1713,6 +1873,13 @@ else {}
       ); 
     }
     bi.close();
+    
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+    
     String gf=coode.getText();
     OutputStream instreamm=new FileOutputStream(tw2o);
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
@@ -1906,7 +2073,7 @@ else {}
 
  
   @FXML
-  void printicaction(ActionEvent event) throws IOException, InterruptedException {                    
+  void printicaction(ActionEvent event) throws IOException, InterruptedException, Exception {                    
       String pathy = link.getText().replace("\\","\\\\").replace("Z:",letterr+":").replace("X:",letterr+":").replace("V:",letterr+":").replace("W:",letterr+":");
       File op = new File(pathy);
       if (!pathy.contains(".ks")||!pathy.contains(".ks")) { 
@@ -1918,8 +2085,44 @@ else {}
       noti.hideAfter(Duration.seconds(3));
       noti.showError();
       }
-      else {   
-    InputStream inputinstream=new FileInputStream(pathy);
+      else {  
+          
+          
+    ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (op == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = op.getAbsolutePath();
+    String nameofit=op.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    ////////////////////////////////////////////////////////////
+          
+          
+          
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     OutputStream instreamm=new FileOutputStream(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
@@ -2017,6 +2220,14 @@ else {}
     pwe.append("\n\n\n</textarea>\n\t\t</div>\n\t\t<script>\n\t\t\tconst editor = Jodit.make('#editor' ,{\n\t\t\t\tuploader: {\n\t\t\t\t\t\n\t\t\t\t},\n\t\t\t\tfilebrowser: {\n\t\t\t\t\tajax: {\n\t\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t</script>\n\t</body>\n</html>"); 
     pwe.close();
     bi.close();
+    
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+    
+    
     Desktop desk = Desktop.getDesktop();
     desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     Thread.sleep(4000);
@@ -2102,8 +2313,44 @@ try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), Standard
   
   
   
-  private String readFile(File file) throws IOException {
-        InputStream inputinstream=new FileInputStream(file);
+  private String readFile(File file) throws IOException, Exception {
+      
+          ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        //return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (file == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        //return;
+    }
+    String input = file.getAbsolutePath();
+    String nameofit=file.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+      
+      
+        InputStream inputinstream=new FileInputStream(temp);
         BufferedReader reader=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
         StringBuilder content = new StringBuilder();
         String line;
@@ -2202,7 +2449,7 @@ private Label styledLabel(String text) {
 
 
   @FXML
-    void editorprintaction(ActionEvent event) throws FileNotFoundException, IOException, InterruptedException {
+    void editorprintaction(ActionEvent event) throws FileNotFoundException, IOException, InterruptedException, Exception {
         if (audit.isSelected()==true) {   
             //Audit
             File selectedHtmlFile;
@@ -2388,7 +2635,43 @@ private Label styledLabel(String text) {
     fcho.setTitle("Kady Choose");
     File f = fcho.showOpenDialog((Window)null);
     String pathy = f.getAbsolutePath().toString();
-    InputStream inputinstream=new FileInputStream(pathy);
+    
+    
+        ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (f == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = f.getAbsolutePath();
+    String nameofit=f.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+    
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     OutputStream instreamm=new FileOutputStream(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"));
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
@@ -2488,6 +2771,13 @@ private Label styledLabel(String text) {
     pwe.append("\n\n\n</textarea>\n\t\t</div>\n\t\t<script>\n\t\t\tconst editor = Jodit.make('#editor' ,{\n\t\t\t\tuploader: {\n\t\t\t\t\t\n\t\t\t\t},\n\t\t\t\tfilebrowser: {\n\t\t\t\t\tajax: {\n\t\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t</script>\n\t</body>\n</html>"); 
     pwe.close();
     bi.close();
+    
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+    
     Desktop desk = Desktop.getDesktop();
     desk.open(new File(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Main_Editor"))); 
     Thread.sleep(4000);
@@ -2585,7 +2875,7 @@ private Label styledLabel(String text) {
   
   
   @FXML
-  void linkaction(ActionEvent event) throws IOException, InterruptedException {
+  void linkaction(ActionEvent event) throws IOException, InterruptedException, Exception {
     String linkval = this.link.getText();
     if (linkval.equals("T & C Garments")) {
       Image img = new Image(getClass().getResourceAsStream("kadysoft.png"));
@@ -2636,7 +2926,43 @@ private Label styledLabel(String text) {
           else {  
           }    
     coode.clear();
-    InputStream inputinstream=new FileInputStream(pathy);
+    
+        ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (op == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = op.getAbsolutePath();
+    String nameofit=op.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+    
+    
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     String lo;
     while ((lo=bi.readLine())!=null) {
@@ -2681,6 +3007,13 @@ private Label styledLabel(String text) {
       ); 
     }
     bi.close();
+    
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+    
     String gf=coode.getText();
     OutputStream instreamm=new FileOutputStream(tw2);
     PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
@@ -2936,7 +3269,42 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
           else {
           }     
     coode.clear();
-    InputStream inputinstream=new FileInputStream(pathy);
+    
+        ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (op == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = op.getAbsolutePath();
+    String nameofit=op.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+    
+    
+    InputStream inputinstream=new FileInputStream(temp);
     BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
     String lo;
     while ((lo=bi.readLine())!=null) {
@@ -3126,139 +3494,176 @@ performance.setTooltip(new Tooltip ("Worker Performance"));
 //    
     
   
-  
-  
- // Create Popup
-        Popup notificationPopup = new Popup();
-        VBox mainContainer = new VBox();
-        mainContainer.setPadding(new Insets(10));
-        mainContainer.setSpacing(10);
-        mainContainer.setStyle(
-            "-fx-background-color: #f9f9f9;" +
-            "-fx-background-radius: 16;" +
-            "-fx-border-color: #dddddd;" +
-            "-fx-border-radius: 16;" +
-            "-fx-border-width: 1;" +
-            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.2, 0, 4);"
-        );
-        // Top bar with close button
-        HBox topBar = new HBox();
-        topBar.setAlignment(Pos.TOP_RIGHT);
-        javafx.scene.control.Button closeButton = new javafx.scene.control.Button("\u2716");
-        closeButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: red;" +
-            "-fx-font-size: 14;" +
-            "-fx-font-weight: bold;" +
-            "-fx-cursor: hand;"
-        );
-        closeButton.setOnMouseEntered(e -> closeButton.setStyle(
-            "-fx-background-color: lightgray;" +
-            "-fx-text-fill: darkred;" +
-            "-fx-font-size: 14;" +
-            "-fx-font-weight: bold;" +
-            "-fx-cursor: hand;"
-        ));
-        closeButton.setOnMouseExited(e -> closeButton.setStyle(
-            "-fx-background-color: transparent;" +
-            "-fx-text-fill: red;" +
-            "-fx-font-size: 14;" +
-            "-fx-font-weight: bold;" +
-            "-fx-cursor: hand;"
-        ));
-        closeButton.setOnAction(e -> notificationPopup.hide());
-        topBar.getChildren().add(closeButton);
-        // Notification content
-        HBox notificationBox = new HBox(15);
-        notificationBox.setPadding(new Insets(10));
-        notificationBox.setAlignment(Pos.CENTER_LEFT);
 
-        ImageView imageView = new ImageView();
-        imageView.setFitWidth(180);
-        imageView.setFitHeight(300);
-        imageView.setSmooth(true);
-        imageView.setPreserveRatio(true);
-        imageView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.5, 0, 2);");
-        Label notificationLabel = new Label();
-        notificationLabel.setWrapText(true);
-        notificationLabel.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
-        notificationLabel.setStyle(
-            "-fx-font-family: 'Cairo SemiBold';" +
-            "-fx-font-weight: bold;" +
-            "-fx-font-size: 18px;" +
-            "-fx-text-fill: #222222;" +
-            "-fx-max-width: 600;" +
-            "-fx-alignment: center-right;"
-        );
-        notificationLabel.setTextAlignment(TextAlignment.RIGHT);
-        notificationBox.getChildren().addAll(imageView, notificationLabel);
-        mainContainer.getChildren().addAll(topBar, notificationBox);
-        notificationPopup.getContent().add(mainContainer);
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        double screenWidth = bounds.getWidth();
-        double bottomY = bounds.getHeight() - 120;
-        final long[] lastShownTime = {0};
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame pollingFrame = new KeyFrame(Duration.seconds(60), e -> {
-            try {
-                File kadyFile = new File(System.getProperty("user.home")+"\\NotiData.kady");
-                kadyFile.deleteOnExit();
-                if (!kadyFile.exists()) {
-                    PrintWriter writer = new PrintWriter(System.getProperty("user.home")+"\\NotiData.kady", "UTF-8");
-                    writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Noti_File.kady");
-                    writer.println(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes").replace("\\Recipes","")+"\\ADS\\Noti_Img.png");
-                    writer.println("5"); // repeat every 5 minutes
-                    writer.println("1"); // close after 1 minute
-                    writer.close();
-                }
-                BufferedReader buf = new BufferedReader(new InputStreamReader(new FileInputStream(kadyFile), "UTF-8"));
-                String notifile = buf.readLine();
-                String notiimg = buf.readLine();
-                double repeatd = Double.parseDouble(buf.readLine());
-                double closed = Double.parseDouble(buf.readLine());
-                buf.close();
-                long now = System.currentTimeMillis();
-                long intervalMillis = (long) (repeatd * 60 * 1000);
-                if (now - lastShownTime[0] >= intervalMillis) {
-                    lastShownTime[0] = now;
-                    String fileContent = new String(Files.readAllBytes(Paths.get(notifile)), StandardCharsets.UTF_8).trim();
-                    if (!fileContent.isEmpty()) {
-                        notificationLabel.setText(fileContent);
-                        try {
-                            Image icon = new Image(new File(notiimg).toURI().toString());
-                            imageView.setImage(icon);
-                        } catch (Exception imgEx) {
-                            notificationLabel.setText("⚠️ خطأ في تحميل الصورة");
-                        }
-                        mainContainer.applyCss();
-                        mainContainer.layout();
-                        double popupWidth = mainContainer.getWidth();
-                        double popupX = (screenWidth - popupWidth) / 2;
-                        Stage stage = (Stage) table.getScene().getWindow();
-                        notificationPopup.show(stage);
-                        notificationPopup.setX(popupX);
-                        notificationPopup.setY(bottomY);
-                        try {
-                            AudioClip clip = new AudioClip(new File("noti.wav").toURI().toString());
-                            clip.play();
-                        } catch (Exception audioEx) {
-                            System.err.println("Sound error: " + audioEx.getMessage());
-                        }
-                        new Timeline(new KeyFrame(Duration.minutes(closed), x -> notificationPopup.hide())).play();
-                    } else {
-                        notificationLabel.setText("⚠️ لا يوجد نص للإشعار");
-                        notificationPopup.hide();
+
+// ==================== Modern Notification Stage - Java 8 Version ====================
+
+final Stage notificationStage = new Stage(StageStyle.UNDECORATED);
+notificationStage.setAlwaysOnTop(true);
+notificationStage.setResizable(false);
+notificationStage.setOpacity(0.98);
+
+// Container الرئيسي
+VBox mainContainer = new VBox();
+mainContainer.setPadding(new Insets(15));
+mainContainer.setSpacing(12);
+mainContainer.setStyle(
+    "-fx-background-color: #ffffff;" +
+    "-fx-background-radius: 20;" +
+    "-fx-border-color: #d1d1d1;" +
+    "-fx-border-radius: 20;" +
+    "-fx-border-width: 1.5;" +
+    "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 25, 0.2, 0, 10);"
+);
+
+// زر الإغلاق
+HBox topBar = new HBox();
+topBar.setAlignment(Pos.CENTER_RIGHT);
+topBar.setPadding(new Insets(0, 5, 0, 0));
+
+Button closeButton = new Button("✕");
+closeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #888888; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 2 12;");
+closeButton.setOnMouseEntered(e -> closeButton.setStyle("-fx-background-color: #fee2e2; -fx-text-fill: #e74c3c; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 10; -fx-padding: 2 12;"));
+closeButton.setOnMouseExited(e -> closeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #888888; -fx-font-size: 20px; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 2 12;"));
+closeButton.setOnAction(e -> notificationStage.hide());
+topBar.getChildren().add(closeButton);
+
+// محتوى الإشعار
+HBox notificationBox = new HBox(20);
+notificationBox.setAlignment(Pos.CENTER_RIGHT);
+notificationBox.setPadding(new Insets(10, 15, 15, 15));
+
+ImageView imageView = new ImageView();
+imageView.setFitWidth(145); 
+imageView.setFitHeight(145);
+imageView.setSmooth(true);
+imageView.setPreserveRatio(true);
+
+Label notificationLabel = new Label();
+notificationLabel.setWrapText(true);
+notificationLabel.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+notificationLabel.setStyle(
+    "-fx-font-family: 'Cairo Bold', 'Segoe UI Semibold';" +
+    "-fx-font-size: 19px;" +
+    "-fx-text-fill: #2c3e50;" +
+    "-fx-max-width: 450;" + 
+    "-fx-alignment: CENTER_RIGHT;" +
+    "-fx-line-spacing: 6;"
+);
+notificationLabel.setTextAlignment(TextAlignment.RIGHT);
+
+// إضافة العناصر (النص أولاً ثم الصورة للاتجاه العربي)
+notificationBox.getChildren().addAll(notificationLabel, imageView);
+mainContainer.getChildren().addAll(topBar, notificationBox);
+
+Scene notificationScene = new Scene(mainContainer);
+notificationScene.setFill(Color.TRANSPARENT);
+notificationStage.setScene(notificationScene);
+
+// ====================== منطق القراءة والظهور ======================
+
+Screen screen = Screen.getPrimary();
+Rectangle2D bounds = screen.getVisualBounds();
+final long[] lastShownTime = {0};
+Random random = new Random();
+
+Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
+    try {
+        File kadyFile = new File(System.getProperty("user.home") + "\\NotiData.kady");
+        if (!kadyFile.exists()) return;
+
+        try (BufferedReader buf = new BufferedReader(new InputStreamReader(new FileInputStream(kadyFile), "UTF-8"))) {
+            String notifile = buf.readLine();
+            String notiimg  = buf.readLine();
+            double repeatd  = Double.parseDouble(buf.readLine());
+            double closed   = Double.parseDouble(buf.readLine());
+
+            long now = System.currentTimeMillis();
+            if (now - lastShownTime[0] >= (long) (repeatd * 60 * 1000)) {
+                lastShownTime[0] = now;
+
+                // قراءة الملف - متوافق مع Java 8
+                List<String> allLines = Files.readAllLines(Paths.get(notifile), StandardCharsets.UTF_8);
+                
+                // فحص وجود سطور فارغة
+                boolean hasEmptyLines = false;
+                for (String line : allLines) {
+                    if (line.trim().isEmpty()) {
+                        hasEmptyLines = true;
+                        break;
                     }
                 }
-            } catch (Exception ex) {
-                notificationLabel.setText("⚠️ حدث خطأ: " + ex.getMessage());
-                notificationPopup.hide();
+                
+                // تنظيف القائمة من السطور الفارغة
+                List<String> cleanLines = allLines.stream()
+                                                  .map(String::trim)
+                                                  .filter(line -> !line.isEmpty())
+                                                  .collect(Collectors.toList());
+
+                if (!cleanLines.isEmpty()) {
+                    String finalContent;
+
+                    if (hasEmptyLines && cleanLines.size() > 1) {
+                        // منطق عشوائي: سطر عشوائي + السطر الأخير
+                        int randomIndex = random.nextInt(cleanLines.size() - 1); 
+                        String randomLine = cleanLines.get(randomIndex);
+                        String lastLine = cleanLines.get(cleanLines.size() - 1);
+                        finalContent = randomLine + "\n" + lastLine;
+                    } else {
+                        // عرض النص كله
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < cleanLines.size(); i++) {
+                            sb.append(cleanLines.get(i));
+                            if (i < cleanLines.size() - 1) sb.append("\n");
+                        }
+                        finalContent = sb.toString();
+                    }
+
+                    notificationLabel.setText(finalContent);
+
+                    // تحميل الصورة
+                    try {
+                        File imgFile = new File(notiimg);
+                        if (imgFile.exists()) {
+                            imageView.setImage(new Image(imgFile.toURI().toString(), true));
+                        }
+                    } catch (Exception ignored) { imageView.setImage(null); }
+
+                    // تحديث الأبعاد والموقع
+                    mainContainer.applyCss();
+                    mainContainer.layout();
+                    notificationStage.sizeToScene();
+
+                    // تحديد الموقع: أعلى اليمين تماماً
+                    double x = bounds.getMaxX() - notificationStage.getWidth() - 25;
+                    double y = bounds.getMinY() + 25;
+
+                    notificationStage.setX(x);
+                    notificationStage.setY(y);
+                    notificationStage.show();
+
+                    // صوت الإشعار
+                    try {
+                        File soundFile = new File("noti.wav");
+                        if (soundFile.exists()) {
+                            new AudioClip(soundFile.toURI().toString()).play();
+                        }
+                    } catch (Exception ignored) {}
+
+                    // توقيت الإخفاء
+                    Timeline hideTimer = new Timeline(new KeyFrame(Duration.minutes(closed), ev -> notificationStage.hide()));
+                    hideTimer.play();
+                }
             }
-        });
-        timeline.getKeyFrames().add(pollingFrame);
-        timeline.play();
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}));
+
+timeline.setCycleCount(Timeline.INDEFINITE);
+timeline.play();
+  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

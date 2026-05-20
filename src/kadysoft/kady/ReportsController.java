@@ -62,7 +62,7 @@ public class ReportsController implements Initializable {
    
 
     @FXML
-    private TableView<?> datatable;
+    private TableView<ObservableList<String>> datatable;
 
     @FXML
     private JFXButton costbtn;
@@ -558,6 +558,140 @@ row.add(value == null ? "NULL" : value);
     }
 
     
+    
+     @FXML
+    void time1action(ActionEvent event) {
+        
+        
+datatable.getColumns().clear();
+
+ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
+
+try {
+
+    ///////////////////////////////////////////////////////////////
+    // Timer
+    String sql1 = "select * from Timer";
+    pst = conn.prepareStatement(sql1);
+    rs = pst.executeQuery();
+
+    int columnCount1 = rs.getMetaData().getColumnCount();
+
+    // الأعمدة
+    for (int i = 0; i < columnCount1; i++) {
+        final int j = i;
+
+        TableColumn<ObservableList<String>, String> col =
+                new TableColumn<>(rs.getMetaData().getColumnName(i + 1));
+
+        col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<String>, String> param) {
+
+                if (param.getValue().size() > j) {
+                    String cellValue = param.getValue().get(j);
+                    return new SimpleStringProperty(cellValue == null ? "NULL" : cellValue);
+                } else {
+                    return new SimpleStringProperty("NULL");
+                }
+
+            }
+        });
+
+        datatable.getColumns().add(col);
+    }
+
+    // بيانات Timer
+    while (rs.next()) {
+        ObservableList<String> row = FXCollections.observableArrayList();
+
+        for (int i = 1; i <= columnCount1; i++) {
+            String value = rs.getString(i);
+            row.add(value == null ? "NULL" : value);
+        }
+
+        data.add(row);
+    }
+
+    rs.close();
+    pst.close();
+
+    ///////////////////////////////////////////////////////////////
+    // Timer2
+    String sql2 = "select * from Timer_Three_Shots";
+    pst = conn.prepareStatement(sql2);
+    rs = pst.executeQuery();
+
+    int columnCount2 = rs.getMetaData().getColumnCount();
+
+    // لو فيه أعمدة زيادة
+    if (columnCount2 > columnCount1) {
+        for (int i = columnCount1; i < columnCount2; i++) {
+
+            final int j = i;
+
+            TableColumn<ObservableList<String>, String> col =
+                    new TableColumn<>(rs.getMetaData().getColumnName(i + 1));
+
+            col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList<String>, String>, ObservableValue<String>>() {
+
+                @Override
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList<String>, String> param) {
+
+                    if (param.getValue().size() > j) {
+                        String cellValue = param.getValue().get(j);
+                        return new SimpleStringProperty(cellValue == null ? "NULL" : cellValue);
+                    } else {
+                        return new SimpleStringProperty("NULL");
+                    }
+
+                }
+            });
+
+            datatable.getColumns().add(col);
+        }
+    }
+
+    int finalColumnCount = Math.max(columnCount1, columnCount2);
+
+    // بيانات Timer2 تحت Timer
+    while (rs.next()) {
+        ObservableList<String> row = FXCollections.observableArrayList();
+
+        for (int i = 1; i <= finalColumnCount; i++) {
+
+            if (i <= columnCount2) {
+                String value = rs.getString(i);
+                row.add(value == null ? "NULL" : value);
+            } else {
+                row.add("NULL");
+            }
+        }
+
+        data.add(row);
+    }
+
+    ///////////////////////////////////////////////////////////////
+
+    datatable.setItems(data);
+
+} catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    try {
+        if (rs != null) rs.close();
+        if (pst != null) pst.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+// الفلتر
+TableFilter filter = new TableFilter(datatable);
+        
+        
+    }
     
     
     @FXML

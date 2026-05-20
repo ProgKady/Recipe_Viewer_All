@@ -1,29 +1,16 @@
 package kadysoft.kady;
 
 
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.spire.xls.FileFormat;
-import com.spire.xls.Workbook;
-import com.spire.xls.Worksheet;
-import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,69 +19,65 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.ResourceBundle;
-
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.Callback;
 import javafx.util.Duration;
-import javax.swing.JOptionPane;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import static org.apache.poi.ss.usermodel.CellType.BOOLEAN;
+import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
+import static org.apache.poi.ss.usermodel.CellType.STRING;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -105,27 +88,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.BufferedReader;
-
-import java.io.BufferedReader;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import javafx.concurrent.Task;
-import javafx.geometry.Insets;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.VBox;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import static org.apache.poi.ss.usermodel.CellType.BOOLEAN;
-import static org.apache.poi.ss.usermodel.CellType.NUMERIC;
-import static org.apache.poi.ss.usermodel.CellType.STRING;
 
 /**
  * FXML Controller class
@@ -616,9 +578,45 @@ void planallaction(ActionEvent event) throws FileNotFoundException, IOException,
 }
 
 // دالة معالجة الوصفة (محدثة ومحسنة: إزالة الفلاتر الزائدة، تحسين التنظيف، إضافة لوج للتشخيص المؤقت، ترتيب أفضل)
-private boolean processRecipeFile(String filePath, String recipeName, String modelName, String patch) {
+private boolean processRecipeFile(String filePath, String recipeName, String modelName, String patch) throws FileNotFoundException, IOException, Exception {
+    
+        ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        //return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (filePath == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        //return;
+    }
+    String input = filePath;
+    String nameofit=recipeName;
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File tempu = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+    
+    
     try {
-        String content = readFileToString(filePath)
+        String content = readFileToString(tempOutput)
                 .replace("ﬦ", "A").replace("ﬧ", "B").replace("ﬨ", "C").replace("﬩", "D")
                 .replace("שׁ", "E").replace("שׂ", "F").replace("שּׁ", "G").replace("שּׂ", "H")
                 .replace("אַ", "I").replace("אָ", "J").replace("אּ", "K").replace("בּ", "L")
@@ -759,6 +757,7 @@ private boolean processRecipeFile(String filePath, String recipeName, String mod
 
         return true;
 
+        
     } catch (Exception e) {
         e.printStackTrace();
         return false;
@@ -767,6 +766,11 @@ private boolean processRecipeFile(String filePath, String recipeName, String mod
         try {
             File temp = new File(System.getProperty("user.home") + File.separator + "ruoo.ks");
             if (temp.exists()) temp.delete();
+    ////////////////////////////////////////////////////////////////
+    if (tempu.exists()) {
+        tempu.delete();
+    }
+    ////////////////////////////////////////////////////////////////
         } catch (Exception ignored) {}
     }
 }
@@ -1891,7 +1895,7 @@ private void showErrorNotification(String title, String text) {
     
     
     @FXML
-    void browselinkaction(ActionEvent event) throws FileNotFoundException, IOException  {
+    void browselinkaction(ActionEvent event) throws FileNotFoundException, IOException, Exception  {
         
         
         //Browse For Recipe Theb set to recipe combo box
@@ -1945,9 +1949,45 @@ String recipepathy = f.getAbsolutePath().toString();
         
         //lin3=NewDir.file_dir.replace("X:",drib+":")+"\\PRODUCTION\\"+lin1+"\\"+lin2+".ks";  //Path To Recipe.
         
+        
+            ////////////////////////////////////////////////////////////
+
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (f == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = f.getAbsolutePath();
+    String nameofit=f.getName();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+ 
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    
+    ////////////////////////////////////////////////////////////
+        
+        
         //Read File Here//////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-InputStream inputinstream=new FileInputStream(recipepathy);
+InputStream inputinstream=new FileInputStream(temp);
 BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
 String lo;
 lili.clear();
@@ -2055,6 +2095,12 @@ String gf=lili.getText();
 String coco=gf;
 webview.getEngine().loadContent(coco);
 /////////////////////////////
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+	
 OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\ruoo.ks");
 PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
 pwe.println(gf);
@@ -3586,7 +3632,7 @@ l11.getItems().addAll(  jhkjh  );
     
     
     @FXML
-    void readoutrecipeaction(Event event) throws FileNotFoundException, IOException {
+    void readoutrecipeaction(Event event) throws FileNotFoundException, IOException, Exception {
 
         
         l1.getItems().clear();
@@ -3618,8 +3664,42 @@ System.out.println(selectedItem);
         lin3=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Recipes")+"\\PRODUCTION\\"+lin1+"\\"+lin2+".ks";  //Path To Recipe.
         
         //Read File Here//////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
+    ////////////////////////////////////////////////////////////
+    String longKey;
+    try (BufferedReader cxsd = new BufferedReader(new FileReader("lib\\java.dat"))) {
+        longKey = cxsd.readLine();
+    }
+    if (longKey == null || longKey.trim().isEmpty()) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("java.dat is empty!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String result = KeyDecoder.extractData(longKey.trim());
+    if (lin3 == null) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Choose file first!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+        return;
+    }
+    String input = lin3;
+    String nameofit=Paths.get(lin3).getFileName().toString();
+    String tempOutput = System.getProperty("user.home")+"\\"+nameofit;
+    FileDecryptor.decrypt(input, tempOutput, result);
+    File temp = new File(tempOutput);
+    ////////////////////////////////////////////////////////////
+        
+        
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-InputStream inputinstream=new FileInputStream(lin3);
+InputStream inputinstream=new FileInputStream(temp);
 BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
 String lo;
 lili.clear();
@@ -3680,7 +3760,7 @@ lili.appendText(
          );
 
 
-while ((lo=bi.readLine())!=null) {        
+while ((lo=bi.readLine())!=null) {    
 lili.appendText("\n"+lo
 .replace("ﬦ","A")
 .replace("ﬧ","B")
@@ -3727,6 +3807,18 @@ String gf=lili.getText();
 String coco=gf;
 webview.getEngine().loadContent(coco);
 /////////////////////////////
+
+	
+    ////////////////////////////////////////////////////////////////
+    if (temp.exists()) {
+        temp.delete();
+    }
+    ////////////////////////////////////////////////////////////////
+	
+	
+	
+
+
 OutputStream instreamm=new FileOutputStream(System.getProperty("user.home")+"\\ruoo.ks");
 PrintWriter pwe = new PrintWriter(new OutputStreamWriter (instreamm,"UTF-8"));
 pwe.println(gf);
