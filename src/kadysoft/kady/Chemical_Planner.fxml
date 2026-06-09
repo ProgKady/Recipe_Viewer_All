@@ -94,21 +94,24 @@
                                         <RowConstraints percentHeight="16.66" />
                                         <RowConstraints percentHeight="16.66" />
                                         <RowConstraints percentHeight="16.66" />
+                              <RowConstraints minHeight="10.0" percentHeight="16.66" prefHeight="30.0" />
                                     </rowConstraints>
 
                                     <!-- كل الـ ListViews بنفس الكلاس -->
                                     <ListView fx:id="l1" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                                     <ListView fx:id="l2" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                    <ListView fx:id="l3" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                    <ListView fx:id="l4" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                    <ListView fx:id="l5" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                                    <ListView fx:id="l6" styleClass="modern-list" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                                    <ListView fx:id="l7" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                    <ListView fx:id="l8" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <ListView fx:id="l9" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ListView fx:id="l10" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <ListView fx:id="l11" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <ListView fx:id="l12" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                           <ListView fx:id="l13" layoutX="278.0" layoutY="452.0" styleClass="modern-list" GridPane.rowIndex="2" />
+                           <ListView fx:id="l14" layoutX="20.0" layoutY="20.0" styleClass="modern-list" GridPane.rowIndex="3" />
+                                    <ListView fx:id="l3" styleClass="modern-list" GridPane.rowIndex="4" />
+                                    <ListView fx:id="l4" styleClass="modern-list" GridPane.rowIndex="5" />
+                                    <ListView fx:id="l5" styleClass="modern-list" GridPane.rowIndex="6" />
+                                    <ListView fx:id="l6" styleClass="modern-list" GridPane.columnIndex="1" />
+                                    <ListView fx:id="l7" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ListView fx:id="l8" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ListView fx:id="l9" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <ListView fx:id="l10" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <ListView fx:id="l11" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <ListView fx:id="l12" styleClass="modern-list" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
                                     <!-- الحل النهائي للـ Insets في Java 8 -->
                                     <padding>

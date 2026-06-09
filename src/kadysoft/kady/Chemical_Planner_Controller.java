@@ -199,6 +199,12 @@ public class Chemical_Planner_Controller implements Initializable {
     @FXML
     private ListView<String> l12;
     
+    @FXML
+    private ListView<String> l13;
+    
+    @FXML
+    private ListView<String> l14;
+    
     
     
     public static String stato="";
@@ -1915,12 +1921,14 @@ String recipepathy = f.getAbsolutePath().toString();
         
         l1.getItems().clear();
         l2.getItems().clear();
+        l13.getItems().clear();
+        l14.getItems().clear();
         l3.getItems().clear();
         l4.getItems().clear();
         l5.getItems().clear();
         l6.getItems().clear();
         l7.getItems().clear();
-        l8.getItems().clear();
+        l8.getItems().clear();   
         l9.getItems().clear();
         l10.getItems().clear();
         l11.getItems().clear();
@@ -2506,10 +2514,12 @@ pwe.close();
        
        
        
-       while (ippp<l4.getItems().size()) {
+       while (ippp<l6.getItems().size()) {
            
        l1.getSelectionModel().select(ippp);
        l2.getSelectionModel().select(ippp);
+       l13.getSelectionModel().select(ippp);
+       l14.getSelectionModel().select(ippp);
        l3.getSelectionModel().select(ippp);
        l4.getSelectionModel().select(ippp);
        l5.getSelectionModel().select(ippp);
@@ -2526,6 +2536,8 @@ pwe.close();
            
        String c1=l1.getSelectionModel().getSelectedItem().toString();
        String c2=l2.getSelectionModel().getSelectedItem().toString();
+       String c13=l13.getSelectionModel().getSelectedItem().toString();
+       String c14=l14.getSelectionModel().getSelectedItem().toString();
        String c3=l3.getSelectionModel().getSelectedItem().toString();
        String c4=l4.getSelectionModel().getSelectedItem().toString();
        String c5=l5.getSelectionModel().getSelectedItem().toString();
@@ -2539,7 +2551,7 @@ pwe.close();
        
       
        
-       addRow(mnm,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12);
+       addRow(mnm,c1,c2,c13,c14,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12);
        
        ippp++;
        
@@ -3179,6 +3191,8 @@ String code = lili.getText();
   
         l1.getItems().clear();
         l2.getItems().clear();
+        l13.getItems().clear();
+        l14.getItems().clear();
         l3.getItems().clear();
         l4.getItems().clear();
         l5.getItems().clear();
@@ -3193,6 +3207,8 @@ String code = lili.getText();
         String moodel=model.getSelectionModel().getSelectedItem().toString();
         String reciipe=woow;
         String patcch=patch.getText();
+        String qontoo=quantityyy.getText();
+        String pesoo=pcsss.getText();
         int potch=Integer.parseInt(patcch);
       
 ////////////////////////////////////////////////
@@ -3217,6 +3233,8 @@ lineafterequal = line.substring(line.indexOf("=$") + 2);  // Price
 if (string.equals(linebeforeequal)) {
 l1.getItems().addAll(moodel);
 l2.getItems().addAll(reciipe);
+l13.getItems().addAll(qontoo);
+l14.getItems().addAll(pesoo);
 l3.getItems().addAll(patcch);
 l5.getItems().addAll("KG");
 l6.getItems().addAll(tds.get(7).text());
@@ -3317,12 +3335,14 @@ if (l4.getItems().size()!=l10.getItems().size()||l4.getItems().size()!=l9.getIte
 
         l1.getItems().clear();
         l2.getItems().clear();
+        l13.getItems().clear();
+        l14.getItems().clear();
         l3.getItems().clear();
         l4.getItems().clear();
         l5.getItems().clear();
         l6.getItems().clear();
         l7.getItems().clear();
-        l8.getItems().clear();
+        l8.getItems().clear();   
         l9.getItems().clear();
         l10.getItems().clear();
         l11.getItems().clear();
@@ -3630,13 +3650,70 @@ l11.getItems().addAll(  jhkjh  );
     }
 
     
+
+ 
+    private String extractPCS(String recipeName) {
+        try {
+            File tempFile = new File(System.getProperty("user.home") + "\\ruoo.ks");
+            Document doc = Jsoup.parse(tempFile, "UTF-8");
+
+            for (Element row : doc.select("tr")) {
+                Elements cells = row.select("td");
+                for (int i = 0; i < cells.size(); i++) {
+                    String cellText = cells.get(i).text().trim();
+                    if (cellText.equalsIgnoreCase("PCS") || cellText.contains("PCS")) {
+                        if (i + 1 < cells.size()) {
+                            String value = cells.get(i + 1).text().trim();
+                            return value.isEmpty() ? "غير موجود" : value;
+                        }
+                    }
+                }
+            }
+            return "غير موجود";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "خطأ في القراءة";
+        }
+    }
+
+
+    private static class RecipePCS {
+        String recipeName, pcs, location;
+
+        RecipePCS(String recipeName, String pcs, String location) {
+            this.recipeName = recipeName;
+            this.pcs = pcs;
+            this.location = location;
+        }
+    }
+    
+    
+
     
     @FXML
     void readoutrecipeaction(Event event) throws FileNotFoundException, IOException, Exception {
 
         
+        if (quantityyy.getText().isEmpty()) {
+            
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("Write Quantity Value First!");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(4));
+        noti.showError();
+            
+        return;
+            
+        }
+        
+        
+        
         l1.getItems().clear();
         l2.getItems().clear();
+        l13.getItems().clear();
+        l14.getItems().clear();
         l3.getItems().clear();
         l4.getItems().clear();
         l5.getItems().clear();
@@ -3825,6 +3902,34 @@ pwe.println(gf);
 pwe.close();
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    String cleanPath = System.getProperty("user.home")+"\\ruoo.ks";
+    String recipeName = new File(cleanPath).getName()
+    .replaceAll("\\.ks$", "").replaceAll("\\.html$", "");
+    String finalPath = cleanPath;
+    try {
+        String pcsValue = extractPCS(recipeName);
+        pcsss.setText(pcsValue);  
+        int qq1=Integer.parseInt(quantityyy.getText());
+        int qq2=Integer.parseInt(pcsss.getText());
+        int qq3=qq1/qq2;
+        String gg=Integer.toString(qq3);
+        patch.setText(gg);        
+    } catch (Exception e) {
+        Notifications noti = Notifications.create();
+        noti.title("Fatal Error!");
+        noti.text("I didn't find PCS value in this recipe, Please write pcs value manually then press 'PLAN' button.");
+        noti.position(Pos.CENTER);
+        noti.hideAfter(Duration.seconds(5));
+        noti.showError();
+        e.printStackTrace();
+    }
+       
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 get.fire();
 adddbtn.fire();
     
@@ -3920,39 +4025,50 @@ adddbtn.fire();
         TableColumn<ObservableList<String>, String> Col2 = new TableColumn<>("Wash Name");
         Col2.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(2)));
         
+        TableColumn<ObservableList<String>, String> Col13 = new TableColumn<>("Quantity");
+        Col13.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(3)));
+        
+        TableColumn<ObservableList<String>, String> Col14 = new TableColumn<>("PCS");
+        Col14.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(4)));
+        
+        
+        
+        
+        
+        
         TableColumn<ObservableList<String>, String> Col3 = new TableColumn<>("Patch");
-        Col3.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(3)));
+        Col3.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(5)));
         
         TableColumn<ObservableList<String>, String> Col4 = new TableColumn<>("Quantity");
-        Col4.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(4)));
+        Col4.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(6)));
         
         TableColumn<ObservableList<String>, String> Col5 = new TableColumn<>("Units");
-        Col5.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(5)));
+        Col5.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(7)));
         
         TableColumn<ObservableList<String>, String> Col6 = new TableColumn<>("Chemicals");
-        Col6.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(6)));
+        Col6.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(8)));
         
         TableColumn<ObservableList<String>, String> Col7 = new TableColumn<>("Chemical Names");
-        Col7.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(7)));
+        Col7.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(9)));
         
         TableColumn<ObservableList<String>, String> Col8 = new TableColumn<>("Total Quantities");
-        Col8.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(8)));
+        Col8.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(10)));
         
         TableColumn<ObservableList<String>, String> Col9 = new TableColumn<>("Dilution");
-        Col9.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(9)));
+        Col9.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(11)));
         
         TableColumn<ObservableList<String>, String> Col10 = new TableColumn<>("Price");
-        Col10.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(10)));
+        Col10.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(12)));
         
         TableColumn<ObservableList<String>, String> Col11 = new TableColumn<>("Unit Price");
-        Col11.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(11)));
+        Col11.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(13)));
         
         TableColumn<ObservableList<String>, String> Col12 = new TableColumn<>("Total Price");
-        Col12.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(12)));
+        Col12.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().get(14)));
 
         
         
-        table.getColumns().addAll(Col0,Col1, Col2, Col3, Col4, Col5, Col6, Col7, Col8, Col9, Col10, Col11,Col12);
+        table.getColumns().addAll(Col0,Col1, Col2,Col13,Col14, Col3, Col4, Col5, Col6, Col7, Col8, Col9, Col10, Col11,Col12);
         table.setItems(dataaa);
         
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -4208,10 +4324,10 @@ recipelistall.setCellFactory(TextFieldListCell.forListView());
 
     
     
-     private void addRow(String monthh, String modell, String washnamee, String patchh, String quantityy, String unitss, String chemicall, String chemicalnamee, String totalquantityy, String dilutionn, String pricee, String unitpricee, String totalpricee) {
+     private void addRow(String monthh, String modell, String washnamee,String qonto, String peso, String patchh, String quantityy, String unitss, String chemicall, String chemicalnamee, String totalquantityy, String dilutionn, String pricee, String unitpricee, String totalpricee) {
        
-        if (!monthh.isEmpty() && !modell.isEmpty() && !washnamee.isEmpty() && !patchh.isEmpty() && !quantityy.isEmpty() && !unitss.isEmpty() && !chemicall.isEmpty() && !chemicalnamee.isEmpty() && !totalquantityy.isEmpty() && !dilutionn.isEmpty() && !pricee.isEmpty() && !unitpricee.isEmpty() && !totalpricee.isEmpty()) {
-            ObservableList<String> newRow = FXCollections.observableArrayList( monthh,modell,  washnamee,  patchh,  quantityy,  unitss,  chemicall,  chemicalnamee,  totalquantityy,  dilutionn,  pricee,  unitpricee, totalpricee);
+        if (!monthh.isEmpty() && !modell.isEmpty() && !washnamee.isEmpty() && !qonto.isEmpty() && !peso.isEmpty() && !patchh.isEmpty() && !quantityy.isEmpty() && !unitss.isEmpty() && !chemicall.isEmpty() && !chemicalnamee.isEmpty() && !totalquantityy.isEmpty() && !dilutionn.isEmpty() && !pricee.isEmpty() && !unitpricee.isEmpty() && !totalpricee.isEmpty()) {
+            ObservableList<String> newRow = FXCollections.observableArrayList( monthh,modell,  washnamee,qonto, peso,  patchh,  quantityy,  unitss,  chemicall,  chemicalnamee,  totalquantityy,  dilutionn,  pricee,  unitpricee, totalpricee);
             dataaa.add(newRow);
         } else {
         } 

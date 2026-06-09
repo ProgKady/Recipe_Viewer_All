@@ -130,7 +130,7 @@
    <center>
       <BorderPane prefHeight="672.0" prefWidth="1140.0" BorderPane.alignment="CENTER">
          <center>
-            <SplitPane dividerPositions="0.5411764705882353" orientation="VERTICAL" prefHeight="200.0" prefWidth="1140.0" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.21294117647058824" orientation="VERTICAL" prefHeight="200.0" prefWidth="1140.0" BorderPane.alignment="CENTER">
                <items>
                      <WebView fx:id="addo" minHeight="180.0" prefHeight="260.0" />
          
